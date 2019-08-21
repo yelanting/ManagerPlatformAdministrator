@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.DubboTestMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.DubboTest">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="case_name" jdbcType="VARCHAR"
+			property="caseName" />
+		<result column="create_date" jdbcType="VARCHAR"
+			property="createDate" />
+		<result column="update_date" jdbcType="VARCHAR"
+			property="updateDate" />
+		<result column="protocol_name" jdbcType="VARCHAR"
+			property="protocolName" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="group_name" jdbcType="VARCHAR"
+			property="groupName" />
+		<result column="interface_name" jdbcType="VARCHAR"
+			property="interfaceName" />
+		<result column="method_name" jdbcType="VARCHAR"
+			property="methodName" />
+		<result column="version" jdbcType="VARCHAR" property="version" />
+		<result column="client" jdbcType="VARCHAR" property="client" />
+		<result column="income_params" jdbcType="VARCHAR"
+			property="incomeParams" />
+		<result column="dubbo_context_params" jdbcType="VARCHAR"
+			property="dubboContextParams" />
+		<result column="dubbo_test_response" jdbcType="VARCHAR"
+			property="dubboTestResponse" />
+		<result column="dubbo_test_check" jdbcType="VARCHAR"
+			property="dubboTestCheck" />
+		<result column="dubbo_test_result" jdbcType="VARCHAR"
+			property="dubboTestResult" />
+		<result column="case_desc" jdbcType="VARCHAR"
+			property="caseDesc" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, case_name, create_date, update_date, protocol_name,
+		address,
+		group_name, interface_name,
+		method_name, version, client,
+		income_params, dubbo_context_params,
+		dubbo_test_response,
+		dubbo_test_check, dubbo_test_result,case_desc
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_dubbo_test
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		tb_dubbo_test
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert"
+		parameterType="com.administrator.platform.model.DubboTest">
+		insert into tb_dubbo_test (id, case_name, create_date,
+		update_date, protocol_name, address,
+		group_name, interface_name,
+		method_name,
+		version, client, income_params,
+		dubbo_context_params,
+		dubbo_test_response,
+		dubbo_test_check, dubbo_test_result,case_desc)
+		values (#{id,jdbcType=BIGINT}, #{caseName,jdbcType=VARCHAR},
+		#{createDate,jdbcType=VARCHAR},
+		#{updateDate,jdbcType=VARCHAR},
+		#{protocolName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+		#{groupName,jdbcType=VARCHAR}, #{interfaceName,jdbcType=VARCHAR},
+		#{methodName,jdbcType=VARCHAR},
+		#{version,jdbcType=VARCHAR},
+		#{client,jdbcType=VARCHAR}, #{incomeParams,jdbcType=VARCHAR},
+		#{dubboContextParams,jdbcType=VARCHAR},
+		#{dubboTestResponse,jdbcType=VARCHAR},
+		#{dubboTestCheck,jdbcType=VARCHAR},
+		#{dubboTestResult,jdbcType=VARCHAR},
+		#{caseDesc,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.administrator.platform.model.DubboTest">
+		update tb_dubbo_test
+		<set>
+			<if test="caseName != null">
+				case_name = #{caseName,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=VARCHAR},
+			</if>
+			<if test="protocolName != null">
+				protocol_name = #{protocolName,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="groupName != null">
+				group_name = #{groupName,jdbcType=VARCHAR},
+			</if>
+			<if test="interfaceName != null">
+				interface_name = #{interfaceName,jdbcType=VARCHAR},
+			</if>
+			<if test="methodName != null">
+				method_name = #{methodName,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				version = #{version,jdbcType=VARCHAR},
+			</if>
+			<if test="client != null">
+				client = #{client,jdbcType=VARCHAR},
+			</if>
+			<if test="incomeParams != null">
+				income_params = #{incomeParams,jdbcType=VARCHAR},
+			</if>
+			<if test="dubboContextParams != null">
+				dubbo_context_params =
+				#{dubboContextParams,jdbcType=VARCHAR},
+			</if>
+			<if test="dubboTestResponse != null">
+				dubbo_test_response =
+				#{dubboTestResponse,jdbcType=VARCHAR},
+			</if>
+			<if test="dubboTestCheck != null">
+				dubbo_test_check = #{dubboTestCheck,jdbcType=VARCHAR},
+			</if>
+			<if test="dubboTestResult != null">
+				dubbo_test_result = #{dubboTestResult,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.DubboTest">
+		update tb_dubbo_test
+		set case_name =
+		#{caseName,jdbcType=VARCHAR},
+		create_date =
+		#{createDate,jdbcType=VARCHAR},
+		update_date =
+		#{updateDate,jdbcType=VARCHAR},
+		protocol_name =
+		#{protocolName,jdbcType=VARCHAR},
+		address =
+		#{address,jdbcType=VARCHAR},
+		group_name =
+		#{groupName,jdbcType=VARCHAR},
+		interface_name =
+		#{interfaceName,jdbcType=VARCHAR},
+		method_name =
+		#{methodName,jdbcType=VARCHAR},
+		version = #{version,jdbcType=VARCHAR},
+		client = #{client,jdbcType=VARCHAR},
+		income_params =
+		#{incomeParams,jdbcType=VARCHAR},
+		dubbo_context_params =
+		#{dubboContextParams,jdbcType=VARCHAR},
+		dubbo_test_response =
+		#{dubboTestResponse,jdbcType=VARCHAR},
+		dubbo_test_check =
+		#{dubboTestCheck,jdbcType=VARCHAR},
+		dubbo_test_result =
+		#{dubboTestResult,jdbcType=VARCHAR},
+		case_desc =
+		#{caseDesc,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<insert id="insertSelective"
+		parameterType="com.administrator.platform.model.DubboTest">
+		insert into tb_dubbo_test
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="caseName != null">
+				case_name,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="protocolName != null">
+				protocol_name,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="groupName != null">
+				group_name,
+			</if>
+			<if test="interfaceName != null">
+				interface_name,
+			</if>
+			<if test="methodName != null">
+				method_name,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+			<if test="client != null">
+				client,
+			</if>
+			<if test="incomeParams != null">
+				income_params,
+			</if>
+			<if test="dubboContextParams != null">
+				dubbo_context_params,
+			</if>
+			<if test="dubboTestResponse != null">
+				dubbo_test_response,
+			</if>
+			<if test="dubboTestCheck != null">
+				dubbo_test_check,
+			</if>
+			<if test="dubboTestResult != null">
+				dubbo_test_result,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="caseName != null">
+				#{caseName,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=VARCHAR},
+			</if>
+			<if test="protocolName != null">
+				#{protocolName,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="groupName != null">
+				#{groupName,jdbcType=VARCHAR},
+			</if>
+			<if test="interfaceName != null">
+				#{interfaceName,jdbcType=VARCHAR},
+			</if>
+			<if test="methodName != null">
+				#{methodName,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=VARCHAR},
+			</if>
+			<if test="client != null">
+				#{client,jdbcType=VARCHAR},
+			</if>
+			<if test="incomeParams != null">
+				#{incomeParams,jdbcType=VARCHAR},
+			</if>
+			<if test="dubboContextParams != null">
+				#{dubboContextParams,jdbcType=VARCHAR},
+			</if>
+			<if test="dubboTestResponse != null">
+				#{dubboTestResponse,jdbcType=VARCHAR},
+			</if>
+			<if test="dubboTestCheck != null">
+				#{dubboTestCheck,jdbcType=VARCHAR},
+			</if>
+			<if test="dubboTestResult != null">
+				#{dubboTestResult,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<select id="findAllDubboTests" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_dubbo_test
+	</select>
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		delete from
+		tb_dubbo_test
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+</mapper>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html class="loginHtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>请登录</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body class="loginBody">
+	<form id="loginForm" class="layui-form" action="/login" method="post">
+		<div class="login_face">
+			<img src="/images/face.jpg" class="userAvatar">
+		</div>
+		<div class="layui-form-item">
+			<input type="text" placeholder="请输入登陆帐号" autocomplete="off"
+				id="userAccount" name="userAccount" class="layui-input"
+				lay-verify="required" lay-verType="tips" maxlength=50 />
+		</div>
+		<div class="layui-form-item">
+			<input type="userPassword" placeholder="请输入密码" autocomplete="off"
+				id="userPassword" name="userPassword" class="layui-input"
+				lay-Vertlay-verify="required" lay-verType="tips" maxlength=50 />
+		</div>
+		<!-- 		</div> -->
+		<!-- 		<div class="layui-form-inline" id="imgCode"> -->
+		<!-- 			<!-- 			<label for="code" class="layui-form-label  formItem-required">验证码</label> -->
+		<!-- 			<div class="layui-form-item"> -->
+		<!-- 				<input type="text" placeholder="请输入验证码" autocomplete="off" id="code" -->
+		<!-- 					class="layui-input"> <img src="/images/code.jpg"> -->
+		<!-- 			</div> -->
+		<!-- 		</div> -->
+		<div class="layui-form-item">
+			<button id="login" name="login" class="layui-btn layui-block"
+				lay-filter="login" lay-submit>登录</button>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-inline">
+				<button id="forgetPassword" name="forgetPassword"
+					class="layui-btn layui-btn-primary" lay-filter="forgetPassword">忘记密码?</button>
+				<button id="register" name="register"
+					class="layui-btn layui-btn-success" lay-filter="register">注册</button>
+			</div>
+		</div>
+
+		<div class="layui-input layui-hide" id="errorMessage">
+			<input type="text" class="layui-input layui-input-item" />
+		</div>
+	</form>
+	<script type="text/javascript" src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/cache.js"></script>
+	<script type="text/javascript" src="/js/login/login.js"></script>
+</body>
+</html>

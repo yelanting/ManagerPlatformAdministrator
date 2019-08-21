@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>查看注册执行机</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body>
+	<form id="addExecutorAgentForm" class="layui-form layui-form-pane"
+		method="post">
+		<div class="layui-form-item">
+			<label class="layui-form-label">执行机名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="executorName" name="executorName"
+					class="layui-input executorName" lay-verify="executorName"
+					placeholder="暂无数据" disabled>
+			</div>
+		</div>
+
+		<div class="layui-form-item layui-form">
+			<label class="layui-form-label">执行机IP</label>
+			<div class="layui-input-block">
+				<input type="text" id="executorIp" name="executorIp"
+					class="layui-input executorIp" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+
+		<div class="layui-form-item layui-form">
+			<label class="layui-form-label">是否离线</label>
+			<div class="layui-input-block">
+				<input type="text" id="offline" name="offline"
+					class="layui-input offline" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">是否空闲</label>
+			<div class="layui-input-block">
+				<input type="text" id="idle" name="idle" class="layui-input offline"
+					placeholder="暂无数据" disabled>
+			</div>
+		</div>
+
+		<div class="layui-form-item" style="display: block">
+			<label class="layui-form-label">创建时间</label>
+			<div class="layui-input-block">
+				<input type="text" id="createDate" name="createDate"
+					class="layui-input createDate" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+
+		<div class="layui-form-item" style="display: block">
+			<label class="layui-form-label">修改时间</label>
+			<div class="layui-input-block">
+				<input type="text" id="updateDate" name="updateDate"
+					class="layui-input updateDate" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../commonCheck.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>上传文件</title>
+<link rel="stylesheet" href="/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+	<div class="layui-form-item">
+		<label class="layui-form-label">选择文件(zip)</label>
+		<div class="layui-upload">
+			<button type="button" class="layui-btn layui-btn-normal"
+				id="uploadClasses" name="uploadClasses">
+				<i class="layui-icon layui-icon-upload-circle"></i>点击或者拖拽选择压缩文件
+			</button>
+			<button type="button" class="layui-btn" id="startToUpload"
+				name="startToUpload">上传</button>
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">选择zip</label>
+		<div class="layui-upload">
+			<button type="button" class="layui-btn layui-btn-normal"
+				id="uploadWholeProject" name="uploadWholeProject">
+				<i class="layui-icon layui-icon-upload-circle"></i>点击或者拖拽选择工程压缩文件
+			</button>
+			<button type="button" class="layui-btn" id="startToUpload"
+				name="startToUploadWholeProject">上传</button>
+		</div>
+	</div>
+	<script src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script src="../../CommonUtil.js"></script>
+	<script src="commonOperation.js"></script>
+	<script src="uploadClasses.js"></script>
+</body>
+</html>

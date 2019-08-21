@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>查看测试环境地址</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body>
+	<form id="addEnvAddressForm" class="layui-form layui-form-pane"
+		method="post">
+		<div class="layui-form-item">
+			<label class="layui-form-label">ID</label>
+			<div class="layui-input-block">
+				<input type="text" id="id" name="id" class="layui-input id"
+					lay-verify="id" placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">项目名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="projectName" name="projectName"
+					class="layui-input projectName" lay-verify="projectName"
+					placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">服务器地址</label>
+			<div class="layui-input-block">
+				<input type="text" id="serverUrl" name="serverUrl"
+					class="layui-input serverUrl" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">登陆用户名</label>
+			<div class="layui-input-block">
+				<input type="text" id="username" name="username"
+					class="layui-input username" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">登陆密码</label>
+			<div class="layui-input-block">
+				<input type="password" id="password" name="password"
+					class="layui-input password" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+
+		<div class="layui-form-item" style="display: block">
+			<label class="layui-form-label">创建时间</label>
+			<div class="layui-input-block">
+				<input type="text" id="createDate" name="createDate"
+					class="layui-input createDate" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+
+		<div class="layui-form-item" style="display: block">
+			<label class="layui-form-label">修改时间</label>
+			<div class="layui-input-block">
+				<input type="text" id="updateDate" name="updateDate"
+					class="layui-input updateDate" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<textarea id="description" name="description"
+					class="layui-textarea description" placeholder="暂无数据" disabled></textarea>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../commonCheck.js"></script>
+</body>
+</html>

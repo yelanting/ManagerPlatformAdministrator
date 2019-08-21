@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.EnvAddressMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.EnvAddress">
+		<id column="id" jdbcType="BIGINT" javaType="java.lang.Long"
+			property="id" />
+		<result column="project_name" jdbcType="VARCHAR"
+			property="projectName" />
+		<result column="server_url" jdbcType="VARCHAR"
+			property="serverUrl" />
+		<result column="username" jdbcType="VARCHAR"
+			property="username" />
+		<result column="password" jdbcType="VARCHAR"
+			property="password" />
+		<result column="description" jdbcType="VARCHAR"
+			property="description" />
+		<result column="create_date" jdbcType="TIMESTAMP"
+			property="createDate" />
+		<result column="update_date" jdbcType="TIMESTAMP"
+			property="updateDate" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		project_name,
+		server_url,
+		username,
+		password,
+		description,
+		create_date,
+		update_date
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_env_address
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="findEnvAddressesByProjectName"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_env_address
+		where project_name = #{projectName}
+	</select>
+
+	<select id="findEnvAddressesByProjectNameLike"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_env_address
+		where project_name like CONCAT(#{projectName}, '%')
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_env_address
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		tb_env_address
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		delete from
+		tb_env_address
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.administrator.platform.model.EnvAddress">
+		update tb_env_address
+		<set>
+			<if test="projectName != null">
+				project_name = #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="serverUrl != null">
+				server_url = #{serverUrl,jdbcType=VARCHAR},
+			</if>
+			username = #{username,jdbcType=VARCHAR},
+			password =
+			#{password,jdbcType=VARCHAR},
+			description =
+			#{description,jdbcType=VARCHAR},
+			update_date = CURRENT_TIMESTAMP(),
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.EnvAddress">
+		update tb_env_address
+		<set>
+			<if test="projectName != null">
+				project_name = #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="serverUrl != null">
+				server_url = #{serverUrl,jdbcType=VARCHAR},
+			</if>
+			username =
+			#{username,jdbcType=VARCHAR},
+			password =
+			#{password,jdbcType=VARCHAR},
+			description =
+			#{description,jdbcType=VARCHAR},
+			update_date = CURRENT_TIMESTAMP()
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<insert id="insert"
+		parameterType="com.administrator.platform.model.EnvAddress">
+		insert into tb_env_address (id,
+		project_name,
+		server_url,
+		username,
+		password,
+		description,
+		create_date,
+		update_date )
+		values
+		(#{id,jdbcType=BIGINT},
+		#{projectName,jdbcType=VARCHAR},
+		#{serverUrl,jdbcType=VARCHAR},
+		#{username,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		#{createDate,jdbcType=VARCHAR},
+		#{updateDate,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.administrator.platform.model.EnvAddress">
+		insert into tb_env_address
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="projectName != null">
+				project_name,
+			</if>
+			<if test="serverUrl != null">
+				server_url,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="projectName != null">
+				#{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="serverUrl != null">
+				#{serverUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+
+</mapper>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>查看物品</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body>
+	<form id="viewGoodForm" class="layui-form layui-form-pane"
+		method="post">
+		<div class="layui-form-item">
+			<label class="layui-form-label">ID</label>
+			<div class="layui-input-block">
+				<input type="text" id="id" name="id" class="layui-input id"
+					lay-verify="id" placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">物品名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="goodName" name="goodName"
+					class="layui-input goodName" lay-verify="goodName"
+					placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">物品类型</label>
+			<div class="layui-input-block">
+				<input type="text" id="goodTypeId" name="goodTypeId"
+					class="layui-input goodName" lay-verify="goodTypeId"
+					placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">物品编号</label>
+			<div class="layui-input-block">
+				<input type="text" id="goodCode" name="goodCode"
+					class="layui-input goodCode" lay-verify="goodCode"
+					placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item" style="display: block">
+			<label class="layui-form-label">创建时间</label>
+			<div class="layui-input-block">
+				<input type="text" id="createDate" name="createDate"
+					class="layui-input createDate" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+
+		<div class="layui-form-item" style="display: block">
+			<label class="layui-form-label">修改时间</label>
+			<div class="layui-input-block">
+				<input type="text" id="updateDate" name="updateDate"
+					class="layui-input updateDate" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">物品描述</label>
+			<div class="layui-input-block">
+				<textarea id="goodDesc" name="goodDesc"
+					class="layui-textarea goodDesc" placeholder="暂无数据" disabled></textarea>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../commonCheck.js"></script>
+</body>
+</html>

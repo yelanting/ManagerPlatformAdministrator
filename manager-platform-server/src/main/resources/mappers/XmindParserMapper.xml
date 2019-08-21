@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.XmindParserMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.XmindParser">
+		<result column="id" jdbcType="BIGINT" property="id" />
+		<result column="xmind_file_name" jdbcType="VARCHAR"
+			property="xmindFileName" />
+		<result column="access_url" jdbcType="VARCHAR"
+			property="accessUrl" />
+		<result column="xmind_file_url" jdbcType="VARCHAR"
+            property="xmindFileUrl" />
+		<result column="description" jdbcType="VARCHAR"
+			property="description" />
+		<result column="create_date" jdbcType="VARCHAR"
+			property="createDate" />
+		<result column="update_date" jdbcType="VARCHAR"
+			property="updateDate" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,
+		xmind_file_name,
+		xmind_file_url,
+		access_url,
+		description,
+		create_date,
+		update_date
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_xmind_parser
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="findXmindParserByXmindFileName"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_xmind_parser
+		where xmind_file_name = #{xmindFileName}
+	</select>
+	<select id="findXmindParsersByXmindFileNameLike"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_xmind_parser
+		where xmind_file_name like CONCAT(#{xmindFileName}
+		,'%')
+	</select>
+	<select id="findAll" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_xmind_parser
+	</select>
+
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		delete from
+		tb_xmind_parser
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		tb_xmind_parser
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert"
+		parameterType="com.administrator.platform.model.XmindParser">
+		insert into tb_xmind_parser (id,
+		xmind_file_name,
+		xmind_file_url,
+		description,
+		accessUrl,
+		create_date,
+		update_date)
+		values
+		(#{id,jdbcType=BIGINT},
+		#{xmindFileName,jdbcType=VARCHAR},
+		#{xmindFileUrl,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		#{accessUrl,jdbcType=VARCHAR}
+		CURRENT_TIMESTAMP(),
+		CURRENT_TIMESTAMP())
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.administrator.platform.model.XmindParser">
+		insert into tb_xmind_parser
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="xmindFileName != null">
+				xmind_file_name,
+			</if>
+			<if test="xmindFileUrl != null">
+                xmind_file_url,
+            </if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="accessUrl != null">
+				access_url,
+			</if>
+			create_date,
+			update_date,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="xmindFileName != null">
+				#{xmindFileName,jdbcType=VARCHAR},
+			</if>
+			<if test="xmindFileUrl != null">
+                #{xmindFileUrl,jdbcType=VARCHAR},
+            </if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="accessUrl != null">
+				#{accessUrl,jdbcType=VARCHAR},
+			</if>
+			CURRENT_TIMESTAMP(),
+			CURRENT_TIMESTAMP(),
+		</trim>
+	</insert>
+</mapper>

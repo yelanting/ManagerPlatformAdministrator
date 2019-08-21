@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>查看定时任务</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body>
+	<form id="viewTimerTaskForm" class="layui-form layui-form-pane"
+		method="post">
+		<div class="layui-form-item">
+			<label class="layui-form-label">ID</label>
+			<div class="layui-input-block">
+				<input type="text" id="id" name="id" class="layui-input id"
+					lay-verify="id" placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">任务名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="taskName" name="taskName"
+					class="layui-input taskName" placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item" pane>
+			<label class="layui-form-label" title="是否开启定时任务">是否开启</label>
+			<div class="layui-input-block layui-form">
+				<input type=text id="closed" name="closed"
+					class="layui-input closed" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">关联策略</label>
+			<div class="layui-input-block">
+				<input type="text" id="policyId" name="policyId"
+					class="layui-input policyId" lay-verify="policyId"
+					placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">所属组</label>
+			<div class="layui-input-block">
+				<input type="text" id="taskGroup" name="taskGroup"
+					class="layui-input taskGroup" lay-verify="taskGroup"
+					placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">定时配置</label>
+			<div class="layui-input-block">
+				<input type="text" id="config" name="config"
+					class="layui-input config" lay-verify="config" placeholder="暂无数据"
+					disabled>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">其他参数</label>
+			<div class="layui-input-block">
+				<textarea id="otherParams" name="otherParams"
+					class="layui-textarea otherParams" placeholder="暂无数据" disabled></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item" style="display: block">
+			<label class="layui-form-label">创建时间</label>
+			<div class="layui-input-block">
+				<input type="text" id="createDate" name="createDate"
+					class="layui-input createDate" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+
+		<div class="layui-form-item" style="display: block">
+			<label class="layui-form-label">修改时间</label>
+			<div class="layui-input-block">
+				<input type="text" id="updateDate" name="updateDate"
+					class="layui-input updateDate" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+		<div class="layui-form-item" style="display: block">
+			<label class="layui-form-label">创建人</label>
+			<div class="layui-input-block">
+				<input type="text" id="createUser" name="createUser"
+					class="layui-input createUser" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+
+		<div class="layui-form-item" style="display: block">
+			<label class="layui-form-label">修改人</label>
+			<div class="layui-input-block">
+				<input type="text" id="updateUser" name="updateUser"
+					class="layui-input updateUser" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">任务描述</label>
+			<div class="layui-input-block">
+				<textarea id="description" name="description"
+					class="layui-textarea description" placeholder="暂无数据" disabled></textarea>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../commonCheck.js"></script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.ServerInfoMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.ServerInfo">
+		<id column="id" jdbcType="BIGINT" javaType="java.lang.Long"
+			property="id" />
+		<result column="server_name" jdbcType="VARCHAR"
+			property="serverName" />
+		<result column="server_ip" jdbcType="VARCHAR"
+			property="serverIp" />
+		<result column="username" jdbcType="VARCHAR"
+			property="username" />
+		<result column="password" jdbcType="VARCHAR"
+			property="password" />
+		<result column="description" jdbcType="VARCHAR"
+			property="description" />
+		<result column="server_type" jdbcType="VARCHAR"
+			property="serverType" />
+		<result column="create_date" jdbcType="TIMESTAMP"
+			property="createDate" />
+		<result column="update_date" jdbcType="TIMESTAMP"
+			property="updateDate" />
+		<result column="can_be_connected" jdbcType="VARCHAR"
+			property="canBeConnected" />
+		<result column="create_user" jdbcType="VARCHAR"
+			property="createUser" />
+		<result column="update_user" jdbcType="VARCHAR"
+			property="updateUser" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		server_name,
+		server_ip,
+		username,
+		password,
+		description,
+		server_type,
+		can_be_connected,
+		create_date,
+		update_date,
+		create_user,
+		update_user
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_server_info
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="findServerInfosByServerIp"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_server_info
+		where server_ip = #{serverIp}
+	</select>
+
+	<select id="findServerInfosByServerIpLike"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_server_info
+		where server_ip like CONCAT(#{serverIp},
+		'%')
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_server_info
+	</select>
+	<select id="findServerInfoByServerIpExceptThis"
+		parameterType="com.administrator.platform.model.ServerInfo"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_server_info where server_ip=#{serverIp} and id != #{id}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		tb_server_info
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		delete from
+		tb_server_info
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.ServerInfo">
+		update tb_server_info
+		<set>
+			<if test="serverName != null">
+				server_name = #{serverName,jdbcType=VARCHAR},
+			</if>
+			<if test="serverIp != null">
+				server_ip = #{serverIp,jdbcType=VARCHAR},
+			</if>
+			<if test="serverType != null">
+				server_type =
+				#{serverType,jdbcType=VARCHAR},
+			</if>
+			<if test="canBeConnected != null">
+				can_be_connected =
+				#{canBeConnected,jdbcType=VARCHAR},
+			</if>
+			username =
+			#{username,jdbcType=VARCHAR},
+			password =
+			#{password,jdbcType=VARCHAR},
+			description =
+			#{description,jdbcType=VARCHAR},
+			update_date =
+			CURRENT_TIMESTAMP(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<insert id="insert"
+		parameterType="com.administrator.platform.model.ServerInfo">
+		insert into tb_server_info (id,
+		server_name,
+		server_ip,
+		username,
+		password,
+		description,
+		server_type,
+		can_be_connected,
+		create_date,
+		update_date,
+		create_user,
+		update_user)
+		values
+		(#{id,jdbcType=BIGINT},
+		#{serverName,jdbcType=VARCHAR},
+		#{serverIp,jdbcType=VARCHAR},
+		#{username,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		#{serverType,jdbcType=VARCHAR},
+		#{canBeConnected,jdbcType=VARCHAR},
+		CURRENT_TIMESTAMP(),
+		CURRENT_TIMESTAMP(),
+		#{createUser,jdbcType=VARCHAR},
+		#{updateUser,jdbcType=VARCHAR}
+		)
+	</insert>
+</mapper>

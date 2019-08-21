@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>定时任务列表</title>
+<link rel="stylesheet" href="/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css"
+	media="all" />
+<link rel="stylesheet" href="listTimerTask.css" media="all">
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+	<blockquote class="layui-elem-quote quoteBox">
+		<form class="layui-form">
+			<div class="layui-inline">
+				<div class="layui-input-inline">
+					<input id="serachTimerTaskContent" type="text"
+						class="layui-input searchVal" placeholder="请输入要搜索的任务名称或者组名称"
+						maxLength=50 />
+				</div>
+			</div>
+			<div class="layui-inline">
+				<a id="searchTimerTask" class="layui-btn search_btn"
+					data-type="reload">搜索</a>
+			</div>
+			<div class="layui-inline">
+				<a id="addTimerTask_btn"
+					class="layui-btn layui-btn-normal addTimerTask_btn">添加</a>
+			</div>
+			<div class="layui-inline">
+				<a id="deleteTimerTasksInBatch"
+					class="layui-btn layui-btn-danger layui-btn-normal deleteTimerTasksInBatch"
+					lay-event="deleteTimerTasksInBatch"
+					lay-filter="deleteTimerTasksInBatch">批量删除</a>
+			</div>
+			<div class="layui-inline">
+				<a id="openInBatch"
+					class="layui-btn layui-btn-danger layui-btn-normal openInBatch"
+					lay-event="openInBatch" lay-filter="openInBatch">批量开启</a>
+			</div>
+			<div class="layui-inline">
+				<a id="closeInBatch"
+					class="layui-btn layui-btn-danger layui-btn-normal closeInBatch"
+					lay-event="closeInBatch" lay-filter="closeInBatch">批量关闭</a>
+			</div>
+			<div class="layui-inline">
+				<a id="refreshTimerTaskList"
+					class="layui-btn layui-btn-success layui-btn-normal refreshTimerTaskList"
+					lay-event="refreshTimerTaskList" lay-filter="refreshTimerTaskList">刷新</a>
+			</div>
+		</form>
+	</blockquote>
+	<table class="layui-hide" id="timerTaskListTable"
+		lay-filter="timerTaskListTable"></table>
+	<script type="text/html" id="operationBar">
+  			<a class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-pencil"></i></a>
+  			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="fa fa-trash"></i></a>
+  			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="execute" title="立即开启任务并开始执行"><i class="fa fa-play"></i>执行</a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="open" title="开启任务并等待执行">开启</a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="close" title="定时任务关闭，当前如果运行则关闭"><i class="fa fa-power-off"></i>关闭</a>
+        </script>
+</body>
+
+<script type="text/html" id="closed">
+        <span name="closed" lay-filter="closed" >{{ d.closed == true || d.closed == "true" ? '关闭' : "开启" }}</span>
+    </script>
+<script src="/layui/layui.js"></script>
+<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+<script src="../timerTaskPolicy/listTimerTaskPolicy.js"></script>
+<script type="text/javascript" src="CommonTimerTask.js"></script>
+<script src="listTimerTask.js"></script>
+</html>

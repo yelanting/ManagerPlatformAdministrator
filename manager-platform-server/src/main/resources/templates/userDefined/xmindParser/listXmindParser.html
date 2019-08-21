@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>Xmind测试方案转测试用例管理</title>
+<link rel="stylesheet" href="/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="listXmindParser.css" media="all">
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+	<blockquote class="layui-elem-quote quoteBox">
+		<form class="layui-form">
+			<div class="layui-inline">
+				<div class="layui-input-inline">
+					<input id="serachXmindParserContent" type="text"
+						class="layui-input searchVal" placeholder="请输入要搜索的xmind文件名称"
+						maxLength=50 />
+				</div>
+			</div>
+			<div class="layui-inline">
+				<a id="searchXmindParser" class="layui-btn search_btn"
+					data-type="reload">搜索</a>
+			</div>
+			<div class="layui-inline">
+				<a id="addXmindParser_btn"
+					class="layui-btn layui-btn-normal addXmindParser_btn">添加</a>
+			</div>
+			<div class="layui-inline">
+				<a id="deleteInBatch"
+					class="layui-btn layui-btn-danger layui-btn-normal deleteInBatch"
+					lay-event="deleteInBatch" lay-filter="deleteInBatch">批量删除</a>
+			</div>
+			<div class="layui-inline">
+				<a id="refreshXmindParserList"
+					class="layui-btn layui-btn-success layui-btn-normal refreshXmindParserList"
+					lay-event="refreshXmindParserList"
+					lay-filter="refreshXmindParserList">刷新</a>
+			</div>
+		</form>
+	</blockquote>
+	<table class="layui-hide" id="xmindParserListTable" lay-filter="xmindParserListTable"></table>
+	<!-- <div id="pageContent"></div> -->
+	<script type="text/html" id="operationBar">
+  			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+  			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            <a class="layui-btn layui-btn-success layui-btn-xs" lay-event="downloadXmind">下载方案</a>
+			<a class="layui-btn layui-btn-success layui-btn-xs" lay-event="downloadCsv">下载用例</a>
+        </script>
+	 <!-- <div class="layui-tab-item">
+			<div id="sliderDemo" style="margin: 50px 20px;"></div>
+		</div>  -->
+	<script src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script src="listXmindParser.js"></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.OtherAddressMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.OtherAddress">
+		<id column="id" jdbcType="BIGINT" javaType="java.lang.Long"
+			property="id" />
+		<result column="project_name" jdbcType="VARCHAR" property="projectName" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+		<result column="description" jdbcType="VARCHAR"
+			property="description" />
+		<result column="create_date" jdbcType="TIMESTAMP"
+			property="createDate" />
+		<result column="update_date" jdbcType="TIMESTAMP"
+			property="updateDate" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, 
+		project_name, 
+		url,
+		description,
+		create_date,
+		update_date
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_other_address
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="findOtherAddressesByProjectName"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_other_address
+		where project_name = #{projectName}
+	</select>
+
+	<select id="findOtherAddressesByProjectNameLike"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_other_address
+		where project_name like CONCAT(#{projectName},'%')
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_other_address
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		tb_other_address
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		delete from
+		tb_other_address
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.administrator.platform.model.OtherAddress">
+		update tb_other_address
+		<set>
+			<if test="projectName != null">
+				project_name = #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			description =
+			#{description,jdbcType=VARCHAR},
+			update_date =
+			CURRENT_TIMESTAMP(),
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.OtherAddress">
+		update tb_other_address
+		<set>
+			<if test="projectName != null">
+				project_name = #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			description =
+			#{description,jdbcType=VARCHAR},
+			update_date =
+			CURRENT_TIMESTAMP()
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<insert id="insert"
+		parameterType="com.administrator.platform.model.OtherAddress">
+		insert into tb_other_address (id,
+		project_name,
+		url,
+		description,
+		create_date,
+		update_date )
+		values
+		(#{id,jdbcType=BIGINT},
+		#{projectName,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		#{createDate,jdbcType=VARCHAR},
+		#{updateDate,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.administrator.platform.model.OtherAddress">
+		insert into tb_other_address
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="projectName != null">
+				project_name,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="projectName != null">
+				#{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+</mapper>

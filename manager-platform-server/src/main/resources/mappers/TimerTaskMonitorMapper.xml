@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.TimerTaskMonitorMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.TimerTaskMonitor">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="job_name" jdbcType="VARCHAR" property="jobName" />
+		<result column="start_date" jdbcType="VARCHAR"
+			property="startDate" />
+		<result column="end_date" jdbcType="VARCHAR" property="endDate" />
+		<result column="success" jdbcType="TINYINT" property="success" />
+		<result column="description" jdbcType="VARCHAR"
+			property="description" />
+		<result column="create_date" jdbcType="VARCHAR"
+			property="createDate" />
+		<result column="update_date" jdbcType="VARCHAR"
+			property="updateDate" />
+		<result column="create_user" jdbcType="VARCHAR"
+			property="createUser" />
+		<result column="update_user" jdbcType="VARCHAR"
+			property="updateUser" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		job_name,
+		start_date,
+		end_date,
+		success,
+		description,
+		create_date,
+		update_date,
+		create_user,
+		update_user
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task_monitor
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="findJobTimerTaskMonitorListByName"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task_monitor
+		where job_name = #{jobName} order by id
+		DESC;
+	</select>
+
+	<select id="findAllJobTimerTaskMonitorList"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task_monitor order by id DESC;
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		tb_timer_task_monitor
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		delete from
+		tb_timer_task_monitor
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.administrator.platform.model.TimerTaskMonitor">
+		insert into tb_timer_task_monitor
+		(id,
+		job_name,
+		start_date,
+		end_date,
+		success,
+		description,
+		create_date,
+		create_user
+		)
+		values
+		(#{id,jdbcType=BIGINT},
+		#{jobName,jdbcType=VARCHAR},
+		#{startDate,jdbcType=VARCHAR},
+		#{endDate,jdbcType=VARCHAR},
+		#{success,jdbcType=TINYINT},
+		#{description,jdbcType=VARCHAR},
+		CURRENT_TIMESTAMP(),
+		#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.TimerTaskMonitor">
+		update tb_timer_task_monitor
+		<set>
+			<if test="jobName != null and jobName != ''">
+				job_name = #{jobName,jdbcType=VARCHAR},
+			</if>
+			success =
+			#{success,jdbcType=TINYINT},
+			description =
+			#{description,jdbcType=VARCHAR},
+			start_date =
+			#{startDate,jdbcType=VARCHAR},
+			end_date =
+			#{endDate,jdbcType=VARCHAR},
+			update_date = CURRENT_TIMESTAMP(),
+			update_user =
+			#{updateUser,jdbcType=VARCHAR}
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<delete id="deleteAllTimerTaskMonitors">
+		delete from tb_timer_task_monitor;
+	</delete>
+</mapper>

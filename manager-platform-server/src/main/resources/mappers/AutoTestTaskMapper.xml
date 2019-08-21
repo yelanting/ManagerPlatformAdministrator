@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.AutoTestTaskMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.AutoTestTask">
+		<id column="id" jdbcType="BIGINT" javaType="java.lang.Long"
+			property="id" />
+		<result column="task_name" jdbcType="VARCHAR"
+			property="taskName" />
+		<result column="executor_ip" jdbcType="VARCHAR"
+			property="executorIp" />
+		<result column="to_execute_script_name" jdbcType="VARCHAR"
+			property="toExecuteScriptName" />
+		<result column="execute_result_url" jdbcType="VARCHAR"
+			property="executeResultUrl" />
+		<result column="execute_detail_url" jdbcType="VARCHAR"
+			property="executeDetailUrl" />
+		<result column="comments" jdbcType="VARCHAR"
+			property="comments" />
+		<result column="login_password" jdbcType="VARCHAR"
+			property="loginPassword" />
+		<result column="login_user_name" jdbcType="VARCHAR"
+			property="loginUserName" />
+		<result column="create_date" jdbcType="TIMESTAMP"
+			property="createDate" />
+		<result column="update_date" jdbcType="TIMESTAMP"
+			property="updateDate" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		task_name,
+		executor_ip,
+		to_execute_script_name,
+		execute_result_url,
+		execute_detail_url,
+		comments,
+		login_user_name,
+		login_password,
+		create_date,
+		update_date
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_autotest_task
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="findAutoTestTasksByTaskName"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_autotest_task
+		where task_name = #{taskName}
+	</select>
+	
+	<select id="findOtherAutoTestTasksAccordingToTaskName"
+		parameterType="com.administrator.platform.model.AutoTestTask" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_autotest_task
+		where task_name = #{taskName} and id not in(#{id})
+	</select>
+
+	<select id="findAutoTestTasksByTaskNameLike"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_autotest_task
+		where task_name like CONCAT(#{taskName}, '%')
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_autotest_task
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		tb_autotest_task
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		delete from
+		tb_autotest_task
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.administrator.platform.model.AutoTestTask">
+		update tb_autotest_task
+		<set>
+			<if test="taskName != null">
+				task_name = #{taskName,jdbcType=VARCHAR},
+			</if>
+			<if test="executorIp != null">
+				executor_ip = #{executorIp,jdbcType=VARCHAR},
+			</if>
+			to_execute_script_name =
+			#{toExecuteScriptName,jdbcType=VARCHAR},
+			update_date =
+			CURRENT_TIMESTAMP(),
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.AutoTestTask">
+		update tb_autotest_task
+		<set>
+			<if test="taskName != null">
+				task_name = #{taskName,jdbcType=VARCHAR},
+			</if>
+			<if test="executorIp != null">
+				executor_ip = #{executorIp,jdbcType=VARCHAR},
+			</if>
+			to_execute_script_name =
+			#{toExecuteScriptName,jdbcType=VARCHAR},
+			update_date =
+			CURRENT_TIMESTAMP()
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<insert id="insert" keyProperty="id" useGeneratedKeys="true"
+		parameterType="com.administrator.platform.model.AutoTestTask">
+		<selectKey keyProperty="id" resultType="long">
+			select
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into tb_autotest_task ( task_name, executor_ip,
+		to_execute_script_name,
+		execute_result_url,
+		execute_detail_url,
+		login_user_name,
+		login_password,
+		comments,
+		create_date, update_date )
+		values
+		(#{taskName,jdbcType=VARCHAR},
+		#{executorIp,jdbcType=VARCHAR},
+		#{toExecuteScriptName,jdbcType=VARCHAR},
+		#{executeResultUrl,jdbcType=VARCHAR},
+		#{executeDetailUrl,jdbcType=VARCHAR},
+		#{loginUserName,jdbcType=VARCHAR},
+		#{loginPassword,jdbcType=VARCHAR},
+		#{comments,jdbcType=VARCHAR},
+		#{createDate,jdbcType=VARCHAR},
+		#{updateDate,jdbcType=VARCHAR} )
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.administrator.platform.model.AutoTestTask">
+		insert into tb_autotest_task
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="toExecuteScriptName != null">
+				to_execute_script_name,
+			</if>
+			<if test="taskName != null">
+				task_name,
+			</if>
+			<if test="executorIp != null">
+				executor_ip,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="toExecuteScriptName != null">
+				#{toExecuteScriptName,jdbcType=VARCHAR},
+			</if>
+			<if test="taskName != null">
+				#{taskName,jdbcType=VARCHAR},
+			</if>
+			<if test="executorIp != null">
+				#{executorIp,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+</mapper>

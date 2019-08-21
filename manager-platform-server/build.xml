@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<project name="Lengyu" xmlns:jacoco="antlib:org.jacoco.ant" default="jacoco">
+  <!--Jacoco的安装路径-->
+  <property name="jacocoantPath" value="D:/jacoco/org.jacoco.ant-0.7.9.jar"/>
+  <!--最终生成.exec文件的路径，里面有覆盖率数据，Jacoco就是根据这个文件生成最终的报告的-->
+  <property name="jacocoexecPath" value="./target/coverage/jacoco.exec"/>
+    <!--生成覆盖率报告的路径-->
+  <property name="reportfolderPath" value="./target/coverage/coverage/"/>
+  <!--服务的ip地址-->
+  <property name="server_ip" value="127.0.0.1"/>
+  <!--前面配置的服务打开的端口，要跟jacocoagent一样-->
+  <property name="server_port" value="8082"/>
+  <!--源代码路径-->
+  <property name="coreSrcpath" value="./src/main/java" />
+  <!--.class文件路径-->
+  <property name="checkOrderClasspath" value="./target/classes" />
+  <!--让ant知道去哪儿找Jacoco-->
+  <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+      <classpath path="${jacocoantPath}" />
+  </taskdef>
+  <!--dump任务:
+      根据前面配置的ip地址，和端口号，
+      访问目标tomcat服务，并生成.exec文件。-->
+  <target name="dump">
+      <jacoco:dump address="${server_ip}" reset="false" destfile="${jacocoexecPath}" port="${server_port}" append="true"/>
+  </target>
+
+
+  <!--jacoco任务:
+      根据前面配置的源代码路径和.class文件路径，
+      根据dump后，生成的.exec文件，生成最终的html覆盖率报告。-->
+  <target name="report">
+      <delete dir="${reportfolderPath}" />
+      <mkdir dir="${reportfolderPath}" />
+
+
+      <jacoco:report>
+          <executiondata>
+              <file file="${jacocoexecPath}" />
+          </executiondata>
+
+
+          <structure name="JaCoCo Report">
+              <group name="Check Order related">
+                  <classfiles>
+                      <fileset dir="${checkOrderClasspath}" />
+                  </classfiles>
+                  <sourcefiles encoding="utf-8">
+                      <fileset dir="${coreSrcpath}" />
+                  </sourcefiles>
+              </group>
+          </structure>
+		</jacoco:report>
+	</target>
+</project>

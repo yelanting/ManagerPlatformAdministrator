@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.TimerTaskPolicyMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.TimerTaskPolicy">
+		<result column="id" jdbcType="BIGINT" property="id" />
+		<result column="cname" jdbcType="VARCHAR" property="cname" />
+		<result column="ename" jdbcType="VARCHAR" property="ename" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="description" jdbcType="VARCHAR"
+			property="description" />
+		<result column="create_date" jdbcType="VARCHAR"
+			property="createDate" />
+		<result column="update_date" jdbcType="VARCHAR"
+			property="updateDate" />
+		<result column="create_user" jdbcType="VARCHAR"
+			property="createUser" />
+		<result column="update_user" jdbcType="VARCHAR"
+			property="updateUser" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		cname,
+		ename,
+		code ,
+		description,
+		create_date,
+		update_date,
+		create_user,
+		update_user
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task_policy
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="findTimerTaskPoliciesByCname"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task_policy
+		where cname = #{cname}
+	</select>
+
+	<select id="findTimerTaskPoliciesByEname"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task_policy
+		where ename = #{ename}
+	</select>
+	<select id="findTimerTaskPoliciesByCnameLike"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task_policy
+		where cname like
+		CONCAT(#{cname},'%')
+	</select>
+	<select id="findAll" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task_policy
+	</select>
+	<select id="findWithEnameExceptThisId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task_policy where ename = #{ename} and
+		id !=#{id};
+	</select>
+
+	<select id="findWithCnameExceptThisId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task_policy where cname = #{cname} and
+		id !=#{id};
+	</select>
+
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		delete from
+		tb_timer_task_policy
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+	<select id="selectByIds" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		tb_timer_task_policy
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		tb_timer_task_policy
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.TimerTaskPolicy">
+		update tb_timer_task_policy
+		set
+		cname =
+		#{cname,jdbcType=VARCHAR},
+		ename = #{ename,jdbcType=VARCHAR},
+		code =
+		#{code,jdbcType=VARCHAR},
+		description =
+		#{description,jdbcType=VARCHAR},
+		update_date = CURRENT_TIMESTAMP(),
+		update_user = #{updateUser,jdbcType=VARCHAR}
+		where id =
+		#{id,jdbcType=BIGINT}
+	</update>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.administrator.platform.model.TimerTaskPolicy">
+		insert into tb_timer_task_policy (id,
+		cname,
+		ename,
+		code,
+		description,
+		create_date,
+		create_user)
+		values
+		(#{id,jdbcType=BIGINT},
+		#{cname,jdbcType=VARCHAR},
+		#{ename,jdbcType=VARCHAR},
+		#{code,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		CURRENT_TIMESTAMP(),
+		#{createUser,jdbcType=VARCHAR})
+	</insert>
+</mapper>

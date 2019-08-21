@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.administrator.platform.mapper.BookMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.Book">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="book_desc" property="bookDesc"
+			jdbcType="VARCHAR" />
+		<result column="book_name" property="bookName"
+			jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate"
+			jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate"
+			jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, book_desc, book_name, create_date, update_date, url
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from tb_book
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from tb_book
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert"
+		parameterType="com.administrator.platform.model.Book">
+		insert into tb_book (id, book_desc, book_name,
+		create_date, update_date, url
+		)
+		values (#{id,jdbcType=BIGINT}, #{bookDesc,jdbcType=VARCHAR},
+		#{bookName,jdbcType=VARCHAR},
+		#{createDate,jdbcType=VARCHAR}, #{updateDate,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.administrator.platform.model.Book">
+		insert into tb_book
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="bookDesc != null">
+				book_desc,
+			</if>
+			<if test="bookName != null">
+				book_name,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="bookDesc != null">
+				#{bookDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="bookName != null">
+				#{bookName,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.administrator.platform.model.Book">
+		update tb_book
+		<set>
+			<if test="bookDesc != null">
+				book_desc = #{bookDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="bookName != null">
+				book_name = #{bookName,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.Book">
+		update tb_book
+		set book_desc = #{bookDesc,jdbcType=VARCHAR},
+		book_name = #{bookName,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=VARCHAR},
+		update_date = #{updateDate,jdbcType=VARCHAR},
+		url = #{url,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

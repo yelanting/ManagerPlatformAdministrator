@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>添加物品</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body>
+	<form id="addGoodOperationRecordForm"
+		class="layui-form layui-form-pane" method="post">
+		<div class="layui-form-item" pane>
+			<label class="layui-form-label" title="操作类型">操作类型</label>
+			<div class="layui-input-block layui-form">
+				<input type="radio" name="operationType" value="borrow" title="借"
+					lay-filter='operationType' /> <input type="radio"
+					name="operationType" value="giveBack" lay-filter='operationType'
+					title="还" />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">经手人</label>
+			<div class="layui-input-block">
+				<input type="text" id="dealPerson" name="dealPerson"
+					class="layui-input dealPerson" placeholder="请输入经手人"
+					lay-verify="dealPerson" maxLength=100 />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">借用人</label>
+			<div class="layui-input-block">
+				<input type="text" id="borrowUser" name="borrowUser"
+					class="layui-input borrowUser" placeholder="请输入借用人"
+					lay-verify="borrowUser" maxLength=100 />
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label" title="预期归还时间，最多一周，最少一小时,默认三天">预期归还</label>
+			<div class="layui-input-block">
+				<input type="text" id="expectedGiveBackDate"
+					name="expectedGiveBackDate"
+					class="layui-input expectedGiveBackDate" placeholder="请选择预期归还时间"
+					lay-verify="expectedGiveBackDate" />
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">归还人</label>
+			<div class="layui-input-block">
+				<input type="text" id="giveBackUser" name="giveBackUser"
+					class="layui-input giveBackUser" placeholder="请输入归还人"
+					lay-verify="giveBackUser" maxLength=100>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<textarea type="text" id="description" name="description"
+					class="layui-textarea description" placeholder="请输入操作备注"
+					lay-verify="description" maxLength=100></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button id="addGoodOperationRecordSubmit" class="layui-btn"
+					lay-submit="" lay-filter="addGoodOperationRecordSubmit">立即提交</button>
+				<button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+</body>
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../commonCheck.js"></script>
+<script type="text/javascript" src="../../CommonUtil.js"></script>
+<script type="text/javascript" src="../good/CommonGood.js"></script>
+<script type="text/javascript" src="../../TimeUtil.js"></script>
+<script type="text/javascript" src="CommonGoodOperationRecord.js"></script>
+<script type="text/javascript" src="addGoodOperationRecord.js"></script>
+</html>

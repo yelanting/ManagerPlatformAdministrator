@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>全局参数配置</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="../../css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+	<form class="layui-form">
+		<table class="layui-table mag0">
+			<colgroup>
+				<col width="25%">
+				<col width="45%">
+				<col>
+			</colgroup>
+			<thead>
+				<tr>
+					<th>参数说明</th>
+					<th>参数值</th>
+					<th pc>变量名</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>jenkins地址</td>
+					<td><input type="text" class="layui-input jenkinsUrl"
+						lay-verify="required" placeholder="请输入jenkinsUrl"></td>
+					<td pc>jenkinsUrl</td>
+				</tr>
+				<tr>
+					<td>jenkins用户</td>
+					<td><input type="text" class="layui-input jenkinsUsername"
+						lay-verify="required" placeholder="请输入jenkins登录用户名"></td>
+					<td pc>jenkinsUsername</td>
+				</tr>
+				<tr>
+					<td>jenkins登录密码</td>
+					<td><input type="text" class="layui-input jenkinsPassword"
+						lay-verify="required" placeholder="请输入jenkins密码"></td>
+					<td pc>jenkinsPassword</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="magt10 layui-right">
+			<div class="layui-input-block">
+				<button id="globalConfigApply" class="layui-btn" lay-submit=""
+					lay-filter="globalConfig">应用</button>
+				<button id="globalConfigReset" type="reset"
+					class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript" src="globalParamConfig.js"></script>
+	<script type="text/javascript" src="../../js/cache.js"></script>
+</body>
+</html>
