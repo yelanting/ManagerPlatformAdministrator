@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>添加源代码管理</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body>
+	<form id="addFileParserForm" class="layui-form layui-form-pane"
+		method="post">
+		<div class="layui-form-item">
+			<label class="layui-form-label">文件目录</label>
+			<div class="layui-input-block">
+				<input type="text" id="fileFolder" name="fileFolder"
+					class="layui-input fileFolder" lay-verify="fileFolder"
+					placeholder="请输入代码路径(本地)" maxLength=800>
+			</div>
+		</div>
+		<!-- <div class="layui-form-item">
+			<label class="layui-form-label">待保存文件名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="fileToStore" name="fileToStore"
+					class="layui-input fileToStore" placeholder="请输入待保存文件名称" lay-verify="fileToStore" maxLength=800 />
+			</div>
+		</div> -->
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">想要的方法参数类型</label>
+			<div class="layui-input-block">
+				<input type="text" id="choosenTypes" name="choosenTypes"
+					class="layui-input choosenTypes"
+					placeholder="请输入想要的方法参数类型(allString或者notAllString,或者All,默认是ALL表示选取所有的方法)"
+					lay-verify="choosenTypes" maxLength=20 />
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">想要的方法名称类型</label>
+			<div class="layui-input-block">
+				<input type="text" id="wantedMethodType" name="wantedMethodType"
+					class="layui-input wantedMethodType"
+					placeholder="请输入想要的方法名称类型(ALL,methodSign)"
+					lay-verify="wantedMethodType" maxLength=20 />
+			</div>
+			<ul>
+				<li>ALL会取出所有方法签名包括修饰符，返回值和签名</li>
+				<li>methodSign类型不会取出修饰符，返回值</li>
+			</ul>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button id="addFileParserSubmit" class="layui-btn" lay-submit=""
+					lay-filter="addFileParserSubmit">立即提交</button>
+				<button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../commonCheck.js"></script>
+	<script type="text/javascript" src="addFileParser.js"></script>
+</body>
+</html>

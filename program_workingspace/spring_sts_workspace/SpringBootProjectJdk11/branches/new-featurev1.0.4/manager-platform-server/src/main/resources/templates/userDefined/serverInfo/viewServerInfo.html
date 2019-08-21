@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>查看服务器</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body>
+	<form id="viewGoodForm" class="layui-form layui-form-pane"
+		method="post">
+		<div class="layui-form-item">
+			<label class="layui-form-label">ID</label>
+			<div class="layui-input-block">
+				<input type="text" id="id" name="id" class="layui-input id"
+					lay-verify="id" placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">服务器名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="serverName" name="serverName"
+					class="layui-input serverName" lay-verify="serverName"
+					placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">服务器Ip</label>
+			<div class="layui-input-block">
+				<input type="text" id="serverIp" name="serverIp"
+					class="layui-input serverIp" lay-verify="serverIp"
+					placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户名</label>
+			<div class="layui-input-block">
+				<input type="text" id="username" name="username"
+					class="layui-input username" lay-verify="username"
+					placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">密码</label>
+			<div class="layui-input-block">
+				<input type="text" id="password" name="password"
+					class="layui-input password" lay-verify="password"
+					placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">服务器类型</label>
+			<div class="layui-input-block">
+				<input type="text" id="serverType" name="serverType"
+					class="layui-input serverName" lay-verify="serverType"
+					placeholder="暂无数据" disabled>
+			</div>
+		</div>
+		<div class="layui-form-item" style="display: block">
+			<label class="layui-form-label">创建时间</label>
+			<div class="layui-input-block">
+				<input type="text" id="createDate" name="createDate"
+					class="layui-input createDate" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+
+		<div class="layui-form-item" style="display: block">
+			<label class="layui-form-label">修改时间</label>
+			<div class="layui-input-block">
+				<input type="text" id="updateDate" name="updateDate"
+					class="layui-input updateDate" placeholder="暂无数据" disabled />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">服务器描述</label>
+			<div class="layui-input-block">
+				<textarea id="description" name="description"
+					class="layui-textarea description" placeholder="暂无数据" disabled></textarea>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../commonCheck.js"></script>
+</body>
+</html>

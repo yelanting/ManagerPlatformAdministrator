@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.LoginRecordMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.LoginRecord">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="os_name" jdbcType="VARCHAR" property="osName" />
+		<result column="device" jdbcType="VARCHAR" property="device" />
+		<result column="browser_type" jdbcType="VARCHAR"
+			property="browserType" />
+		<result column="ip_address" jdbcType="VARCHAR"
+			property="ipAddress" />
+		<result column="create_date" jdbcType="TIMESTAMP"
+			property="createTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_id, os_name, device, browser_type, ip_address, create_date
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_login_record
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from sys_login_record
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.administrator.platform.model.LoginRecord">
+		insert into sys_login_record (id, user_id, os_name,
+		device, browser_type, ip_address,
+		create_date)
+		values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
+		#{osName,jdbcType=VARCHAR},
+		#{device,jdbcType=VARCHAR}, #{browserType,jdbcType=VARCHAR}, #{ipAddress,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.administrator.platform.model.LoginRecord">
+		insert into sys_login_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="osName != null">
+				os_name,
+			</if>
+			<if test="device != null">
+				device,
+			</if>
+			<if test="browserType != null">
+				browser_type,
+			</if>
+			<if test="ipAddress != null">
+				ip_address,
+			</if>
+			<if test="createTime != null">
+				create_date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="osName != null">
+				#{osName,jdbcType=VARCHAR},
+			</if>
+			<if test="device != null">
+				#{device,jdbcType=VARCHAR},
+			</if>
+			<if test="browserType != null">
+				#{browserType,jdbcType=VARCHAR},
+			</if>
+			<if test="ipAddress != null">
+				#{ipAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.administrator.platform.model.LoginRecord">
+		update sys_login_record
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="osName != null">
+				os_name = #{osName,jdbcType=VARCHAR},
+			</if>
+			<if test="device != null">
+				device = #{device,jdbcType=VARCHAR},
+			</if>
+			<if test="browserType != null">
+				browser_type = #{browserType,jdbcType=VARCHAR},
+			</if>
+			<if test="ipAddress != null">
+				ip_address = #{ipAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_date = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.LoginRecord">
+		update sys_login_record
+		set user_id = #{userId,jdbcType=VARCHAR},
+		os_name = #{osName,jdbcType=VARCHAR},
+		device = #{device,jdbcType=VARCHAR},
+		browser_type = #{browserType,jdbcType=VARCHAR},
+		ip_address = #{ipAddress,jdbcType=VARCHAR},
+		create_date = #{createTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+</mapper>

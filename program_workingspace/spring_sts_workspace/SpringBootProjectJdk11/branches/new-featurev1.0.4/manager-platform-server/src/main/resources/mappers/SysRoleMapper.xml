@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.SysRoleMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.SysRole">
+		<id column="id" jdbcType="BIGINT" javaType="java.lang.Long"
+			property="id" />
+		<result column="role_name" jdbcType="VARCHAR"
+			property="roleName" />
+		<result column="role_cn_name" jdbcType="VARCHAR"
+			property="roleCnName" />
+		<result column="comments" jdbcType="VARCHAR"
+			property="comments" />
+		<result column="create_date" jdbcType="TIMESTAMP"
+			property="createDate" />
+		<result column="update_date" jdbcType="TIMESTAMP"
+			property="updateDate" />
+		<result column="deleted" jdbcType="VARCHAR" property="deleted" />
+		<result column="role_type" jdbcType="VARCHAR"
+			property="roleType" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id , role_name, comments, create_date, update_date,
+		deleted,role_cn_name,role_type
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		sys_role
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.administrator.platform.model.SysRole">
+		insert into sys_role (id, role_name, comments,
+		create_date, update_date, deleted , role_cn_name , role_type
+		)
+		values
+		(#{id,jdbcType=VARCHAR},
+		#{roleName,jdbcType=VARCHAR},
+		#{comments,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{deleted,jdbcType=VARCHAR},
+		#{roleCnName,jdbcType=VARCHAR},
+		#{roleType,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.administrator.platform.model.SysRole">
+		insert into sys_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="roleName != null">
+				role_name,
+			</if>
+			<if test="comments != null">
+				comments,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="deleted != null">
+				deleted,
+			</if>
+			<if test="roleCnName != null">
+				role_cn_name,
+			</if>
+			<if test="roleType != null">
+				role_type
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="roleName != null">
+				#{roleName,jdbcType=VARCHAR},
+			</if>
+			<if test="comments != null">
+				#{comments,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deleted != null">
+				#{deleted,jdbcType=VARCHAR},
+			</if>
+			<if test="roleCnName != null">
+				#{roleCnName,jdbcType=VARCHAR},
+			</if>
+			<if test="roleType != null">
+				#{roleType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.administrator.platform.model.SysRole">
+		update sys_role
+		<set>
+			<if test="roleName != null">
+				role_name = #{roleName,jdbcType=VARCHAR},
+			</if>
+			<if test="comments != null">
+				comments = #{comments,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deleted != null">
+				deleted = #{deleted,jdbcType=VARCHAR},
+			</if>
+
+			<if test="roleCnName != null">
+				role_cn_name = #{roleCnName,jdbcType=VARCHAR},
+			</if>
+			<if test="roleType != null">
+				role_type = #{roleType,jdbcType=VARCHAR},
+			</if>
+
+
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.SysRole">
+		update sys_role
+		set role_name =
+		#{roleName,jdbcType=VARCHAR},
+		comments = #{comments,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date =
+		#{updateDate,jdbcType=TIMESTAMP},
+		deleted =
+		#{deleted,jdbcType=VARCHAR},
+		role_cn_name=#{roleCnName ,
+		jdbcType=VARCHAR},
+		role_type=#{roleType , jdbcType=VARCHAR}
+		where id =
+		#{id,jdbcType=VARCHAR}
+	</update>
+	<select id="findSysRoleByRoleName"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		where role_name = #{roleName}
+	</select>
+
+	<select id="findSysRolesByRoleNameLike"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		where role_name like CONCAT(#{roleName},'%')
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+	</select>
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		delete from
+		sys_role
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+
+	<select id="getSysRolesByUserId" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role sr where id in(select sur.role_id from sys_user_role
+		sur where sur.user_id = #{id});
+	</select>
+</mapper>

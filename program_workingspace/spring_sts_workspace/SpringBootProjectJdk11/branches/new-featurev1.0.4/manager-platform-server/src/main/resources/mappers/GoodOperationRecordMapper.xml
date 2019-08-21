@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.GoodOperationRecordMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.GoodOperationRecord">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<id column="good_id" jdbcType="BIGINT" property="goodId" />
+		<result column="create_date" jdbcType="VARCHAR"
+			property="createDate" />
+		<result column="borrow_user" jdbcType="VARCHAR"
+			property="borrowUser" />
+		<result column="give_back_user" jdbcType="VARCHAR"
+			property="giveBackUser" />
+		<result column="borrow_date" jdbcType="VARCHAR"
+			property="borrowDate" />
+		<result column="update_date" jdbcType="VARCHAR"
+			property="updateDate" />
+		<result column="expected_give_back_date" jdbcType="VARCHAR"
+			property="expectedGiveBackDate" />
+		<result column="realistic_give_back_date" jdbcType="VARCHAR"
+			property="realisticGiveBackDate" />
+		<result column="operation_type" jdbcType="VARCHAR"
+			property="operationType" />
+		<result column="deal_person" jdbcType="VARCHAR"
+			property="dealPerson" />
+		<result column="description" jdbcType="VARCHAR"
+			property="description" />
+		<result column="keep_period" jdbcType="VARCHAR"
+			property="keepPeriod" />
+		<result column="keep_overtime" jdbcType="VARCHAR"
+			property="keepOvertime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		good_id,
+		create_date,
+		borrow_user,
+		give_back_user,
+		borrow_date,
+		update_date,
+		expected_give_back_date,
+		realistic_give_back_date,
+		operation_type,
+		deal_person,
+		description,
+		keep_period,
+		keep_overtime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_good_operation_record
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_good_operation_record
+	</select>
+
+	<insert id="insert"
+		parameterType="com.administrator.platform.model.GoodOperationRecord">
+		insert into tb_good_operation_record (id,
+		good_id,
+		create_date,
+		borrow_user,
+		give_back_user,
+		borrow_date,
+		update_date,
+		expected_give_back_date,
+		realistic_give_back_date,
+		operation_type,
+		deal_person,
+		description,
+		keep_period,
+		keep_overtime
+		)
+		values
+		(#{id,jdbcType=BIGINT},
+		#{goodId,jdbcType=BIGINT},
+		CURRENT_TIMESTAMP(),
+		#{borrowUser,jdbcType=VARCHAR},
+		#{giveBackUser,jdbcType=VARCHAR},
+		<choose>
+			<when test="borrowDate != null">
+				#{borrowDate,jdbcType=VARCHAR},
+			</when>
+			<otherwise>
+				CURRENT_TIMESTAMP(),
+			</otherwise>
+		</choose>
+		CURRENT_TIMESTAMP(), #{expectedGiveBackDate,jdbcType=VARCHAR},
+		<choose>
+			<when test="operationType == 'giveBack'">
+				CURRENT_TIMESTAMP(),
+			</when>
+			<otherwise>
+				#{realisticGiveBackDate,jdbcType=VARCHAR},
+			</otherwise>
+		</choose>
+		#{operationType,jdbcType=VARCHAR},
+		#{dealPerson,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		#{keepPeriod,jdbcType=VARCHAR},
+		#{keepOvertime,jdbcType=TINYINT})
+	</insert>
+
+	<select id="findGoodOperationRecordsByGoodId"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_good_operation_record where good_id = #{goodId} order by id
+		desc;
+	</select>
+
+	<select id="findLastBorrowGoodOperationRecordByGoodId"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_good_operation_record where good_id = #{goodId} and
+		operation_type='borrow' order by id
+		desc limit 1;
+	</select>
+</mapper>

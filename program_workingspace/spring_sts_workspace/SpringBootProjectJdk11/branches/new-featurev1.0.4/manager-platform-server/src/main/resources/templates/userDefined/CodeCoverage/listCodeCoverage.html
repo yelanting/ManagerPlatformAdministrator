@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+<meta name="renderer" content="webkit" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="format-detection" content="telephone=no" />
+<title>代码覆盖率列表</title>
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css"
+	media="all" />
+<link rel="stylesheet" href="listCodeCoverage.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+	<blockquote class="layui-elem-quote quoteBox">
+		<form class="layui-form">
+			<div class="layui-inline">
+				<div class="layui-input-inline">
+					<input id="serachCodeCoverageContent" type="text"
+						class="layui-input searchVal" placeholder="请输入要搜索的项目名称"
+						maxlength="50">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<a id="searchCodeCoverage" class="layui-btn search_btn"
+					data-type="reload" title="搜索">搜索</a>
+			</div>
+			<div class="layui-inline">
+				<a id="addCodeCoverage_btn"
+					class="layui-btn layui-btn-normal addCodeCoverage_btn" title="添加">添加</a>
+			</div>
+			<div class="layui-inline">
+				<a id="deleteInBatch"
+					class="layui-btn layui-btn-danger layui-btn-normal deleteInBatch"
+					lay-event="deleteInBatch" lay-filter="deleteInBatch" title="批量删除">批量删除</a>
+			</div>
+			<div class="layui-inline">
+				<a id="refreshCodeCoverageList"
+					class="layui-btn layui-btn-success layui-btn-normal refreshCodeCoverageList"
+					lay-event="refreshCodeCoverageList"
+					lay-filter="refreshCodeCoverageList" title="刷新">刷新</a>
+			</div>
+		</form>
+	</blockquote>
+	<!--  <a id="getIncrementData" class="layui-btn layui-btn-disabled   layui-btn-xs" lay-event="getIncrementData" onclick="return false;" disabled>没有增量</a>
+	<a id="getWholeData" class="layui-btn layui-btn-disabled   layui-btn-xs" lay-event="getWholeData" onclick="return false;" disabled>没有全量</a>
+	-->
+	<table class="layui-hide" id="codeCoverageListTable"
+		lay-filter="codeCoverageListTable"></table>
+	<script type="text/html" id="operationBar">
+			<a id="edit" class="layui-btn   layui-btn-xs layui-btn-primary" lay-event="edit" title="编辑">
+				<i class="fa fa-pencil"></i>
+			</a>
+  			<a id="del" class="layui-btn layui-btn-danger   layui-btn-xs" lay-event="del" title="删除">
+				<i class="fa fa-trash"></i>
+			</a>
+			<a id="createIncrementData" class="layui-btn layui-btn-primary   layui-btn-xs" title="class优先顺序:上传>当前文件夹>现编译" lay-event="createIncrementData">生成增量</a>
+			<a id="createAllData" class="layui-btn layui-btn-primary   layui-btn-xs" title="class优先顺序:上传>当前文件夹>现编译" lay-event="createAllData">生成全量</a>
+            <a id="uploadClasses" class="layui-btn layui-btn-primary   layui-btn-xs" title="上传文件" lay-event="uploadFiles">
+				<i class="fa fa-upload"></i>上传
+			</a>
+			
+			<!-- 
+			{{# if(d.needCompile != true && d.buildType != "GRADLE") {}}
+                <a id="uploadClasses" class="layui-btn layui-btn-primary   layui-btn-xs" title="上传class文件压缩包，Gradle不支持" lay-event="uploadClasses">
+					<i class="fa fa-upload"></i>Class文件
+				</a>
+            {{# } else{}}
+            {{# } }}-->
+
+			{{# if(d.buildType != "GRADLE") {}}
+                <a id="configTask" class="layui-btn layui-btn-primary   layui-btn-xs" title="配置定时任务" lay-event="configScheduledTask">
+					<i class="fa fa-cog"></i>配置
+				</a>
+            {{# } else{}}
+            {{# } }}
+			
+			{{# if((d.wholeCodeCoverageDataUrl !== null && d.wholeCodeCoverageDataUrl.trim() !== "") || (d.incrementCodeCoverageDataUrl !== null && d.incrementCodeCoverageDataUrl.trim() !== "")){}}
+                <a id="resetCodeCoverageData" class="layui-btn layui-btn-danger   layui-btn-xs" title="删除全量、增量、以及上传的Class文件" lay-event="resetCodeCoverageData">重置数据</a>
+            {{# } else{}}
+            {{# } }}
+
+			{{# if(d.incrementCodeCoverageDataUrl !== null && d.incrementCodeCoverageDataUrl.trim() !== "" ){}}
+                <a id="getIncrementData" class="layui-btn layui-btn-primary   layui-btn-xs" lay-event="getIncrementData" title="下载增量">
+					<i class="fa fa-download">增量</i>
+				</a>
+            {{# } else{}}
+                
+            {{# } }}
+
+			{{# if(d.wholeCodeCoverageDataUrl !== null && d.wholeCodeCoverageDataUrl.trim() !== "" ){}}
+                <a id="getWholeData" class="layui-btn layui-btn-primary   layui-btn-xs" lay-event="getWholeData" title="下载全量">
+					<i class="fa fa-download">全量</i>
+				</a>
+            {{# } else{}}
+                
+            {{# } }}
+			
+			
+            <!--
+            {{# if(d.buildType === "GRADLE" ){}}
+                <a id="uploadExecFile" class="layui-btn layui-btn-primary   layui-btn-xs" lay-event="uploadExecFile" title="上传app覆盖率">
+					<i class="fa fa-upload"></i>ec文件
+				</a>
+            {{# } else{}}
+            {{# } }}-->
+
+			
+        </script>
+	<script type="text/html" id="needCompile">
+        <input type="checkbox" name="needCompile" lay-skin="switch" lay-text="是|否" lay-filter="needCompile" {{ d.needCompile == true ? 'checked' : '' }} disabled>
+    </script>
+	<script type="text/html" id="tcpServerPort">
+        <span name="tcpServerPort" lay-filter="tcpServerPort" >{{ d.tcpServerPort == -1 ? '-1(未指定)' : d.tcpServerPort }}</input>
+    </script>
+	<script src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script src="../serverInfo/CommonServerInfo.js"></script>
+	<script src="commonOperation.js"></script>
+	<script src="listCodeCoverage.js"></script>
+</body>
+</html>

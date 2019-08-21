@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>修改dubbo接口测试</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body>
+	<form id="editDubboTestForm" class="layui-form layui-form-pane"
+		method="post">
+		<div class="layui-form-item" style="display: none">
+			<label class="layui-form-label">ID</label>
+			<div class="layui-input-block">
+				<input type="text" id="id" name="id" class="layui-input id"
+					lay-verify="id" maxLength=50 readonly="readonly">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">用例名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="caseName" name="caseName"
+					class="layui-input caseName" lay-verify="caseName"
+					placeholder="用例名称" maxLength=50>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">协议名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="protocolName" name="protocolName"
+					class="layui-input protocolName" lay-verify="protocolName"
+					placeholder="协议名称" maxLength=50>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">地址</label>
+			<div class="layui-input-block">
+				<input type="text" id="address" name="address"
+					class="layui-input address" lay-verify="address"
+					placeholder="请输入地址" maxLength=50>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">组</label>
+			<div class="layui-input-block">
+				<input type="text" id="groupName" name="groupName"
+					class="layui-input groupName" lay-verify="groupName"
+					placeholder="请输入组名称" maxLength=50>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">接口名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="interfaceName" name="interfaceName"
+					class="layui-input interfaceName" lay-verify="interfaceName"
+					placeholder="请输入接口名称(含包名)" maxLength=50>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">方法名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="methodName" name="methodName"
+					class="layui-input methodName" lay-verify="methodName"
+					placeholder="请输入方法名称" maxLength=50>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">版本号</label>
+			<div class="layui-input-block">
+				<input type="text" id="version" name="version"
+					class="layui-input version" lay-verify="version"
+					placeholder="请输入版本号" maxLength=50>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">消费者名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="client" name="client"
+					class="layui-input client" lay-verify="client"
+					placeholder="请输入消费者名称" maxLength=50>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">输入参数</label>
+			<div class="layui-input-block">
+				<textarea type="text" id="incomeParams" name="incomeParams"
+					class="layui-input incomeParams" lay-verify="incomeParams"
+					placeholder="请输入入参" maxLength=5000></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">dubbo协议上下文参数</label>
+			<div class="layui-input-block">
+				<input type="text" id="dubboContextParams" name="dubboContextParams"
+					class="layui-input dubboContextParams"
+					lay-verify="dubboContextParams" placeholder="请输入dubbo上下文参数"
+					maxLength=50>
+			</div>
+		</div>
+		<label class="layui-form-label">dubbo测试返回值</label>
+		<div class="layui-input-block">
+			<input type="text" id="dubboTestResponse" name="dubboTestResponse"
+				class="layui-input dubboTestResponse" lay-verify="dubboTestResponse"
+				placeholder="" maxLength=50>
+		</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">待检查项</label>
+			<div class="layui-input-block">
+				<input type="text" id="dubboTestCheck" name="dubboTestCheck"
+					class="layui-input dubboTestCheck" lay-verify="dubboTestCheck"
+					placeholder="请输入待检查内容" maxLength=50>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">测试结果</label>
+			<div class="layui-input-block">
+				<input type="text" id="dubboTestResult" name="dubboTestResult"
+					class="layui-input dubboTestResult" lay-verify="dubboTestResult"
+					placeholder="" maxLength=50>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">接口测试描述</label>
+			<div class="layui-input-block">
+				<input type="text" id="caseDesc" name="caseDesc"
+					class="layui-input caseDesc" placeholder="请输入接口测试描述"
+					lay-verify="caseDesc" maxLength=50 />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button id="editDubboTestSubmit" class="layui-btn" lay-submit=""
+					lay-filter="editDubboTestSubmit">立即提交</button>
+				<button id="editReset" type="reset" style="display: none"
+					class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../commonCheck.js"></script>
+	<script type="text/javascript" src="editDubboTest.js"></script>
+</body>
+</html>

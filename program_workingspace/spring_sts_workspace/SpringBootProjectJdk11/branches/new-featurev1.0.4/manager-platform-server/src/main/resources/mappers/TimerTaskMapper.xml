@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.TimerTaskMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.TimerTask">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="task_name" jdbcType="VARCHAR"
+			property="taskName" />
+		<result column="policy_id" jdbcType="BIGINT"
+			property="policyId" />
+		<result column="closed" jdbcType="TINYINT" property="closed" />
+		<result column="task_group" jdbcType="VARCHAR"
+			property="taskGroup" />
+		<result column="config" jdbcType="VARCHAR" property="config" />
+		<result column="other_params" jdbcType="VARCHAR"
+			property="otherParams" />
+		<result column="description" jdbcType="VARCHAR"
+			property="description" />
+		<result column="create_date" jdbcType="VARCHAR"
+			property="createDate" />
+		<result column="update_date" jdbcType="VARCHAR"
+			property="updateDate" />
+		<result column="create_user" jdbcType="VARCHAR"
+			property="createUser" />
+		<result column="update_user" jdbcType="VARCHAR"
+			property="updateUser" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		task_name,
+		policy_id,
+		task_group,
+		config,
+		closed,
+		other_params,
+		description,
+		create_date,
+		update_date,
+		create_user,
+		update_user
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="findTimerTasksByTimerTaskName"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task
+		where task_name = #{taskName}
+	</select>
+
+	<select id="findTimerTasksByTimerTaskNameLike"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task
+		where task_name like CONCAT(#{taskName} ,'%') or
+		task_group like CONCAT(#{taskName} ,'%')
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task
+	</select>
+	<select id="findTimerTaskWithNameExceptThisId"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_timer_task where task_name= #{taskName,jdbcType=VARCHAR} and
+		id !=#{id,jdbcType=BIGINT};
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		tb_timer_task
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		delete from
+		tb_timer_task
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.administrator.platform.model.TimerTask">
+		insert into tb_timer_task (id,
+		task_name,
+		policy_id,
+		task_group,
+		config,
+		closed,
+		other_params,
+		description,
+		create_date,
+		create_user
+		)
+		values
+		(#{id,jdbcType=BIGINT},
+		#{taskName,jdbcType=VARCHAR},
+		#{policyId,jdbcType=BIGINT},
+		#{taskGroup,jdbcType=VARCHAR},
+		#{config,jdbcType=VARCHAR},
+		#{closed,jdbcType=TINYINT},
+		#{otherParams,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		CURRENT_TIMESTAMP(),
+		#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.TimerTask">
+		update tb_timer_task
+		<set>
+			<if test="taskName != null and taskName != ''">
+				task_name = #{taskName,jdbcType=VARCHAR},
+			</if>
+			<if test="taskGroup != null and taskGroup != ''">
+				task_group = #{taskGroup,jdbcType=VARCHAR},
+			</if>
+			config = #{config,jdbcType=VARCHAR},
+			closed =
+			#{closed,jdbcType=TINYINT},
+			other_params =
+			#{otherParams,jdbcType=VARCHAR},
+			description =
+			#{description,jdbcType=VARCHAR},
+			policy_id =
+			#{policyId,jdbcType=BIGINT},
+			update_date = CURRENT_TIMESTAMP(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

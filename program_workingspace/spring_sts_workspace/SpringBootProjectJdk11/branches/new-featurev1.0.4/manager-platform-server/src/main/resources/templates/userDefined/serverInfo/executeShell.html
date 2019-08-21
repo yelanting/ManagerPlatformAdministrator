@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>执行命令</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body>
+	<form id="executeShellForm" class="layui-form layui-form-pane"
+		action="#">
+		<div class="layui-form-item">
+			<label class="layui-form-label" title="在下面输入要在服务器上执行的命令">待执行命令</label>
+			<div class="layui-input-block">
+				<textarea id="executeShells" name="executeShells"
+					class="layui-textarea executeShells" placeholder="请输入命令,多条命令换行分隔"
+					lay-verify="executeShells" maxLength=1000></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label" title="执行上述输入的命令">执行命令</label>
+			<div class="layui-input-block">
+				<button id="executeShellSubmit" class="layui-btn" lay-submit=""
+					lay-filter="executeShellSubmit">开始执行</button>
+			</div>
+		</div>
+	</form>
+	<table id="executeResultTable" class="layui-hide layui-table"
+		style="width: 100%; table-layout: fixed" lay-size="lg"
+		lay-filter="executeResultTable"></table>
+</body>
+<script type="text/javascript" src="/layui/layui.js"></script>
+<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../commonCheck.js"></script>
+<script type="text/javascript" src="../../CommonUtil.js"></script>
+<script type="text/javascript" src="CommonServerInfo.js"></script>
+<script type="text/javascript" src="executeShell.js"></script>
+</html>

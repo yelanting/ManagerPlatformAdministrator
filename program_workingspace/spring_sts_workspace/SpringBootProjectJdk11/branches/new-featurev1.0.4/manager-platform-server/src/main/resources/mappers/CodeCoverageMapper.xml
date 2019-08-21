@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.CodeCoverageMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.CodeCoverage">
+		<id column="id" jdbcType="BIGINT" javaType="java.lang.Long"
+			property="id" />
+		<result column="project_name" jdbcType="VARCHAR"
+			property="projectName" />
+		<result column="newer_remote_url" jdbcType="VARCHAR"
+			property="newerRemoteUrl" />
+		<result column="older_remote_url" jdbcType="VARCHAR"
+			property="olderRemoteUrl" />
+		<result column="newer_version" jdbcType="VARCHAR"
+			property="newerVersion" />
+		<result column="older_version" jdbcType="VARCHAR"
+			property="olderVersion" />
+		<result column="tcp_server_ip" jdbcType="VARCHAR"
+			property="tcpServerIp" />
+		<result column="tcp_server_port" jdbcType="VARCHAR"
+			property="tcpServerPort" />
+		<result column="username" jdbcType="VARCHAR"
+			property="username" />
+		<result column="password" jdbcType="VARCHAR"
+			property="password" />
+		<result column="description" jdbcType="VARCHAR"
+			property="description" />
+		<result column="increment_code_coverage_data_url"
+			jdbcType="VARCHAR" property="incrementCodeCoverageDataUrl" />
+		<result column="whole_code_coverage_data_url"
+			jdbcType="VARCHAR" property="wholeCodeCoverageDataUrl" />
+		<result column="version_control_type" jdbcType="VARCHAR"
+			property="versionControlType" />
+		<result column="create_date" jdbcType="TIMESTAMP"
+			property="createDate" />
+		<result column="update_date" jdbcType="TIMESTAMP"
+			property="updateDate" />
+
+		<result column="build_type" jdbcType="VARCHAR"
+			property="buildType" />
+		<result column="need_compile" jdbcType="VARCHAR"
+			property="needCompile" />
+		<result column="dependency_pojects" jdbcType="VARCHAR"
+			property="dependencyProjects" />
+
+		<result column="jdk_version" jdbcType="VARCHAR"
+			property="jdkVersion" />
+		<result column="channel_name" jdbcType="VARCHAR"
+			property="channelName" />
+		<result column="dependency_pojects" jdbcType="VARCHAR"
+			property="dependencyProjects" />
+
+		<result column="server_id" jdbcType="BIGINT"
+			javaType="java.lang.Long" property="serverId" />
+		<result column="source_code_path" jdbcType="VARCHAR"
+			property="sourceCodePath" />
+		<result column="new_source_type" jdbcType="VARCHAR"
+			property="newSourceType" />
+
+		<result column="create_user" jdbcType="VARCHAR"
+			property="createUser" />
+		<result column="update_user" jdbcType="VARCHAR"
+			property="updateUser" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		project_name,
+		newer_remote_url,
+		older_remote_url,
+		newer_version,
+		older_version,
+		tcp_server_ip,
+		tcp_server_port,
+		username,
+		password,
+		description,
+		increment_code_coverage_data_url,
+		whole_code_coverage_data_url,
+		version_control_type,
+		build_type,
+		need_compile,
+		dependency_projects,
+		jdk_version,
+		channel_name,
+		create_date,
+		update_date,
+		create_user,
+		update_user,
+		server_id,
+		source_code_path,
+		new_source_type
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_code_coverage
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="findCodeCoverageesByProjectName"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_code_coverage
+		where project_name = #{projectName}
+	</select>
+
+	<select id="findCodeCoverageesByProjectNameLike"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_code_coverage
+		where project_name like CONCAT(#{projectName},
+		'%')
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_code_coverage
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		tb_code_coverage
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		delete from
+		tb_code_coverage
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.administrator.platform.model.CodeCoverage">
+		update tb_code_coverage
+		<set>
+			<if test="projectName != null">
+				project_name = #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="newerRemoteUrl != null">
+				newer_remote_url = #{newerRemoteUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="tcpServerIp != null">
+				tcp_server_ip = #{tcpServerIp,jdbcType=VARCHAR},
+			</if>
+			<if test="tcpServerPort != null">
+				tcp_server_port = #{tcpServerPort,jdbcType=VARCHAR},
+			</if>
+			<if test="versionControlType != null">
+				version_control_type =
+				#{versionControlType,jdbcType=VARCHAR},
+			</if>
+			<if test="buildType != null">
+				build_type =
+				#{buildType,jdbcType=VARCHAR},
+			</if>
+
+			<if test="needCompile != null">
+				need_compile =
+				#{needCompile,jdbcType=VARCHAR},
+			</if>
+			<if test="jdkVersion != null">
+				jdk_version =
+				#{jdkVersion,jdbcType=VARCHAR},
+			</if>
+			username = #{username,jdbcType=VARCHAR}, password =
+			#{password,jdbcType=VARCHAR}, description =
+			#{description,jdbcType=VARCHAR},
+			dependency_projects =
+			#{dependencyProjects},
+			channel_name =
+			#{channelName},
+			update_date =
+			CURRENT_TIMESTAMP(),
+			server_id = #{serverId},
+			source_code_path =
+			#{sourceCodePath},
+			new_source_type =
+			#{newSourceType}
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.CodeCoverage">
+		update tb_code_coverage
+		<set>
+			<if test="projectName != null">
+				project_name = #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="newerRemoteUrl != null">
+				newer_remote_url = #{newerRemoteUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="versionControlType != null">
+				version_control_type =
+				#{versionControlType,jdbcType=VARCHAR},
+			</if>
+			<if test="buildType != null">
+				build_type =
+				#{buildType,jdbcType=VARCHAR},
+			</if>
+
+			<if test="needCompile != null">
+				need_compile =
+				#{needCompile,jdbcType=VARCHAR},
+			</if>
+
+			<if test="jdkVersion != null">
+				jdk_version =
+				#{jdkVersion,jdbcType=VARCHAR},
+			</if>
+			tcp_server_ip = #{tcpServerIp,jdbcType=VARCHAR},
+			tcp_server_port =
+			#{tcpServerPort,jdbcType=VARCHAR},
+			username =
+			#{username,jdbcType=VARCHAR},
+			password =
+			#{password,jdbcType=VARCHAR},
+			increment_code_coverage_data_url =
+			#{incrementCodeCoverageDataUrl,jdbcType=VARCHAR},
+			whole_code_coverage_data_url=
+			#{wholeCodeCoverageDataUrl,jdbcType=VARCHAR},
+			older_remote_url=
+			#{olderRemoteUrl,jdbcType=VARCHAR},
+			newer_version=
+			#{newerVersion,jdbcType=VARCHAR},
+			older_version=
+			#{olderVersion,jdbcType=VARCHAR},
+			description =
+			#{description,jdbcType=VARCHAR},
+			channel_name
+			=#{channelName,jdbcType=VARCHAR},
+			update_date =
+			CURRENT_TIMESTAMP(),
+			server_id = #{serverId},
+			source_code_path =
+			#{sourceCodePath},
+			new_source_type =
+			#{newSourceType}
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<insert id="insert"
+		parameterType="com.administrator.platform.model.CodeCoverage">
+		insert into tb_code_coverage (id,
+		project_name,
+		newer_remote_url,
+		older_remote_url,
+		newer_version,
+		older_version,
+		tcp_server_ip,
+		tcp_server_port,
+		username,
+		password,
+		description,
+		increment_code_coverage_data_url,
+		whole_code_coverage_data_url,
+		version_control_type,
+		build_type,
+		need_compile,
+		dependency_projects,
+		jdk_version,
+		channel_name,
+		create_date,
+		update_date,
+		server_id,
+		source_code_path,
+		new_source_type
+		)
+		values
+		(#{id,jdbcType=BIGINT},
+		#{projectName,jdbcType=VARCHAR},
+		#{newerRemoteUrl,jdbcType=VARCHAR},
+		#{olderRemoteUrl,jdbcType=VARCHAR},
+		#{newerVersion,jdbcType=VARCHAR},
+		#{olderVersion,jdbcType=VARCHAR},
+		#{tcpServerIp,jdbcType=VARCHAR},
+		#{tcpServerPort,jdbcType=VARCHAR},
+		#{username,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		#{incrementCodeCoverageDataUrl,jdbcType=VARCHAR},
+		#{wholeCodeCoverageDataUrl,jdbcType=VARCHAR},
+		#{versionControlType,jdbcType=VARCHAR},
+		#{buildType,jdbcType=VARCHAR},
+		#{needCompile,jdbcType=VARCHAR},
+		#{dependencyProjects,jdbcType=VARCHAR},
+		#{jdkVersion,jdbcType=VARCHAR},
+		#{channelName,jdbcType=VARCHAR},
+		CURRENT_TIMESTAMP(),
+		CURRENT_TIMESTAMP(),
+		#{serverId},
+		#{sourceCodePath},
+		#{newSourceType}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.administrator.platform.model.CodeCoverage">
+		insert into tb_code_coverage
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="projectName != null">
+				project_name,
+			</if>
+			<if test="newerRemoteUrl != null">
+				newer_remote_url,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+			<if test="versionControlType != null">
+				version_control_type ,
+			</if>
+			<if test="buildType != null">
+				build_type ,
+			</if>
+
+			<if test="needCompile != null">
+				need_compile ,
+			</if>
+
+			<if test="jdkVersion != null">
+				jdk_version ,
+			</if>
+			<if test="channelName != null">
+				channnel_name ,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="projectName != null">
+				#{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="newerRemoteUrl != null">
+				#{newerRemoteUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="versionControlType != null">
+				#{versionControlType,jdbcType=VARCHAR},
+			</if>
+			<if test="buildType != null">
+				#{buildType,jdbcType=VARCHAR},
+			</if>
+			<if test="needCompile != null">
+				#{needCompile,jdbcType=VARCHAR},
+			</if>
+			<if test="jdkVersion != null">
+				#{jdkVersion,jdbcType=VARCHAR},
+			</if>
+			<if test="channelName != null">
+				#{channelName,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+</mapper>

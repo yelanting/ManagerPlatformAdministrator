@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>添加其他环境地址</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body>
+	<form id="addOtherAddressForm" class="layui-form layui-form-pane"
+		method="post">
+		<div class="layui-form-item">
+			<label class="layui-form-label">项目名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="projectName" name="projectName"
+					class="layui-input projectName" lay-verify="projectName"
+					placeholder="请输入项目名称" maxLength=50>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">访问地址</label>
+			<div class="layui-input-block">
+				<input type="text" id="url" name="url" class="layui-input url"
+					placeholder="请输入访问Url" lay-verify="url" maxLength=50 />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<textarea id="description" name="description"
+					class="layui-textarea description" placeholder="请输入备注"
+					lay-verify="description" maxLength=100></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button id="addOtherAddressSubmit" class="layui-btn" lay-submit=""
+					lay-filter="addOtherAddressSubmit">立即提交</button>
+				<button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../commonCheck.js"></script>
+	<script type="text/javascript" src="addOtherAddress.js"></script>
+</body>
+</html>

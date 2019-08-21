@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>上传文件</title>
+<link rel="stylesheet" href="/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+	<div class="layui-form-item ccUploadFileNoneGradle">
+		<div class="layui-inline">
+			<label class="layui-form-label" for="uploadClasses">Class压缩文件</label>
+			<!-- 			<div class="layui-upload"> -->
+			<button type="button" class="layui-btn layui-btn-normal ccUploadFile"
+				id="uploadClasses" name="uploadClasses">
+				<i class="layui-icon layui-icon-upload-circle"></i>选择Class文件(zip)
+			</button>
+			<button type="button" class="layui-btn" id="startToUploadClasses"
+				name="startToUploadClasses">上传</button>
+			<!-- 			</div> -->
+		</div>
+	</div>
+
+	<div class="layui-form-item ccUploadFileNoneGradle">
+		<div class="layui-inline">
+			<label class="layui-form-label" for="uploadWholeProject">工程压缩文件</label>
+			<!-- 			<div class="layui-upload"> -->
+			<button type="button" class="layui-btn layui-btn-normal ccUploadFile"
+				id="uploadWholeProject" name="uploadWholeProject">
+				<i class="layui-icon layui-icon-upload-circle"></i>选择工程文件(含源码和Class)
+			</button>
+			<button type="button" class="layui-btn"
+				id="startToUploadWholeProject" name="startToUploadWholeProject">上传</button>
+			<!-- 			</div> -->
+		</div>
+	</div>
+	<div class="layui-form-item ccUploadFileNoneGradle">
+		<div class="layui-inline">
+			<label class="layui-form-label" for="uploadWholeOldProject">旧代码工程压缩文件</label>
+			<!-- 			<div class="layui-upload"> -->
+			<button type="button" class="layui-btn layui-btn-normal ccUploadFile"
+				id="uploadWholeOldProject" name="uploadWholeOldProject">
+				<i class="layui-icon layui-icon-upload-circle"></i>选择旧代码工程文件(只需要源码)
+			</button>
+			<button type="button" class="layui-btn"
+				id="startToUploadWholeOldProject"
+				name="startToUploadWholeOldProject">上传</button>
+			<!-- 			</div> -->
+		</div>
+	</div>
+
+	<div class="layui-form-item ccUploadFileGradle">
+		<div class="layui-inline">
+			<label class="layui-form-label" for="uploadExecFile">覆盖率数据文件</label>
+			<!-- 			<div class="layui-upload"> -->
+			<button type="button" class="layui-btn layui-btn-normal ccUploadFile"
+				id="uploadExecFile" name="uploadExecFile">
+				<i class="layui-icon layui-icon-upload-circle"></i>选择App端覆盖率文件
+			</button>
+			<button type="button" class="layui-btn" id="startToUploadExecFile"
+				name="startToUploadExecFile">上传</button>
+			<!-- 			</div> -->
+		</div>
+	</div>
+	<script src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script src="../../CommonUtil.js"></script>
+	<script src="commonOperation.js"></script>
+	<script src="uploadFiles.js"></script>
+</body>
+</html>

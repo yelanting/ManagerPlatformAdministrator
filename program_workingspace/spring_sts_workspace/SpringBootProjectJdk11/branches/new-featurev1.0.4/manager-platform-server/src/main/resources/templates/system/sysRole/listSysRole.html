@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>系统角色列表</title>
+<link rel="stylesheet" href="/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="listSysRole.css" media="all">
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+	<blockquote class="layui-elem-quote quoteBox">
+		<form class="layui-form">
+			<div class="layui-inline">
+				<div class="layui-input-inline">
+					<input id="serachSysRoleContent" type="text"
+						class="layui-input searchVal" placeholder="请输入要搜索角色名称"
+						maxLength=50 />
+				</div>
+			</div>
+			<div class="layui-inline">
+				<a id="searchSysRole" class="layui-btn search_btn"
+					data-type="reload">搜索</a>
+			</div>
+			<div class="layui-inline">
+				<a id="addSysRole_btn"
+					class="layui-btn layui-btn-normal addSysRole_btn">添加</a>
+			</div>
+			<div class="layui-inline">
+				<a id="deleteInBatch"
+					class="layui-btn layui-btn-danger layui-btn-normal deleteInBatch"
+					lay-event="deleteInBatch" lay-filter="deleteInBatch">批量删除</a>
+			</div>
+			<div class="layui-inline">
+				<a id="refreshSysRoleList"
+					class="layui-btn layui-btn-success layui-btn-normal refreshSysRoleList"
+					lay-event="refreshSysRoleList"
+					lay-filter="refreshSysRoleList">刷新</a>
+			</div>
+		</form>
+	</blockquote>
+	<table class="layui-hide" id="sysRoleListTable"
+		lay-filter="sysRoleListTable"></table>
+	<script type="text/html" id="operationBar">
+  			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+  			<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+	<script src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script src="listSysRole.js"></script>
+</body>
+</html>

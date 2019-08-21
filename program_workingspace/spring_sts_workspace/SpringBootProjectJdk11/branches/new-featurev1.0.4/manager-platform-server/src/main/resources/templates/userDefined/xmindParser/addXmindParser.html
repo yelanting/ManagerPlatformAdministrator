@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>添加xmind解析管理</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body>
+	<form id="addXmindParserForm" class="layui-form layui-form-pane"
+		method="post" enctype="multipart/form-data">
+		<div class="layui-form-item">
+			<label class="layui-form-label">选择xmind文件</label>
+			<div class="layui-upload">
+				<button type="button" class="layui-btn layui-btn-normal"
+					id="uploadFile" name="uploadFile">选择文件</button>
+				<button type="button" class="layui-btn" id="startUpload"
+					name="startUpload">开始上传</button>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button id="addXmindParserSubmit" class="layui-btn" lay-submit=""
+					lay-filter="addXmindParserSubmit">提交解析</button>
+				<!-- <button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button> -->
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../commonCheck.js"></script>
+	<script type="text/javascript" src="addXmindParser.js"></script>
+</body>
+</html>

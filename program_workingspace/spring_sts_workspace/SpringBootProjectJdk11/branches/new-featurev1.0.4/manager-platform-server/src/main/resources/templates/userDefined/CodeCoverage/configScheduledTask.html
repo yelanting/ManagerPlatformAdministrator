@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>配置定时任务</title>
+<link rel="stylesheet" href="/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+	<form id="addScheduledTask" class="layui-form layui-form-pane"
+		method="post" action="#">
+		<div class="layui-form-item" pane>
+			<label class="layui-form-label formItem-required">是否开启</label>
+			<div class="layui-input-block">
+				<input type="radio" name="enableScheduledCollectingExec" title="是"
+					value="yes" lay-verify="enableScheduledCollectingExec"> <input
+					type="radio" name="enableScheduledCollectingExec" title="否"
+					value="no" lay-verify="enableScheduledCollectingExec" checked>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label formItem-required">秒</label>
+				<div class="layui-input-inline">
+					<input type="text" id="second" name="second"
+						class="layui-input second" placeholder="秒" lay-verify="second"
+						value="0" maxLength=10 />
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label formItem-required">分</label>
+				<div class="layui-input-inline">
+					<input type="text" id="minute" name="minute"
+						class="layui-input minute" placeholder="分" lay-verify="minute"
+						maxLength=10 value="/10" />
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label formItem-required">时</label>
+				<div class="layui-input-inline">
+					<input type="text" id="hour" name="hour" class="layui-input hour"
+						placeholder="时" lay-verify="hour" maxLength=10 value="*" />
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label formItem-required">天/月</label>
+				<div class="layui-input-inline">
+					<input type="text" id="dayOfMonth" name="dayOfMonth"
+						class="layui-input dayOfMonth" placeholder="一月的哪些天"
+						lay-verify="dayOfMonth" value="*" maxLength=10 />
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label formItem-required">月</label>
+				<div class="layui-input-inline">
+					<input type="text" id="month" name="month"
+						class="layui-input month" placeholder="月" lay-verify="month"
+						value="*" maxLength=10 />
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label formItem-required">天/星期</label>
+				<div class="layui-input-inline">
+					<input type="text" id="dayOfWeek" name="dayOfWeek"
+						class="layui-input dayOfWeek" placeholder="一周的哪些天"
+						lay-verify="dayOfWeek" value="?" maxLength=20 />
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label formItem-required">年</label>
+				<div class="layui-input-inline">
+					<input type="text" id="year" name="year" class="layui-input year"
+						placeholder="年" lay-verify="year" value="*" maxLength=10 />
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button id="configScheduleTaskSubmit" class="layui-btn"
+					lay-submit="" lay-filter="configScheduleTaskSubmit">立即提交</button>
+			</div>
+		</div>
+	</form>
+	<hr class="layui-bg-black">
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">检测表达式</label>
+			<div class="layui-input-inline">
+				<button id="checkCron" class="layui-btn  checkCron"
+					lay-filter="checkCron">检测</button>
+			</div>
+		</div>
+		<div class="layui-inline">
+			<label class="layui-form-label">定时表达式</label>
+			<div class="layui-input-inline">
+				<span id="scheduledConfigExpress"
+					class="layui-input scheduledConfigExpress"></span>
+			</div>
+		</div>
+	</div>
+	<script src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script src="../../CommonUtil.js"></script>
+	<script src="commonOperation.js"></script>
+	<script src="configScheduledTask.js"></script>
+</body>
+</html>

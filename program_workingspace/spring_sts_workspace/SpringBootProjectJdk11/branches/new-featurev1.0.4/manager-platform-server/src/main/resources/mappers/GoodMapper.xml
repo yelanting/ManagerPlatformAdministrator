@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.administrator.platform.mapper.GoodMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.Good">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="create_date" jdbcType="VARCHAR"
+			property="createDate" />
+		<result column="good_desc" jdbcType="VARCHAR"
+			property="goodDesc" />
+		<result column="good_name" jdbcType="VARCHAR"
+			property="goodName" />
+		<result column="good_type_id" jdbcType="BIGINT"
+			property="goodTypeId" />
+		<result column="update_date" jdbcType="VARCHAR"
+			property="updateDate" />
+
+		<result column="good_code" jdbcType="VARCHAR"
+			property="goodCode" />
+
+		<result column="borrowed_times" jdbcType="BIGINT"
+			property="borrowedTimes" />
+
+		<result column="give_back_times" jdbcType="BIGINT"
+			property="giveBackTimes" />
+
+		<result column="good_status" jdbcType="VARCHAR"
+			property="goodStatus" />
+		<result column="current_owner" jdbcType="VARCHAR"
+			property="currentOwner" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		create_date,
+		good_desc,
+		good_name,
+		good_type_id,
+		update_date,
+		good_code,
+		borrowed_times,
+		give_back_times,
+		good_status,
+		current_owner
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_good
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="findGoodsByGoodName"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_good
+		where good_name = #{goodName}
+	</select>
+
+	<select id="findGoodsByGoodNameLike"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_good
+		where good_name like CONCAT(#{goodName} ,'%')
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_good
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		tb_good
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<delete id="deleteGoodsByGoodTypeId"
+		parameterType="java.lang.Long">
+		delete from
+		tb_good
+		where good_type_id =
+		#{id,jdbcType=BIGINT}
+	</delete>
+
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		delete from
+		tb_good
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+
+	<insert id="insert"
+		parameterType="com.administrator.platform.model.Good">
+		insert into tb_good (id,
+		create_date,
+		good_desc,
+		good_name,
+		good_type_id,
+		update_date,
+		good_code,
+		borrowed_times,
+		give_back_times,
+		good_status,
+		current_owner
+		)
+		values
+		(#{id,jdbcType=BIGINT},
+		CURRENT_TIMESTAMP(),
+		#{goodDesc,jdbcType=VARCHAR},
+		#{goodName,jdbcType=VARCHAR},
+		#{goodTypeId,jdbcType=BIGINT},
+		CURRENT_TIMESTAMP(),
+		#{goodCode,jdbcType=VARCHAR},
+		#{borrowedTimes,jdbcType=BIGINT},
+		#{giveBackTimes,jdbcType=BIGINT},
+		#{goodStatus,jdbcType=VARCHAR},
+		#{currentOwner,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.administrator.platform.model.Good">
+		insert into tb_good
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			create_date,
+			<if test="goodDesc != null">
+				good_desc,
+			</if>
+			<if test="goodName != null">
+				good_name,
+			</if>
+			<if test="goodTypeId != null">
+				good_type_id,
+			</if>
+			update_date,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			CURRENT_TIMESTAMP(),
+			<if test="goodDesc != null">
+				#{goodDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="goodName != null">
+				#{goodName,jdbcType=VARCHAR},
+			</if>
+			<if test="goodTypeId != null">
+				#{goodTypeId,jdbcType=BIGINT},
+			</if>
+			CURRENT_TIMESTAMP(),
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.administrator.platform.model.Good">
+		update tb_good
+		<set>
+			<if test="goodDesc != null">
+				good_desc = #{goodDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="goodName != null">
+				good_name = #{goodName,jdbcType=VARCHAR},
+			</if>
+			<if test="goodTypeId != null">
+				good_type_id = #{goodTypeId,jdbcType=BIGINT},
+			</if>
+			update_date = CURRENT_TIMESTAMP()
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.Good">
+		update tb_good
+		<set>
+			<if test="currentOwner != null">
+				current_owner = #{currentOwner,jdbcType=VARCHAR},
+			</if>
+			<if test="goodStatus != null">
+				good_status
+				=#{goodStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="borrowedTimes != null and borrowedTimes != 0">
+				borrowed_times =
+				#{borrowedTimes,jdbcType=BIGINT},
+			</if>
+			<if test="giveBackTimes != null and giveBackTimes != 0">
+				give_back_times =
+				#{giveBackTimes,jdbcType=BIGINT},
+			</if>
+			good_desc =
+			#{goodDesc,jdbcType=VARCHAR},
+			good_name =
+			#{goodName,jdbcType=VARCHAR},
+			good_type_id =
+			#{goodTypeId,jdbcType=BIGINT},
+			update_date =
+			CURRENT_TIMESTAMP(),
+			good_code = #{goodCode,jdbcType=VARCHAR}
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

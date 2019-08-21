@@ -1,0 +1,229 @@
+{
+	"contentManagement": [
+		{
+			"title": "地址管理",
+			"icon": "&#xe630;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "测试环境地址",
+					"icon": "&#xe630;",
+					"href": "userDefined/testEnv/listEnvAddress.html",
+					"spread": false
+				},
+				{
+					"title": "内部其他地址",
+					"icon": "&#xe630;",
+					"href": "userDefined/otherAddress/listOtherAddress.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "物品管理",
+			"icon": "&#xe630;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "物品种类",
+					"icon": "&#xe630;",
+					"href": "userDefined/goodType/listGoodType.html",
+					"spread": false
+				},
+				{
+					"title": "物品列表",
+					"icon": "&#xe630;",
+					"href": "userDefined/good/listGood.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "工具管理",
+			"icon": "&#xe630;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "Java源代码解析",
+					"icon": "&#xe630;",
+					"href": "userDefined/fileParser/listFileParser.html",
+					"spread": false
+				},
+				{
+					"title": "Xmind文件解析",
+					"icon": "&#xe630;",
+					"href": "userDefined/xmindParser/listXmindParser.html",
+					"spread": false
+				},
+				{
+					"title": "代码覆盖率统计",
+					"icon": "&#xe630;",
+					"href": "userDefined/CodeCoverage/listCodeCoverage.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "服务器管理",
+			"icon": "&#xe630;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "服务器管理",
+					"icon": "&#xe630;",
+					"href": "userDefined/serverInfo/listServerInfo.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "定时任务",
+			"icon": "&#xe630;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "定时任务",
+					"icon": "&#xe630;",
+					"href": "userDefined/timerTask/listTimerTask.html",
+					"spread": false
+				},
+				{
+					"title": "策略",
+					"icon": "&#xe630;",
+					"href": "userDefined/timerTaskPolicy/listTimerTaskPolicy.html",
+					"spread": false
+				},
+				{
+					"title": "任务监控",
+					"icon": "&#xe630;",
+					"href": "userDefined/timerTaskMonitor/listTimerTaskMonitor.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "云效接入",
+			"icon": "&#xe630;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "任务调度",
+					"icon": "&#xe61c;",
+					"href": "/userDefined/taskScheduler/listTask.html",
+					"spread": false
+				},
+				{
+					"title": "执行机信息",
+					"icon": "&#xe609;",
+					"href": "/userDefined/agentRegister/listExecutorAgent.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "接口测试",
+			"icon": "&#xe630;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "Dubbo接口测试",
+					"icon": "&#xe630;",
+					"href": "userDefined/dubboTest/listDubboTest.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "其他页面",
+			"icon": "&#xe630;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "404页面",
+					"icon": "&#xe61c;",
+					"href": "page/404.html",
+					"spread": false
+				},
+				{
+					"title": "登录",
+					"icon": "&#xe609;",
+					"href": "page/login/login.html",
+					"spread": false,
+					"target": "_blank"
+				}
+			]
+		}
+	],
+	"memberCenter": [
+		{
+			"title": "用户中心",
+			"icon": "&#xe612;",
+			"href": "page/user/listSysUser.html",
+			"spread": false
+		},
+		{
+			"title": "角色管理",
+			"icon": "&#xe612;",
+			"href": "system/sysRole/listSysRole.html",
+			"spread": false
+		}
+	],
+	"systemeSttings": [
+		{
+			"title": "系统基本参数",
+			"icon": "&#xe631;",
+			"href": "page/systemSetting/basicParameter.html",
+			"spread": false
+		},
+		{
+			"title": "图标管理",
+			"icon": "&#xe857;",
+			"href": "page/systemSetting/icons.html",
+			"spread": false
+		},
+		{
+			"title": "系统信息",
+			"icon": "&#xe857;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "性能信息",
+					"icon": "&#xe630;",
+					"href": "userDefined/systemInfo/listSystemInfo.html",
+					"spread": false
+				},
+				{
+					"title": "druid监控",
+					"icon": "&#xe630;",
+					"href": "/druid",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "全局参数配置",
+			"icon": "&#xe631;",
+			"href": "userDefined/globalParamConfig/listGlobalParam.html",
+			"spread": false
+		}
+	],
+	"seraphApi": [
+		{
+			"title": "后台接口文档",
+			"icon": "icon-mokuai",
+			"href": "swagger-ui.html",
+			"spread": false
+		}
+	]
+}
+
+

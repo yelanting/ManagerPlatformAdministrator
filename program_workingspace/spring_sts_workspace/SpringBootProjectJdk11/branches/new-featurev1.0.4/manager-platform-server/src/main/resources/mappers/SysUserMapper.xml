@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.administrator.platform.mapper.SysUserMapper">
+	<resultMap id="BaseResultMap"
+		type="com.administrator.platform.model.SysUser">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="user_account" jdbcType="VARCHAR"
+			property="userAccount" />
+		<result column="user_password" jdbcType="VARCHAR"
+			property="userPassword" />
+		<result column="user_nickname" jdbcType="VARCHAR"
+			property="userNickname" />
+		<result column="mobile_phone" jdbcType="VARCHAR"
+			property="mobilePhone" />
+		<result column="sex" jdbcType="VARCHAR" property="sex" />
+		<result column="user_status" jdbcType="VARCHAR"
+			property="userStatus" />
+		<result column="create_date" jdbcType="TIMESTAMP"
+			property="createDate" />
+		<result column="update_date" jdbcType="TIMESTAMP"
+			property="updateDate" />
+		<result column="admin" jdbcType="VARCHAR" property="admin" />
+		<result column="deleted" jdbcType="VARCHAR" property="deleted" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		user_account,
+		user_password,
+		user_nickname,
+		mobile_phone,
+		sex,
+		user_status,
+		create_date,
+		update_date,
+		admin,
+		deleted
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="findSysUserByUserAccount"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+		where user_account = #{userAccount}
+	</select>
+
+	<select id="findSysUsersByUserAccountLike"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+		where user_account like CONCAT(#{userAccount},'%')
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		sys_user
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.administrator.platform.model.SysUser">
+		insert into sys_user (id, user_account, user_password,
+		user_nickname, mobile_phone, sex,
+		user_status, create_date,
+		update_date,
+		admin ,
+		deleted)
+		values (#{id,jdbcType=VARCHAR},
+		#{userAccount,jdbcType=VARCHAR},
+		#{userPassword,jdbcType=VARCHAR},
+		#{userNickname,jdbcType=VARCHAR},
+		#{mobilePhone,jdbcType=VARCHAR},
+		#{sex,jdbcType=VARCHAR},
+		#{userStatus,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{admin,jdbcType=VARCHAR},
+		#{deleted,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.administrator.platform.model.SysUser">
+		insert into sys_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userAccount != null">
+				user_account,
+			</if>
+			<if test="userPassword != null">
+				user_password,
+			</if>
+			<if test="userNickname != null">
+				user_nickname,
+			</if>
+			<if test="mobilePhone != null">
+				mobile_phone,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="userStatus != null">
+				user_status,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="admin != null">
+				admin,
+			</if>
+			<if test="deleted != null">
+				deleted,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="userAccount != null">
+				#{userAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="userPassword != null">
+				#{userPassword,jdbcType=VARCHAR},
+			</if>
+			<if test="userNickname != null">
+				#{userNickname,jdbcType=VARCHAR},
+			</if>
+			<if test="mobilePhone != null">
+				#{mobilePhone,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="userStatus != null">
+				#{userStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="admin != null">
+				#{admin,jdbcType=VARCHAR},
+			</if>
+			<if test="deleted != null">
+				#{deleted,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.administrator.platform.model.SysUser">
+		update sys_user
+		<set>
+			<if test="userAccount != null">
+				user_account = #{userAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="userPassword != null">
+				user_password = #{userPassword,jdbcType=VARCHAR},
+			</if>
+			<if test="userNickname != null">
+				user_nickname = #{userNickname,jdbcType=VARCHAR},
+			</if>
+			<if test="mobilePhone != null">
+				mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="userStatus != null">
+				user_status = #{userStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="admin != null">
+				admin = #{admin,jdbcType=VARCHAR},
+			</if>
+			<if test="deleted != null">
+				deleted = #{deleted,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.administrator.platform.model.SysUser">
+		update sys_user
+		set user_account =
+		#{userAccount,jdbcType=VARCHAR},
+		user_password =
+		#{userPassword,jdbcType=VARCHAR},
+		user_nickname =
+		#{userNickname,jdbcType=VARCHAR},
+		mobile_phone =
+		#{mobilePhone,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=VARCHAR},
+		user_status = #{userStatus,jdbcType=VARCHAR},
+		create_date =
+		#{createDate,jdbcType=TIMESTAMP},
+		update_date =
+		#{updateDate,jdbcType=TIMESTAMP},
+		admin = #{admin,jdbcType=VARCHAR},
+		deleted = #{deleted,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		delete from
+		sys_user
+		where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+	<select id="getSysUsersByRoleId" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user su , sys_user_role sur where su.id = sur.user_id and
+		sur.role_id = #{id}
+	</select>
+</mapper>
