@@ -54,11 +54,11 @@ manager-platform-server/src/main/resources
 日志的产生，跟运行命令的目录有关，
 建议，cd到manager-platform-server中运行
 
-nohup java -jar target/yunxiaoconnect-server-0.0.1.jar > log.file 2>&1 &
+nohup java -jar target/manager-platform-server-0.0.1.jar > log.file 2>&1 &
 
 运行之后,不切换目录，运行
 tail -200f log.file
-等待日志中出现，Started YunXiaoConnectServerApplication in 5.437 seconds (JVM running for 6.246)
+等待日志中出现，Started **Application in 5.437 seconds (JVM running for 6.246)
 如此内容，代表启动成功，默认端口为8020
 稍后可以http://xxxx:8020访问
 
