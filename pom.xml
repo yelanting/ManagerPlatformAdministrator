@@ -43,7 +43,7 @@
 		<lombok.version>1.18.8</lombok.version>
 		<swagger.starter.version>1.8.0.RELEASE</swagger.starter.version>
 		<testng.version>6.14.3</testng.version>
-		<jackson.databind.version>2.9.10</jackson.databind.version>
+		<jackson.databind.version>2.10.0.pr3</jackson.databind.version>
 		<commons-io.version>2.6</commons-io.version>
 		<jersey-client.version>1.19.4</jersey-client.version>
 		<jenkins.rest.version>0.0.13</jenkins.rest.version>
