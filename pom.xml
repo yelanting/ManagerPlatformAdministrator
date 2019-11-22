@@ -20,7 +20,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.6.RELEASE</version>
+		<version>2.1.8.RELEASE</version>
 		<relativePath />
 		<!-- lookup parent from repository -->
 	</parent>
@@ -35,7 +35,7 @@
 		<jacoco.local.version>0.8.1-SNAPSHOT</jacoco.local.version>
 		<asm.version>7.1</asm.version>
 
-		<springboot.version>2.1.6.RELEASE</springboot.version>
+		<springboot.version>2.1.8.RELEASE</springboot.version>
 		<mybatis.starter.version>2.0.1</mybatis.starter.version>
 		<mysql.connector.version>8.0.16</mysql.connector.version>
 		<druid.version>1.1.16</druid.version>
@@ -116,14 +116,17 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
+			<version>${jackson.databind.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.databind.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-joda</artifactId>
+			<version>${jackson.databind.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
@@ -502,7 +505,33 @@
 				<version>${springboot.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt</artifactId>
+				<version>0.9.1</version>
+			</dependency>
 
+			<dependency>
+				<groupId>com.github.axet</groupId>
+				<artifactId>kaptcha</artifactId>
+				<version>0.0.9</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-core-asl</artifactId>
+				<version>1.9.13</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>1.9.13</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-guava -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.datatype</groupId>
+				<artifactId>jackson-datatype-guava</artifactId>
+				<version>${jackson.databind.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>

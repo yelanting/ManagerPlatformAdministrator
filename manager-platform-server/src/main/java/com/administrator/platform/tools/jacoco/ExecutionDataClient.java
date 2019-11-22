@@ -67,7 +67,7 @@ public final class ExecutionDataClient {
 		}
 
 		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = codeBuildIntf
-		        .getCodeCoverageFilesAndFoldersDTOs(folderPath);
+		        .getCodeCoverageFilesAndFolders(folderPath);
 
 		dumpExecData(folderPath, codeCoverageFilesAndFoldersDTOs);
 	}
@@ -116,7 +116,7 @@ public final class ExecutionDataClient {
 		dumpExecDataToFile(parentFolderExecFile);
 
 		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = new CodeBuildMaven()
-		        .getCodeCoverageFilesAndFoldersDTOs(folderPath);
+		        .getCodeCoverageFilesAndFolders(folderPath);
 		dumpExecData(codeCoverageFilesAndFoldersDTOs);
 	}
 
@@ -240,9 +240,18 @@ public final class ExecutionDataClient {
 	 * @return
 	 */
 	private String getExecFilesBackUpFolder() {
+		// return JacocoOperationUtil.getJacocoCoverageExecBackupFolder()
+		// + File.separator + this.jacocoAgentTcpServer.getJacocoAgentIp()
+		// + "_" + this.jacocoAgentTcpServer.getJacocoAgentPort();
+		return getExecFilesBackUpFolderFromJacocoAgentServer(
+		        this.jacocoAgentTcpServer);
+	}
+
+	public static String getExecFilesBackUpFolderFromJacocoAgentServer(
+	        JacocoAgentTcpServer jacocoAgentTcpServer) {
 		return JacocoOperationUtil.getJacocoCoverageExecBackupFolder()
-		        + File.separator + this.jacocoAgentTcpServer.getJacocoAgentIp()
-		        + "_" + this.jacocoAgentTcpServer.getJacocoAgentPort();
+		        + File.separator + jacocoAgentTcpServer.getJacocoAgentIp() + "_"
+		        + jacocoAgentTcpServer.getJacocoAgentPort();
 	}
 
 	/**

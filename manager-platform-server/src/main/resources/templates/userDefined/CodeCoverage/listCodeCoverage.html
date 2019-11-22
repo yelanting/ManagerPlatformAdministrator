@@ -51,18 +51,23 @@
 	<a id="getWholeData" class="layui-btn layui-btn-disabled   layui-btn-xs" lay-event="getWholeData" onclick="return false;" disabled>没有全量</a>
 	-->
 	<table class="layui-hide" id="codeCoverageListTable"
-		lay-filter="codeCoverageListTable"></table>
+		lay-filter="codeCoverageListTable" lay-size="sm"></table>
 	<script type="text/html" id="operationBar">
-			<a id="edit" class="layui-btn   layui-btn-xs layui-btn-primary" lay-event="edit" title="编辑">
+			<a id="edit" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="edit" title="编辑">
 				<i class="fa fa-pencil"></i>
 			</a>
   			<a id="del" class="layui-btn layui-btn-danger   layui-btn-xs" lay-event="del" title="删除">
 				<i class="fa fa-trash"></i>
 			</a>
-			<a id="createIncrementData" class="layui-btn layui-btn-primary   layui-btn-xs" title="class优先顺序:上传>当前文件夹>现编译" lay-event="createIncrementData">生成增量</a>
-			<a id="createAllData" class="layui-btn layui-btn-primary   layui-btn-xs" title="class优先顺序:上传>当前文件夹>现编译" lay-event="createAllData">生成全量</a>
+			<a id="createIncrementData" class="layui-btn layui-btn-primary   layui-btn-xs" title="全流程-生成增量报告" lay-event="createIncrementData">生成增量</a>
+			<a id="createAllData" class="layui-btn layui-btn-primary   layui-btn-xs" title="全流程-生成全量报告" lay-event="createAllData">生成全量</a>
+			<a id="fastCreateIncrementData" class="layui-btn layui-btn-success   layui-btn-xs" title="快速-生成增量报告,默认所有数据已经准备好，直接生成,在没有重新部署环境且已经生成成功过一次后可使用" lay-event="fastCreateIncrementData">快速增量</a>
+			<a id="fastCreateAllData" class="layui-btn layui-btn-success   layui-btn-xs" title="快速-生成全量报告,默认所有数据已经准备好，直接生成，在没有重新部署环境且已经生成成功过一次后可使用" lay-event="fastCreateAllData">快速全量</a>
             <a id="uploadClasses" class="layui-btn layui-btn-primary   layui-btn-xs" title="上传文件" lay-event="uploadFiles">
 				<i class="fa fa-upload"></i>上传
+			</a>
+			<a id="clearBackUpExecData" class="layui-btn layui-btn-danger   layui-btn-xs" title="清理备份下来的覆盖率数据文件-慎用"  lay-event="clearBackUpExecData">
+				<i class="fa fa-trash"></i>清理备份
 			</a>
 			
 			<!-- 

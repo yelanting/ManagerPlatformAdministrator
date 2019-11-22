@@ -25,11 +25,7 @@ public enum RoleType {
 	/**
 	 * 普通用户
 	 */
-	ROLE_NORMAL("普通用户", RoleTypeEn.ROLE_TYPE_EN_USER),
-	/**
-	 * 访客
-	 */
-	ROLE_GUEST("访客", RoleTypeEn.ROLE_TYPE_EN_USER);
+	ROLE_NORMAL("普通用户", RoleTypeEn.ROLE_TYPE_EN_USER);
 
 	/**
 	 * 中文名

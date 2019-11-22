@@ -172,86 +172,6 @@ public class VcsCommonUtil {
 		        .getCurrentSystemFileStorePath(olderProjectFolderName);
 	}
 
-	// /**
-	// * 获取变更文件列表
-	// *
-	// * @see :
-	// * @param :
-	// * @return : List<ChangeFile>
-	// * @param codeCoverage
-	// * @return
-	// */
-	// public static List<ChangeFile> getChangeFileList(
-	// CodeCoverage codeCoverage) {
-	// logger.debug("开始获取变更文件列表");
-	// List<ChangeFile> changeFiles = null;
-	// 如果两个url相同
-	// if (codeCoverage.getNewerRemoteUrl()
-	// .equals(codeCoverage.getOlderRemoteUrl())) {
-	// VCSType vcsType = codeCoverage.getVersionControlType();
-	//
-	// if (vcsType == VCSType.GIT) {
-	// return new ArrayList<ChangeFile>();
-	// } else if (vcsType == VCSType.SVN) {
-	// SvnClientUtil svnClientUtilNewer = new SvnClientUtil(
-	// codeCoverage.getNewerRemoteUrl(), codeCoverage);
-	// SvnClientUtil svnClientUtilOlder = new SvnClientUtil(
-	// codeCoverage.getOlderRemoteUrl(), codeCoverage);
-	//
-	// // 如果URL相同
-	// if (codeCoverage.getOlderRemoteUrl()
-	// .equals(codeCoverage.getNewerRemoteUrl())) {
-	// if (StringUtil.isEmpty(codeCoverage.getNewerVersion())
-	// && StringUtil
-	// .isEmpty(codeCoverage.getOlderVersion())) {
-	// codeCoverage.setNewerVersion(svnClientUtilNewer
-	// .getLastCommitedRevision().toString());
-	// codeCoverage.setOlderVersion(svnClientUtilNewer
-	// .getFirstCommitedRevision().toString());
-	// }
-	// changeFiles = svnClientUtilNewer
-	// .getChangeFileListFromRemoteUrl(
-	// codeCoverage.getNewerRemoteUrl(),
-	// Long.parseLong(
-	// codeCoverage.getOlderVersion()),
-	// Long.parseLong(
-	// codeCoverage.getNewerVersion()));
-	//
-	// Util.displayListInfo(changeFiles);
-	// return changeFiles;
-	// } else {
-	// return new ArrayList<>();
-	// }
-	// } else {
-	// return new ArrayList<>();
-	// }
-	// }
-
-	// 如果两个url不同
-	// 先拿到两个文件夹
-
-	// File newerFileFolder = VcsCommonUtil
-	// .parseNewProjectFolderFromCodeCoverage(codeCoverage);
-	// File olderFileFolder = VcsCommonUtil.parseOldProjectFolderFromCodeCoverage(
-	// codeCoverage);logger.debug("开始比较两个不同文件夹下的源文件:{}-->{}",newerFileFolder.getAbsolutePath(),olderFileFolder.getAbsolutePath());
-	// // 然后对比两个文件夹的差异文件
-	// List<MethodInfo> methodInfos = DiffAST.diffFilesWithTwoLocalDirs(
-	// newerFileFolder.getAbsolutePath(),
-	// olderFileFolder.getAbsolutePath());
-	//
-	// changeFiles=new ArrayList<>();for(
-	// MethodInfo methodInfo:methodInfos)
-	// {
-	// ChangeFile changeFile = new ChangeFile();
-	// changeFile.setPackageName(methodInfo.getPackages());
-	// changeFile.setFileName(
-	// methodInfo.getClassName() + JacocoDefine.JAVA_SUFFIX);
-	// changeFiles.add(changeFile);
-	// }
-	// // Util.displayListInfo(changeFiles);
-	// return changeFiles;
-	// }
-
 	/**
 	 * 获取变更文件列表
 	 * 
@@ -338,9 +258,28 @@ public class VcsCommonUtil {
 		        + FileSuffix.ZIP_FILE.getFileType();
 	}
 
-	public static void main(String[] args) {
-		String svnUrlRoot = "http://sunliuping@gitlab.hztianque.com/social/zhoushan.git";
-
-		System.out.println(getProjectNameFromRemoteUrl(svnUrlRoot));
+	/**
+	 * 解析新版本文件夹
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : File
+	 * @param codeCoverage
+	 * @return
+	 */
+	public static String parseNewProjectFolderFromUrlAndVersion(
+	        String remoteUrl, String remoteVersion) {
+		boolean newVersionEmpty = StringUtil.isEmpty(remoteVersion);
+		if (StringUtil.isEmpty(remoteUrl)) {
+			return null;
+		}
+		String suffixFolderFromNewerVersion = newVersionEmpty
+		        ? JacocoDefine.DEFAULT_NEWER_FOLDER_SUFFIX
+		        : "_" + remoteVersion.replace("/", "_");
+		String newerProjectFolderName = VcsCommonUtil
+		        .getProjectNameFromRemoteUrl(remoteUrl)
+		        + suffixFolderFromNewerVersion;
+		logger.debug("新代码的存放文件夹路径为:{}", newerProjectFolderName);
+		return newerProjectFolderName;
 	}
 }

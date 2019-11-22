@@ -6,33 +6,38 @@ package com.administrator.platform.model;
  * @see :
  */
 public class SysUserRole {
-    private Long id;
-    private String userId;
+	private Long id;
+	private Long userId;
 
-    private String roleId;
+	private Long roleId;
 
-    public String getUserId() {
-        return userId;
-    }
+	public Long getUserId() {
+		return userId;
+	}
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getRoleId() {
-        return roleId;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId == null ? null : roleId.trim();
-    }
+	public Long getRoleId() {
+		return roleId;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 
+	public SysUserRole(Long userId, Long roleId) {
+		super();
+		this.userId = userId;
+		this.roleId = roleId;
+	}
 }

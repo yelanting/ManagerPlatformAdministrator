@@ -1,19 +1,17 @@
-layui.use([
-		'form', 'layer'
-], function() {
+layui.use([ 'form', 'layer' ], function() {
 	var form = layui.form
 	layer = parent.layer === undefined ? layui.layer : top.layer,
 			$ = layui.jquery;
 
 	form.verify({
 		userAccount : function(val) {
-			var inputName = "登陆账号"
+			var inputName = "登录帐号"
 			return checkInputEmpty(val, inputName)
 					|| checkInputLength(val, null, 50, inputName)
 		},
 
 		userPassword : function(val) {
-			var inputName = "登陆密码";
+			var inputName = "登录密码";
 			return checkInputEmpty(val, inputName)
 					|| checkInputLength(val, null, 50, inputName)
 		},
@@ -27,7 +25,9 @@ layui.use([
 	form.on("submit(addSysUserSubmit)", function(data) {
 		// 弹出loading
 		var index = top.layer.msg('数据提交中，请稍候', {
-			icon : 16, time : false, shade : 0.8
+			icon : 16,
+			time : false,
+			shade : 0.8
 		});
 		var postData = $("#addSysUserForm").serialize();
 

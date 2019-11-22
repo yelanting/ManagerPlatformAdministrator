@@ -15,6 +15,10 @@ public enum FileSuffix {
 	 * java文件后缀
 	 */
 	JAVA_FILE(".java"),
+	/**
+	 * class文件后缀
+	 */
+	CLASS_FILE(".class"),
 
 	/**
 	 * python文件后缀

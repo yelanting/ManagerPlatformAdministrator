@@ -5,6 +5,7 @@
  */
 package com.administrator.platform.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.quartz.SchedulerException;
@@ -94,6 +95,24 @@ public class TimerTaskServiceImpl implements TimerTaskService {
 	@Override
 	public int deleteTimerTask(Long id) {
 		ValidationUtil.validateNull(id, null);
+
+		/**
+		 * 先变更他的状态。在执行删除
+		 */
+
+		TimerTask timerTask = getTimerTaskById(id);
+
+		if (null == timerTask) {
+			throw new BusinessValidationException("id为[" + id + "]的定时任务不存在");
+		}
+
+		/**
+		 * 如果没有关闭 先关闭
+		 */
+		if (!timerTask.getClosed()) {
+			changeTimerTaskStatus(id, TaskDefine.CLOSE_TASK_OPERATION);
+		}
+
 		try {
 			timerTaskMapper.deleteByPrimaryKey(id);
 			return 1;
@@ -112,6 +131,19 @@ public class TimerTaskServiceImpl implements TimerTaskService {
 	@Override
 	public int deleteTimerTask(Long[] ids) {
 		ValidationUtil.validateArrayNullOrEmpty(ids, null);
+
+		for (Long eachId : ids) {
+			TimerTask timerTask = getTimerTaskById(eachId);
+			if (null == timerTask) {
+				continue;
+			}
+			/**
+			 * 如果没有关闭 先关闭
+			 */
+			if (!timerTask.getClosed()) {
+				changeTimerTaskStatus(eachId, TaskDefine.CLOSE_TASK_OPERATION);
+			}
+		}
 		try {
 			timerTaskMapper.deleteByIds(ids);
 			return 1;
@@ -153,6 +185,8 @@ public class TimerTaskServiceImpl implements TimerTaskService {
 	 *            : 待校验的地址对象
 	 */
 	private void validateInput(TimerTask timerTask) {
+
+		logger.debug("开始校验输入内容:{}", timerTask);
 		// 判空
 		ValidationUtil.validateNull(timerTask, null);
 
@@ -306,5 +340,84 @@ public class TimerTaskServiceImpl implements TimerTaskService {
 		List<TimerTask> searchList = timerTaskMapper
 		        .findTimerTaskWithNameExceptThisId(taskName, id);
 		return null != searchList && !searchList.isEmpty();
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see com.administrator.platform.service.TimerTaskService#openTimerTaskInBatch(java.lang.Long[])
+	 * @param ids
+	 * @return
+	 */
+	@Override
+	public List<TimerTask> openTimerTaskInBatch(Long[] ids) {
+
+		List<TimerTask> allTimerTasks = new ArrayList<>();
+
+		for (int i = 0; i < ids.length; i++) {
+			TimerTask timerTask = getTimerTaskById(ids[i]);
+
+			if (null != timerTask) {
+				changeTimerTaskStatus(ids[i], TaskDefine.OPEN_TASK_OPERATION);
+				allTimerTasks.add(timerTask);
+			}
+		}
+		return allTimerTasks;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see com.administrator.platform.service.TimerTaskService#openAllTimerTaskInBatch()
+	 * @return
+	 */
+	@Override
+	public List<TimerTask> openAllTimerTaskInBatch() {
+		List<TimerTask> allTimerTasks = findAllTimerTaskList();
+
+		for (TimerTask timerTask : allTimerTasks) {
+			changeTimerTaskStatus(timerTask.getId(),
+			        TaskDefine.OPEN_TASK_OPERATION);
+		}
+		return allTimerTasks;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see com.administrator.platform.service.TimerTaskService#closeTimerTaskInBatch(java.lang.Long[])
+	 * @param ids
+	 * @return
+	 */
+	@Override
+	public List<TimerTask> closeTimerTaskInBatch(Long[] ids) {
+		List<TimerTask> allTimerTasks = new ArrayList<>();
+
+		for (int i = 0; i < ids.length; i++) {
+			TimerTask timerTask = getTimerTaskById(ids[i]);
+
+			if (null != timerTask) {
+				changeTimerTaskStatus(ids[i], TaskDefine.CLOSE_TASK_OPERATION);
+				allTimerTasks.add(timerTask);
+			}
+		}
+		return allTimerTasks;
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see com.administrator.platform.service.TimerTaskService#closeAllTimerTaskInBatch()
+	 * @return
+	 */
+	@Override
+	public List<TimerTask> closeAllTimerTaskInBatch() {
+		List<TimerTask> allTimerTasks = findAllTimerTaskList();
+
+		for (TimerTask timerTask : allTimerTasks) {
+			changeTimerTaskStatus(timerTask.getId(),
+			        TaskDefine.CLOSE_TASK_OPERATION);
+		}
+		return allTimerTasks;
 	}
 }

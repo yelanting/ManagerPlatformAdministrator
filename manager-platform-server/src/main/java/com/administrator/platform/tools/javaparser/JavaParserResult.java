@@ -11,22 +11,29 @@ package com.administrator.platform.tools.javaparser;
  * @see :
  */
 public class JavaParserResult {
-    private String fileToStoreFolder = "files";
-    private String fileToStore = "parserFile.txt";
+	private String fileToStoreFolder = "files";
+	private String fileToStore = "parserFile.txt";
 
-    public String getFileToStoreFolder() {
-        return fileToStoreFolder;
-    }
+	public String getFileToStoreFolder() {
+		return fileToStoreFolder;
+	}
 
-    public void setFileToStoreFolder(String fileToStoreFolder) {
-        this.fileToStoreFolder = fileToStoreFolder;
-    }
+	public void setFileToStoreFolder(String fileToStoreFolder) {
+		this.fileToStoreFolder = fileToStoreFolder;
+	}
 
-    public String getFileToStore() {
-        return fileToStore;
-    }
+	public String getFileToStore() {
+		return fileToStore;
+	}
 
-    public void setFileToStore(String fileToStore) {
-        this.fileToStore = fileToStore;
-    }
+	public void setFileToStore(String fileToStore) {
+		this.fileToStore = fileToStore;
+	}
+
+	@Override
+	public String toString() {
+		return "JavaParserResult [fileToStoreFolder=" + fileToStoreFolder
+		        + ", fileToStore=" + fileToStore + "]";
+	}
+
 }

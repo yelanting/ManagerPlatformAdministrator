@@ -223,6 +223,24 @@ public class CodeCoverageController {
 	}
 
 	/**
+	 * 快速生成全量代码覆盖率信息
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : ResponseData
+	 * @return
+	 */
+	@PostMapping(value = "/fastCreateAllCodeCoverageData")
+	@ApiOperation(value = "快速生成全量代码覆盖率信息")
+	@ResponseBody
+	public ResponseData fastCreateAllCodeCoverageData(
+	        @ModelAttribute CodeCoverageDTO codeCoverage,
+	        HttpServletRequest request) {
+		return ResponseData.getSuccessResult(codeCoverageService
+		        .fastCreateAllCodeCoverageData(codeCoverage, request));
+	}
+
+	/**
 	 * 生成增量代码覆盖率信息
 	 * 
 	 * @see :
@@ -241,6 +259,24 @@ public class CodeCoverageController {
 	}
 
 	/**
+	 * 快速生成增量代码覆盖率信息
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : ResponseData
+	 * @return
+	 */
+	@PostMapping(value = "/fastCreateIncrementCodeCoverageData")
+	@ApiOperation(value = "快速生成增量代码覆盖率信息")
+	@ResponseBody
+	public ResponseData fastCreateIncrementCodeCoverageData(
+	        @ModelAttribute CodeCoverageDTO codeCoverage,
+	        HttpServletRequest request) {
+		return ResponseData.getSuccessResult(codeCoverageService
+		        .fastCreateIncrementCodeCoverageData(codeCoverage, request));
+	}
+
+	/**
 	 * 重置覆盖率数据信息
 	 * 
 	 * @see :
@@ -255,6 +291,23 @@ public class CodeCoverageController {
 	        @ModelAttribute CodeCoverageDTO codeCoverage) {
 		return ResponseData.getSuccessResult(
 		        codeCoverageService.resetCodeCoverageData(codeCoverage));
+	}
+
+	/**
+	 * 删除备份的覆盖率数据信息
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : ResponseData
+	 * @return
+	 */
+	@PostMapping(value = "/clearBackUpExecData")
+	@ApiOperation(value = "删除各个服务器上备份的覆盖率数据信息")
+	@ResponseBody
+	public ResponseData clearBackUpExecData(
+	        @ModelAttribute CodeCoverageDTO codeCoverage) {
+		return ResponseData.getSuccessResult(
+		        codeCoverageService.clearBackUpExecData(codeCoverage));
 	}
 
 	@PostMapping("/uploadExecFile")

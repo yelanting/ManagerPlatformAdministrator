@@ -36,6 +36,10 @@ function() {
                 dataStr = data.seraphApi;
                 // 重新渲染左侧菜单
                 tab.render();
+            } else if (json == "yunXiaoManagement") {
+                dataStr = data.yunXiaoManagement;
+                // 重新渲染左侧菜单
+                tab.render();
             }
         })
     }

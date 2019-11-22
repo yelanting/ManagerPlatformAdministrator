@@ -154,6 +154,28 @@ public interface CodeCoverageService {
 	        HttpServletRequest request);
 
 	/**
+	 * 生成覆盖率信息
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : void
+	 * @param codeCoverage
+	 */
+	CodeCoverage fastCreateAllCodeCoverageData(CodeCoverage codeCoverage,
+	        HttpServletRequest request);
+
+	/**
+	 * 生成增量覆盖率信息
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : CodeCoverage
+	 * @param codeCoverage
+	 */
+	CodeCoverage fastCreateIncrementCodeCoverageData(CodeCoverage codeCoverage,
+	        HttpServletRequest request);
+
+	/**
 	 * 重置覆盖率数据信息
 	 * 
 	 * @see :
@@ -162,6 +184,16 @@ public interface CodeCoverageService {
 	 * @param codeCoverage
 	 */
 	CodeCoverage resetCodeCoverageData(CodeCoverage codeCoverage);
+
+	/**
+	 * 删除备份的覆盖率数据信息
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : CodeCoverage
+	 * @param codeCoverage
+	 */
+	CodeCoverage clearBackUpExecData(CodeCoverage codeCoverage);
 
 	/**
 	 * 定时采集，并备份执行数据

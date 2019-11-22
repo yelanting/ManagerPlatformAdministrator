@@ -36,7 +36,7 @@
 		sys_role
 		where id = #{id,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert"
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
 		parameterType="com.administrator.platform.model.SysRole">
 		insert into sys_role (id, role_name, comments,
 		create_date, update_date, deleted , role_cn_name , role_type
@@ -192,6 +192,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from sys_role sr where id in(select sur.role_id from sys_user_role
-		sur where sur.user_id = #{id});
+		sur
+		where sur.user_id = #{id});
 	</select>
 </mapper>

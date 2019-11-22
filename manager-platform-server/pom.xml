@@ -24,6 +24,7 @@
 		<jacoco.version>0.8.3</jacoco.version>
 		<jacoco.local.version>0.8.1-SNAPSHOT</jacoco.local.version>
 		<asm.version>7.1</asm.version>
+		<jackson.version>2.9.10</jackson.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -38,6 +39,18 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.axet</groupId>
+			<artifactId>kaptcha</artifactId>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
@@ -89,6 +102,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -97,6 +111,11 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-joda</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-avro</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
@@ -378,27 +397,26 @@
 		<!-- </dependency> -->
 
 		<!-- https://mvnrepository.com/artifact/org.gradle/gradle-tooling-api -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.gradle</groupId> -->
-		<!-- <artifactId>gradle-tooling-api</artifactId> -->
-		<!-- <version>4.3</version> -->
-		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.gradle</groupId>
-			<artifactId>gradle-tooling-api-local</artifactId>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/source/lib/gradle-tooling-api-4.3.jar</systemPath>
-			<version>4.3</version>
+			<artifactId>gradle-tooling-api</artifactId>
+			<version>4.1</version>
 		</dependency>
+		<!-- <dependency> <groupId>org.gradle</groupId> <artifactId>gradle-tooling-api-local</artifactId> 
+			<scope>system</scope> <systemPath>${project.basedir}/source/lib/gradle-tooling-api-4.3.jar</systemPath> 
+			<version>4.3</version> </dependency> -->
 
 
+		<!-- https://mvnrepository.com/artifact/org.gradle/gradle-core -->
 		<dependency>
 			<groupId>org.gradle</groupId>
-			<artifactId>gradle-core-api-local</artifactId>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/source/lib/gradle-core-api-4.6.jar</systemPath>
-			<version>4.6</version>
+			<artifactId>gradle-core</artifactId>
+			<version>4.1</version>
 		</dependency>
+
+		<!-- <dependency> <groupId>org.gradle</groupId> <artifactId>gradle-core-api-local</artifactId> 
+			<scope>system</scope> <systemPath>${project.basedir}/source/lib/gradle-core-api-4.6.jar</systemPath> 
+			<version>4.6</version> </dependency> -->
 
 		<!-- https://mvnrepository.com/artifact/org.netbeans.api/org-openide-filesystems -->
 		<dependency>
@@ -440,6 +458,15 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-quartz</artifactId>
 		</dependency>
@@ -449,8 +476,12 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<source>1.8</source>

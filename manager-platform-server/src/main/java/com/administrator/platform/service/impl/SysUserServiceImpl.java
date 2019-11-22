@@ -5,6 +5,7 @@
  */
 package com.administrator.platform.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,17 +14,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.administrator.platform.constdefine.DefaultSysRoleAndSysUserConst;
 import com.administrator.platform.core.base.util.StringUtil;
 import com.administrator.platform.core.base.util.ValidationUtil;
 import com.administrator.platform.definition.form.SysUserFormDefinition;
 import com.administrator.platform.exception.base.BusinessValidationException;
-import com.administrator.platform.mapper.SysRoleMapper;
 import com.administrator.platform.mapper.SysUserMapper;
+import com.administrator.platform.model.SysRole;
 import com.administrator.platform.model.SysUser;
+import com.administrator.platform.model.SysUserRole;
+import com.administrator.platform.service.SysRoleService;
+import com.administrator.platform.service.SysUserRoleService;
 import com.administrator.platform.service.SysUserService;
 
 /**
@@ -31,7 +37,7 @@ import com.administrator.platform.service.SysUserService;
  * @since : 2018年9月3日 下午8:17:27
  * @see :
  */
-@Service
+@Service("sysUserService")
 public class SysUserServiceImpl implements SysUserService {
 	private static final Logger logger = LoggerFactory
 	        .getLogger(SysUserServiceImpl.class);
@@ -39,14 +45,20 @@ public class SysUserServiceImpl implements SysUserService {
 	private SysUserMapper sysUserMapper;
 
 	@Autowired
-	private SysRoleMapper sysRoleMapper;
+	private SysRoleService sysRoleService;
+
+	@Autowired
+	private SysUserRoleService sysUserRoleService;
 
 	/**
 	 * @see com.administrator.platform.service.SysUserService#findAllSysUserList()
 	 */
 	@Override
 	public List<SysUser> findAllSysUserList() {
-		return sysUserMapper.findAll();
+		logger.info("查询系统用户列表");
+		List<SysUser> allSysUserList = sysUserMapper.findAll();
+		logger.debug("当前列表:{}", allSysUserList);
+		return allSysUserList;
 	}
 
 	/**
@@ -60,8 +72,20 @@ public class SysUserServiceImpl implements SysUserService {
 		ValidationUtil.validateNull(sysUser, null);
 		validateInput(sysUser);
 
+		if (null == sysUser.getSysRoles() || sysUser.getSysRoles().isEmpty()) {
+			sysUser.setSysRoles(getDefaultRole());
+		}
+
 		try {
 			sysUserMapper.insert(sysUser);
+
+			// 插入用户角色关系
+
+			for (SysRole sysRole : sysUser.getSysRoles()) {
+				sysUserRoleService.addSysUserRole(
+				        new SysUserRole(sysUser.getId(), sysRole.getId()));
+			}
+
 			return sysUser;
 		} catch (Exception e) {
 			logger.error("添加系统用户失败:{},{}", sysUser, e.getMessage());
@@ -80,6 +104,9 @@ public class SysUserServiceImpl implements SysUserService {
 		ValidationUtil.validateNull(id, null);
 		try {
 			sysUserMapper.deleteByPrimaryKey(id);
+
+			// 同时删除用户和角色的对应关系
+			sysUserRoleService.deleteSysUserRoleBySysUserId(id);
 			return 1;
 		} catch (Exception e) {
 			logger.error("根据系统用户id删除系统用户失败:{},{}", id, e.getMessage());
@@ -169,6 +196,18 @@ public class SysUserServiceImpl implements SysUserService {
 		validateInput(sysUser);
 		try {
 			sysUserMapper.updateByPrimaryKey(sysUser);
+
+			if (null == sysUser.getSysRoles()
+			        || sysUser.getSysRoles().isEmpty()) {
+				sysUser.setSysRoles(getDefaultRole());
+			}
+
+			// 插入用户角色关系
+			for (SysRole sysRole : sysUser.getSysRoles()) {
+				sysUserRoleService.addSysUserRole(
+				        new SysUserRole(sysUser.getId(), sysRole.getId()));
+			}
+
 			return sysUser;
 		} catch (Exception e) {
 			logger.error("更新系统用户失败：{},{}", sysUser, e.getMessage());
@@ -217,16 +256,29 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username)
-	        throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) {
 		logger.debug("查询用户:{}是否存在", username);
 		SysUser sysUser = sysUserMapper.findSysUserByUserAccount(username);
 
 		if (null == sysUser) {
-			throw new BusinessValidationException("用户名不存在");
+			throw new UsernameNotFoundException("用户名不存在");
 		}
 
-		sysUser.setSysRoles(sysRoleMapper.getSysRolesByUserId(sysUser.getId()));
-		return sysUser;
+		sysUser.setSysRoles(
+		        sysRoleService.getSysRolesByUserId(sysUser.getId()));
+
+		logger.debug("用户:{},存在,用有权限:{}", username, sysUser.getSysRoles());
+
+		return new User(username, sysUser.getUserPassword(),
+		        sysUser.getAuthorities());
+		// return sysUser;
+	}
+
+	private List<SysRole> getDefaultRole() {
+		SysRole sysRole = sysRoleService.findSysRoleByRoleName(
+		        DefaultSysRoleAndSysUserConst.ROLE_USER_CN);
+		List<SysRole> defaultRoles = new ArrayList<SysRole>();
+		defaultRoles.add(sysRole);
+		return defaultRoles;
 	}
 }

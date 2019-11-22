@@ -46,10 +46,12 @@ public class SysUser extends BaseDomain implements UserDetails {
 	 */
 	private List<SysRole> sysRoles;
 
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -118,18 +120,22 @@ public class SysUser extends BaseDomain implements UserDetails {
 		return locked;
 	}
 
+	@Override
 	public Date getCreateDate() {
 		return createDate;
 	}
 
+	@Override
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 
+	@Override
 	public Date getUpdateDate() {
 		return updateDate;
 	}
 
+	@Override
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
@@ -153,10 +159,11 @@ public class SysUser extends BaseDomain implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-
-		for (SysRole sysRole : this.getSysRoles()) {
-			authorities.add(new SimpleGrantedAuthority(
-			        sysRole.getRoleType().getRoleTypeEnName()));
+		if (null != this.getSysRoles()) {
+			for (SysRole sysRole : this.getSysRoles()) {
+				authorities.add(new SimpleGrantedAuthority(
+				        sysRole.getRoleType().getRoleTypeEnName()));
+			}
 		}
 		return authorities;
 	}
@@ -189,5 +196,16 @@ public class SysUser extends BaseDomain implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return !locked;
+	}
+
+	@Override
+	public String toString() {
+		return "SysUser [id=" + id + ", userAccount=" + userAccount
+		        + ", userPassword=" + userPassword + ", userNickname="
+		        + userNickname + ", mobilePhone=" + mobilePhone + ", sex=" + sex
+		        + ", userStatus=" + userStatus + ", createDate=" + createDate
+		        + ", updateDate=" + updateDate + ", admin=" + admin
+		        + ", deleted=" + deleted + ", locked=" + locked + ", sysRoles="
+		        + sysRoles + "]";
 	}
 }

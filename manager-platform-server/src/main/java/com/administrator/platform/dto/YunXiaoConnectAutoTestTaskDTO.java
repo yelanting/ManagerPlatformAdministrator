@@ -14,4 +14,13 @@ import com.administrator.platform.model.YunXiaoConnectAutoTestTask;
  */
 public class YunXiaoConnectAutoTestTaskDTO extends YunXiaoConnectAutoTestTask {
 
+	@Override
+	public String toString() {
+		return "YunXiaoConnectAutoTestTaskDTO [getTestSuiteRunId()="
+		        + getTestSuiteRunId() + ", getSuiteId()=" + getSuiteId()
+		        + ", getCallBackUrl()=" + getCallBackUrl() + ", toString()="
+		        + super.toString() + ", getClass()=" + getClass()
+		        + ", hashCode()=" + hashCode() + "]";
+	}
+
 }

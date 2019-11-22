@@ -91,7 +91,7 @@ public class CodeCoverageServiceImpl implements CodeCoverageService {
 	public List<CodeCoverage> findAllCodeCoverageList() {
 		logger.debug("获取所有覆盖率信息列表");
 		List<CodeCoverage> allCodeCoverages = codeCoverageMapper.findAll();
-		logger.debug("当前列表:{}", allCodeCoverages);
+		// logger.debug("当前列表:{}", allCodeCoverages);
 
 		return allCodeCoverages;
 	}
@@ -377,11 +377,11 @@ public class CodeCoverageServiceImpl implements CodeCoverageService {
 		 */
 		validateInputCreateAndDownload(codeCoverage);
 
-		/**
-		 * 下代码
-		 */
-		File newerFileFolder = VcsCommonUtil
-		        .parseNewProjectFolderFromCodeCoverage(codeCoverage);
+		// /**
+		// * 下代码
+		// */
+		// File newerFileFolder = VcsCommonUtil
+		// .parseNewProjectFolderFromCodeCoverage(codeCoverage);
 
 		/**
 		 * 处理代码
@@ -396,30 +396,31 @@ public class CodeCoverageServiceImpl implements CodeCoverageService {
 			compileProjectData(codeCoverage);
 		}
 
-		/**
-		 * dump数据
-		 */
-
-		dumpCoverageData(codeCoverage);
-
-		/**
-		 * 获取覆盖率报告
-		 */
-		logger.debug("开始获取全量覆盖率执行信息");
-		ReportGenerator.createWholeCodeCoverageDataWithMulti(codeCoverage);
-
-		/**
-		 * 生成完之后，修改是否需要编译字段，改为不编译
-		 */
-
-		codeCoverage.setNeedCompile(false);
-
-		codeCoverage.setWholeCodeCoverageDataUrl(TempFileUtil
-		        .getWebApplicationAccessUrlFromHttpRequestAndLocalAbsolutePath(
-		                request,
-		                VcsCommonUtil.parseWholeCodeCoverageFolderPathZip(
-		                        newerFileFolder)));
-		return updateCodeCoverage(codeCoverage);
+		// /**
+		// * dump数据
+		// */
+		//
+		// dumpCoverageData(codeCoverage);
+		//
+		// /**
+		// * 获取覆盖率报告
+		// */
+		// logger.debug("开始获取全量覆盖率执行信息");
+		// ReportGenerator.createWholeCodeCoverageDataWithMulti(codeCoverage);
+		//
+		// /**
+		// * 生成完之后，修改是否需要编译字段，改为不编译
+		// */
+		//
+		// codeCoverage.setNeedCompile(false);
+		//
+		// codeCoverage.setWholeCodeCoverageDataUrl(TempFileUtil
+		// .getWebApplicationAccessUrlFromHttpRequestAndLocalAbsolutePath(
+		// request,
+		// VcsCommonUtil.parseWholeCodeCoverageFolderPathZip(
+		// newerFileFolder)));
+		// return updateCodeCoverage(codeCoverage);
+		return fastCreateAllCodeCoverageData(codeCoverage, request);
 	}
 
 	/**
@@ -436,8 +437,8 @@ public class CodeCoverageServiceImpl implements CodeCoverageService {
 		 */
 		validateInputCreateAndDownload(codeCoverage);
 
-		File newerFileFolder = VcsCommonUtil
-		        .parseNewProjectFolderFromCodeCoverage(codeCoverage);
+		// File newerFileFolder = VcsCommonUtil
+		// .parseNewProjectFolderFromCodeCoverage(codeCoverage);
 
 		/**
 		 * 处理代码
@@ -454,31 +455,32 @@ public class CodeCoverageServiceImpl implements CodeCoverageService {
 			dealClassesFiles(codeCoverage);
 		}
 
-		/**
-		 * dump数据
-		 */
-
-		dumpCoverageData(codeCoverage);
-
-		/**
-		 * 获取覆盖率报告
-		 */
-		logger.debug("开始获取增量覆盖率执行信息");
-		ReportGenerator
-		        .createIncrementCodeCoverageReportWithMulti(codeCoverage);
-
-		/**
-		 * 生成完之后，修改是否需要编译字段，改为不编译
-		 */
-
-		codeCoverage.setNeedCompile(false);
-
-		codeCoverage.setIncrementCodeCoverageDataUrl(TempFileUtil
-		        .getWebApplicationAccessUrlFromHttpRequestAndLocalAbsolutePath(
-		                request,
-		                VcsCommonUtil.parseIncrementCodeCoverageFolderPathZip(
-		                        newerFileFolder)));
-		return updateCodeCoverage(codeCoverage);
+		// /**
+		// * dump数据
+		// */
+		//
+		// dumpCoverageData(codeCoverage);
+		//
+		// /**
+		// * 获取覆盖率报告
+		// */
+		// logger.debug("开始获取增量覆盖率执行信息");
+		// ReportGenerator
+		// .createIncrementCodeCoverageReportWithMulti(codeCoverage);
+		//
+		// /**
+		// * 生成完之后，修改是否需要编译字段，改为不编译
+		// */
+		//
+		// codeCoverage.setNeedCompile(false);
+		//
+		// codeCoverage.setIncrementCodeCoverageDataUrl(TempFileUtil
+		// .getWebApplicationAccessUrlFromHttpRequestAndLocalAbsolutePath(
+		// request,
+		// VcsCommonUtil.parseIncrementCodeCoverageFolderPathZip(
+		// newerFileFolder)));
+		// return updateCodeCoverage(codeCoverage);
+		return fastCreateIncrementCodeCoverageData(codeCoverage, request);
 	}
 
 	/**
@@ -782,6 +784,11 @@ public class CodeCoverageServiceImpl implements CodeCoverageService {
 		VCSType vcsType = codeCoverage.getVersionControlType();
 		File olderFileFolder = VcsCommonUtil
 		        .parseOldProjectFolderFromCodeCoverage(codeCoverage);
+
+		if (olderFileFolder.exists()) {
+			FileUtil.forceDeleteDirectory(olderFileFolder);
+		}
+
 		SvnClientUtil svnClientUtilOlder = null;
 
 		if (vcsType == VCSType.GIT) {
@@ -1089,8 +1096,8 @@ public class CodeCoverageServiceImpl implements CodeCoverageService {
 		String otherParams = String.format("%s=%s",
 		        TaskDefine.CODE_COVERAGER_ID_KEY, codeCoverage.getId());
 		timerTask.setOtherParams(otherParams);
-		timerTask.setDescription(String.format("这是为覆盖率数据:%s,创建的自动采集任务。",
-		        codeCoverage.getProjectName()));
+		timerTask.setDescription(
+		        String.format("这是为覆盖率数据:%s,创建的自动采集任务。", codeCoverage.getId()));
 
 		if (currentTimerTasksWithThisName.isEmpty()) {
 			timerTask = timerTaskService.addTimerTask(timerTask);
@@ -1107,5 +1114,189 @@ public class CodeCoverageServiceImpl implements CodeCoverageService {
 		}
 
 		return timerTask;
+	}
+
+	public static void main(String[] args) {
+		CodeCoverage codeCoverage = new CodeCoverage();
+		codeCoverage.setProjectName("浙江省平台");
+		codeCoverage.setTcpServerIp(
+		        "192.168.110.24:8888;192.168.110.25:8888;192.168.110.29:8888;192.168.110.30:8888;192.168.110.22:8888");
+		codeCoverage.setTcpServerPort(-1);
+		codeCoverage.setUsername("liqingnan@hztianque.com");
+		codeCoverage.setPassword("cmm123@@@@");
+		codeCoverage.setVersionControlType(VCSType.GIT);
+		codeCoverage.setNewerRemoteUrl(
+		        "http://liqingnan@gitlab.hztianque.com/zjgroup/newshengPingTai.git");
+		codeCoverage.setNewerVersion("release/2019.11.14_release");
+		codeCoverage.setOlderRemoteUrl(
+		        "http://liqingnan@gitlab.hztianque.com/zjgroup/newshengPingTai.git");
+		codeCoverage.setOlderVersion("release/2019.10.24_release");
+		codeCoverage.setBuildType(BuildType.ANT);
+		codeCoverage.setNeedCompile(false);
+		codeCoverage.setJdkVersion("1.8");
+		codeCoverage.setSourceCodePath("sourceCodePath");
+		codeCoverage.setNewSourceType(NewSourceType.SFTP);
+		CodeCoverageServiceImpl codeCoverageServiceImpl = new CodeCoverageServiceImpl();
+		codeCoverageServiceImpl.dumpCoverageData(codeCoverage);
+		ReportGenerator
+		        .createIncrementCodeCoverageReportWithMulti(codeCoverage);
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see com.administrator.platform.service.CodeCoverageService#fastCreateAllCodeCoverageData(com.administrator.platform.model.CodeCoverage,
+	 *      javax.servlet.http.HttpServletRequest)
+	 * @param codeCoverage
+	 * @param request
+	 * @return
+	 */
+	@Override
+	public CodeCoverage fastCreateAllCodeCoverageData(CodeCoverage codeCoverage,
+	        HttpServletRequest request) {
+		logger.debug("开始快速生成全量覆盖率数据:{}", codeCoverage);
+		// /**
+		// * 校验输入
+		// */
+		// validateInputCreateAndDownload(codeCoverage);
+		//
+		// /**
+		// * 下代码
+		// */
+		File newerFileFolder = VcsCommonUtil
+		        .parseNewProjectFolderFromCodeCoverage(codeCoverage);
+
+		// /**
+		// * 处理代码
+		// */
+		// prepareNewProjectData(codeCoverage);
+		//
+		// /**
+		// * 如果需要编译代码，则执行编译，编译一次之后，就不再编译了
+		// */
+		//
+		// if (codeCoverage.isNeedCompile()) {
+		// compileProjectData(codeCoverage);
+		// }
+
+		/**
+		 * dump数据
+		 */
+
+		dumpCoverageData(codeCoverage);
+
+		/**
+		 * 获取覆盖率报告
+		 */
+		logger.debug("开始获取全量覆盖率执行信息");
+		ReportGenerator.createWholeCodeCoverageDataWithMulti(codeCoverage);
+
+		/**
+		 * 生成完之后，修改是否需要编译字段，改为不编译
+		 */
+
+		codeCoverage.setNeedCompile(false);
+
+		codeCoverage.setWholeCodeCoverageDataUrl(TempFileUtil
+		        .getWebApplicationAccessUrlFromHttpRequestAndLocalAbsolutePath(
+		                request,
+		                VcsCommonUtil.parseWholeCodeCoverageFolderPathZip(
+		                        newerFileFolder)));
+		return updateCodeCoverage(codeCoverage);
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see com.administrator.platform.service.CodeCoverageService#fastCreateIncrementCodeCoverageData(com.administrator.platform.model.CodeCoverage,
+	 *      javax.servlet.http.HttpServletRequest)
+	 * @param codeCoverage
+	 * @param request
+	 * @return
+	 */
+	@Override
+	public CodeCoverage fastCreateIncrementCodeCoverageData(
+	        CodeCoverage codeCoverage, HttpServletRequest request) {
+		logger.debug("开始快速生成增量覆盖率数据:{}", codeCoverage);
+		// /**
+		// * 校验输入
+		// */
+		// validateInputCreateAndDownload(codeCoverage);
+		//
+		File newerFileFolder = VcsCommonUtil
+		        .parseNewProjectFolderFromCodeCoverage(codeCoverage);
+
+		// /**
+		// * 处理代码
+		// */
+		// prepareAllProjectData(codeCoverage);
+		//
+		// /**
+		// * 如果需要编译代码，则执行编译，编译一次之后，就不再编译了
+		// */
+		//
+		// if (codeCoverage.isNeedCompile()) {
+		// compileProjectData(codeCoverage);
+		// } else {
+		// dealClassesFiles(codeCoverage);
+		// }
+
+		/**
+		 * dump数据
+		 */
+
+		dumpCoverageData(codeCoverage);
+
+		/**
+		 * 获取覆盖率报告
+		 */
+		logger.debug("开始获取增量覆盖率执行信息");
+		ReportGenerator
+		        .createIncrementCodeCoverageReportWithMulti(codeCoverage);
+
+		/**
+		 * 生成完之后，修改是否需要编译字段，改为不编译
+		 */
+
+		codeCoverage.setNeedCompile(false);
+
+		codeCoverage.setIncrementCodeCoverageDataUrl(TempFileUtil
+		        .getWebApplicationAccessUrlFromHttpRequestAndLocalAbsolutePath(
+		                request,
+		                VcsCommonUtil.parseIncrementCodeCoverageFolderPathZip(
+		                        newerFileFolder)));
+		return updateCodeCoverage(codeCoverage);
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see com.administrator.platform.service.CodeCoverageService#clearBackUpExecData(com.administrator.platform.model.CodeCoverage)
+	 * @param codeCoverage
+	 * @return
+	 */
+	@Override
+	public CodeCoverage clearBackUpExecData(CodeCoverage codeCoverage) {
+		List<JacocoAgentTcpServer> jacocoAgentTcpServers = JacocoAgentTcpServer
+		        .parseJacocoAgentTcpServersFromCodeCoverage(codeCoverage);
+
+		if (null == jacocoAgentTcpServers || jacocoAgentTcpServers.isEmpty()) {
+			logger.debug("没有覆盖率服务器信息，不需要删除");
+			return codeCoverage;
+		}
+
+		for (JacocoAgentTcpServer jacocoAgentTcpServer : jacocoAgentTcpServers) {
+			String filePathName = ExecutionDataClient
+			        .getExecFilesBackUpFolderFromJacocoAgentServer(
+			                jacocoAgentTcpServer);
+
+			File backUpExecFile = new File(filePathName,
+			        JacocoDefine.JACOCO_EXEC_FILE_NAME_DEFAULT);
+
+			if (backUpExecFile.exists()) {
+				FileUtil.forceDeleteDirectory(backUpExecFile);
+			}
+		}
+		return codeCoverage;
 	}
 }

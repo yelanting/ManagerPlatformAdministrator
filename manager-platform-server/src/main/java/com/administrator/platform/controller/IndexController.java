@@ -19,9 +19,9 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @Api("首页相关API")
 public class IndexController {
-    @GetMapping(value = { "/", "/home", "/index", "/index.html" })
-    @ApiOperation("重定向到首页页面")
-    String index() {
-        return "index";
-    }
+	@GetMapping(value = { "/", "/home", "/index", "/index.html" })
+	@ApiOperation("重定向到首页页面")
+	public String index() {
+		return "index";
+	}
 }

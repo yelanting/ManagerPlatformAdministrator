@@ -121,4 +121,40 @@ public class TimerTaskController {
 		return ResponseData.getSuccessResult(
 		        timerTaskService.changeTimerTaskStatus(id, operation));
 	}
+
+	@PostMapping(value = "/openTimerTaskInBatch")
+	@ApiOperation(value = "批量开启定时任务")
+	@ResponseBody
+	public ResponseData openTimerTaskInBatch(
+	        @RequestParam("ids[]") Long[] ids) {
+		return ResponseData
+		        .getSuccessResult(timerTaskService.openTimerTaskInBatch(ids));
+	}
+
+	@PostMapping(value = "/openAllTimerTaskInBatch")
+	@ApiOperation(value = "批量开启所有定时任务")
+	@ResponseBody
+	public ResponseData openAllTimerTaskInBatch(
+	        @RequestParam("ids[]") Long[] ids) {
+		return ResponseData
+		        .getSuccessResult(timerTaskService.openAllTimerTaskInBatch());
+	}
+
+	@PostMapping(value = "/closeTimerTaskInBatch")
+	@ApiOperation(value = "批量关闭定时任务")
+	@ResponseBody
+	public ResponseData closeTimerTaskInBatch(
+	        @RequestParam("ids[]") Long[] ids) {
+		return ResponseData
+		        .getSuccessResult(timerTaskService.closeTimerTaskInBatch(ids));
+	}
+
+	@PostMapping(value = "/closeAllTimerTaskInBatch")
+	@ApiOperation(value = "批量关闭所有定时任务")
+	@ResponseBody
+	public ResponseData closeAllTimerTaskInBatch(
+	        @RequestParam("ids[]") Long[] ids) {
+		return ResponseData
+		        .getSuccessResult(timerTaskService.closeAllTimerTaskInBatch());
+	}
 }

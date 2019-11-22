@@ -70,7 +70,7 @@
 		sys_user
 		where id = #{id,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert"
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
 		parameterType="com.administrator.platform.model.SysUser">
 		insert into sys_user (id, user_account, user_password,
 		user_nickname, mobile_phone, sex,

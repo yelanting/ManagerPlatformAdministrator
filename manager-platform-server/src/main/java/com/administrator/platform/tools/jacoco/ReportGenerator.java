@@ -44,449 +44,464 @@ import com.administrator.platform.tools.vcs.common.VcsCommonUtil;
  * @see :
  */
 public class ReportGenerator {
-    private static final Logger logger = LoggerFactory
-            .getLogger(ReportGenerator.class);
+	private static final Logger logger = LoggerFactory
+	        .getLogger(ReportGenerator.class);
 
-    public ReportGenerator() {
+	private static final String JACOCO_VERSION_NOT_MATCH = "Cannot read execution data version";
 
-    }
+	public ReportGenerator() {
 
-    /**
-     * 生成增量覆盖率报告
-     * 
-     * @see :
-     * @param :
-     * @return : void
-     * @param changeFiles
-     */
-    public static void createIncrementCodeCoverageReportWithMulti(
-            CodeCoverage codeCoverage) {
-        /**
-         * 生成增量报告,有对比版本信息的时候，才生成增量报告
-         */
-        logger.info("开始生成增量覆盖率报告");
-        if (StringUtil.isEmpty(codeCoverage.getOlderRemoteUrl())) {
-            return;
-        }
+	}
 
-        File newerFolder = VcsCommonUtil
-                .parseNewProjectFolderFromCodeCoverage(codeCoverage);
+	/**
+	 * 生成增量覆盖率报告
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : void
+	 * @param changeFiles
+	 */
+	public static void createIncrementCodeCoverageReportWithMulti(
+	        CodeCoverage codeCoverage) {
+		/**
+		 * 生成增量报告,有对比版本信息的时候，才生成增量报告
+		 */
+		logger.info("开始生成增量覆盖率报告");
+		if (StringUtil.isEmpty(codeCoverage.getOlderRemoteUrl())) {
+			return;
+		}
 
-        File olderFolder = VcsCommonUtil
-                .parseOldProjectFolderFromCodeCoverage(codeCoverage);
+		File newerFolder = VcsCommonUtil
+		        .parseNewProjectFolderFromCodeCoverage(codeCoverage);
 
-        /*
-         * 如果是1.6版本，则根据1.6的编译单元来获取方法
-         */
-        List<MethodInfo> changeMethods = null;
-        changeMethods = DiffAST.diffFilesWithTwoLocalDirs(
-                newerFolder.getAbsolutePath(), olderFolder.getAbsolutePath());
+		File olderFolder = VcsCommonUtil
+		        .parseOldProjectFolderFromCodeCoverage(codeCoverage);
 
-        initCoverageBuilderMethodsInfo(changeMethods);
-        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = null;
+		/*
+		 * 如果是1.6版本，则根据1.6的编译单元来获取方法
+		 */
+		List<MethodInfo> changeMethods = null;
+		changeMethods = DiffAST.diffFilesWithTwoLocalDirs(
+		        newerFolder.getAbsolutePath(), olderFolder.getAbsolutePath());
 
-        if (isGradle(codeCoverage)) {
-            CodeBuildGradleAndroid codeBuildGradleAndroid = new CodeBuildGradleAndroid();
-            codeBuildGradleAndroid
-                    .setChannelName(codeCoverage.getChannelName());
-            codeCoverageFilesAndFoldersDTOs = codeBuildGradleAndroid
-                    .getCodeCoverageFilesAndFoldersDTOs(
-                            newerFolder.getAbsolutePath());
-        } else {
-            CodeBuildIntf codeBuildIntf = codeCoverage
-                    .parseCodeBuildFromThisObject();
+		initCoverageBuilderMethodsInfo(changeMethods);
+		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = null;
 
-            codeCoverageFilesAndFoldersDTOs = codeBuildIntf
-                    .getCodeCoverageFilesAndFoldersDTOs(
-                            newerFolder.getAbsolutePath());
-        }
+		if (isGradle(codeCoverage)) {
+			CodeBuildGradleAndroid codeBuildGradleAndroid = new CodeBuildGradleAndroid();
+			codeBuildGradleAndroid
+			        .setChannelName(codeCoverage.getChannelName());
+			codeCoverageFilesAndFoldersDTOs = codeBuildGradleAndroid
+			        .getCodeCoverageFilesAndFolders(
+			                newerFolder.getAbsolutePath());
+		} else {
+			CodeBuildIntf codeBuildIntf = codeCoverage
+			        .parseCodeBuildFromThisObject();
 
-        createIncrementCodeCoverageReportWithChangeMethodsWithMulti(newerFolder,
-                codeCoverageFilesAndFoldersDTOs);
+			codeCoverageFilesAndFoldersDTOs = codeBuildIntf
+			        .getCodeCoverageFilesAndFolders(
+			                newerFolder.getAbsolutePath());
+		}
 
-        logger.info("生成增量覆盖率报告完成");
-    }
+		createIncrementCodeCoverageReportWithChangeMethodsWithMulti(newerFolder,
+		        codeCoverageFilesAndFoldersDTOs);
 
-    /**
-     * 在某个目录下生成报告
-     *
-     * @see :
-     * @param :
-     * @return : void
-     * @param bundleCoverage
-     * @param reportDir
-     * @throws IOException
-     */
-    private static void createReportWithMultiProjects(File reportDir,
-            List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs)
-            throws IOException {
-        logger.debug("开始在:{}下生成覆盖率报告", reportDir);
-        File coverageFolderFile = reportDir;
-        if (coverageFolderFile.exists()) {
-            FileUtil.forceDeleteDirectory(coverageFolderFile);
-        }
+		logger.info("生成增量覆盖率报告完成");
+	}
 
-        HTMLFormatter htmlFormatter = new HTMLFormatter();
-        IReportVisitor iReportVisitor = null;
+	/**
+	 * 在某个目录下生成报告
+	 *
+	 * @see :
+	 * @param :
+	 * @return : void
+	 * @param bundleCoverage
+	 * @param reportDir
+	 * @throws IOException
+	 */
+	private static void createReportWithMultiProjects(File reportDir,
+	        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs)
+	        throws IOException {
+		logger.debug("开始在:{}下生成覆盖率报告", reportDir);
+		File coverageFolderFile = reportDir;
+		if (coverageFolderFile.exists()) {
+			FileUtil.forceDeleteDirectory(coverageFolderFile);
+		}
 
-        boolean everCreatedReport = false;
+		HTMLFormatter htmlFormatter = new HTMLFormatter();
+		IReportVisitor iReportVisitor = null;
 
-        for (CodeCoverageFilesAndFoldersDTO codeCoverageFilesAndFoldersDTO : codeCoverageFilesAndFoldersDTOs) {
-            // class文件为空或者不存在
-            boolean classDirNotExists = (null == codeCoverageFilesAndFoldersDTO
-                    .getClassesDirectory())
-                    || (!(codeCoverageFilesAndFoldersDTO.getClassesDirectory()
-                            .exists()));
+		boolean everCreatedReport = false;
 
-            // class文件目录不存在
-            boolean needNotToCreateReport = classDirNotExists;
-            if (needNotToCreateReport) {
-                logger.debug("目录:{}没有class文件，不生成报告",
-                        codeCoverageFilesAndFoldersDTO.getProjectDir()
-                                .getAbsolutePath());
-                continue;
-            }
+		for (CodeCoverageFilesAndFoldersDTO codeCoverageFilesAndFoldersDTO : codeCoverageFilesAndFoldersDTOs) {
+			// class文件为空或者不存在
+			boolean classDirNotExists = (null == codeCoverageFilesAndFoldersDTO
+			        .getClassesDirectory())
+			        || (!(codeCoverageFilesAndFoldersDTO.getClassesDirectory()
+			                .exists()));
 
-            // 修改标志位
-            everCreatedReport = true;
-            logger.debug("正在为:{}生成报告", codeCoverageFilesAndFoldersDTO
-                    .getProjectDir().getAbsolutePath());
-            IBundleCoverage bundleCoverage = analyzeStructureWithOutChangeMethods(
-                    codeCoverageFilesAndFoldersDTO);
-            ExecFileLoader execFileLoader = getExecFileLoader(
-                    codeCoverageFilesAndFoldersDTO);
-            iReportVisitor = htmlFormatter
-                    .createVisitor(new FileMultiReportOutput(
-                            new File(coverageFolderFile.getAbsolutePath(),
-                                    codeCoverageFilesAndFoldersDTO
-                                            .getProjectDir().getName())));
+			// class文件目录不存在
+			boolean needNotToCreateReport = classDirNotExists;
+			if (needNotToCreateReport) {
+				logger.debug("目录:{}没有class文件，不生成报告",
+				        codeCoverageFilesAndFoldersDTO.getProjectDir()
+				                .getAbsolutePath());
+				continue;
+			}
 
-            if (null != execFileLoader) {
-                iReportVisitor.visitInfo(
-                        execFileLoader.getSessionInfoStore().getInfos(),
-                        execFileLoader.getExecutionDataStore().getContents());
-            }
+			// 修改标志位
+			everCreatedReport = true;
+			logger.debug("正在为:{}生成报告", codeCoverageFilesAndFoldersDTO
+			        .getProjectDir().getAbsolutePath());
+			IBundleCoverage bundleCoverage = analyzeStructureWithOutChangeMethods(
+			        codeCoverageFilesAndFoldersDTO);
+			ExecFileLoader execFileLoader = getExecFileLoader(
+			        codeCoverageFilesAndFoldersDTO);
+			iReportVisitor = htmlFormatter
+			        .createVisitor(new FileMultiReportOutput(
+			                new File(coverageFolderFile.getAbsolutePath(),
+			                        codeCoverageFilesAndFoldersDTO
+			                                .getProjectDir().getName())));
 
-            ISourceFileLocator iSourceFileLocator = getSourceFileLocatorsUnderThis(
-                    codeCoverageFilesAndFoldersDTO.getSourceDirectory());
-            iReportVisitor.visitBundle(bundleCoverage, iSourceFileLocator);
-            iReportVisitor.visitEnd();
-        }
+			if (null != execFileLoader) {
+				iReportVisitor.visitInfo(
+				        execFileLoader.getSessionInfoStore().getInfos(),
+				        execFileLoader.getExecutionDataStore().getContents());
+			}
 
-        if (!everCreatedReport) {
-            throw new BusinessValidationException("从未生成报告，检查下工程是否未编译或者是否都是空工程");
-        }
-    }
+			ISourceFileLocator iSourceFileLocator = getSourceFileLocatorsUnderThis(
+			        codeCoverageFilesAndFoldersDTO.getSourceDirectory());
+			iReportVisitor.visitBundle(bundleCoverage, iSourceFileLocator);
+			iReportVisitor.visitEnd();
+		}
 
-    /**
-     * 获取当前目录下的所有目录，用作
-     * 
-     * @see :
-     * @param :
-     * @return : ISourceFileLocator
-     * @param topLevelSourceFileFolder
-     * @return
-     */
-    private static ISourceFileLocator getSourceFileLocatorsUnderThis(
-            File topLevelSourceFileFolder) {
-        MultiSourceFileLocator iSourceFileLocator = new MultiSourceFileLocator(
-                4);
+		if (!everCreatedReport) {
+			throw new BusinessValidationException("从未生成报告，检查下工程是否未编译或者是否都是空工程");
+		}
+	}
 
-        List<File> sourceFileFolders = getSourceFileFoldersUnderThis(
-                topLevelSourceFileFolder);
+	/**
+	 * 获取当前目录下的所有目录，用作
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : ISourceFileLocator
+	 * @param topLevelSourceFileFolder
+	 * @return
+	 */
+	private static ISourceFileLocator getSourceFileLocatorsUnderThis(
+	        File topLevelSourceFileFolder) {
+		MultiSourceFileLocator iSourceFileLocator = new MultiSourceFileLocator(
+		        4);
 
-        for (File eachSourceFileFolder : sourceFileFolders) {
-            iSourceFileLocator
-                    .add(new DirectorySourceFileLocator(eachSourceFileFolder,
-                            GlobalDefination.CHAR_SET_DEFAULT, 4));
-        }
-        return iSourceFileLocator;
-    }
+		List<File> sourceFileFolders = getSourceFileFoldersUnderThis(
+		        topLevelSourceFileFolder);
 
-    /**
-     * 获取顶层目录下的所有源码文件夹
-     * 
-     * @see :
-     * @param :
-     * @return : String[]
-     * @param topLevelSourceFileFolder
-     * @return
-     */
+		for (File eachSourceFileFolder : sourceFileFolders) {
+			iSourceFileLocator
+			        .add(new DirectorySourceFileLocator(eachSourceFileFolder,
+			                GlobalDefination.CHAR_SET_DEFAULT, 4));
+		}
+		return iSourceFileLocator;
+	}
 
-    private static List<File> getSourceFileFoldersUnderThis(
-            File topLevelSourceFileFolder) {
+	/**
+	 * 获取顶层目录下的所有源码文件夹
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : String[]
+	 * @param topLevelSourceFileFolder
+	 * @return
+	 */
 
-        List<File> sourceFileFolders = new ArrayList<>();
-        logger.debug("获取当前源码目录:{}下的所有源码相关文件夹顶层目录为:",
-                topLevelSourceFileFolder.getAbsolutePath());
+	private static List<File> getSourceFileFoldersUnderThis(
+	        File topLevelSourceFileFolder) {
 
-        FileUtil.onlyFolders = new ArrayList<>();
-        FileUtil.walkFolder(topLevelSourceFileFolder);
+		List<File> sourceFileFolders = new ArrayList<>();
+		logger.debug("获取当前源码目录:{}下的所有源码相关文件夹顶层目录为:",
+		        topLevelSourceFileFolder.getAbsolutePath());
 
-        List<File> foldersUnderThis = new ArrayList<>();
-        foldersUnderThis.addAll(FileUtil.onlyFolders);
-        for (File eachFile : foldersUnderThis) {
-            // 如果他的祖先层级已经被加入过
-            if (!isAnyAncestorsEverJoinedSourceFolder(sourceFileFolders,
-                    eachFile)) {
-                boolean isSourceFileFolder = isThisFolderSourceFileFolder(
-                        eachFile);
-                if (isSourceFileFolder) {
-                    sourceFileFolders.add(eachFile.getParentFile());
-                }
-            }
+		FileUtil.onlyFolders = new ArrayList<>();
+		FileUtil.walkFolder(topLevelSourceFileFolder);
 
-        }
+		List<File> foldersUnderThis = new ArrayList<>();
+		foldersUnderThis.addAll(FileUtil.onlyFolders);
+		for (File eachFile : foldersUnderThis) {
+			// 如果他的祖先层级已经被加入过
+			// if (!isAnyAncestorsEverJoinedSourceFolder(sourceFileFolders,
+			// eachFile)) {
+			/**
+			 * 2019年11月14日 09:51:00，孙留平 修改bug，防止某些文件夹过于相似，前边完全一致导致有些文件夹丢失
+			 */
+			boolean isSourceFileFolder = isThisFolderSourceFileFolder(eachFile);
+			if (isSourceFileFolder) {
+				sourceFileFolders.add(eachFile.getParentFile());
+			}
+			// }
 
-        Util.displayListInfo(sourceFileFolders);
-        return sourceFileFolders;
-    }
+		}
 
-    /**
-     * 判断当前文件夹是否有祖先被加入，如果被加入，就不在继续判断
-     * 
-     * @see :
-     * @param :
-     * @return : void
-     * @param sourceFileFolders
-     * @param thisFolder
-     */
-    private static boolean isAnyAncestorsEverJoinedSourceFolder(
-            List<File> sourceFileFolders, File thisFolder) {
-        String thisFolderString = thisFolder.getAbsolutePath();
-        for (File file : sourceFileFolders) {
-            if (thisFolderString.startsWith(file.getAbsolutePath())) {
-                return true;
-            }
-        }
-        return false;
-    }
+		Util.displayListInfo(sourceFileFolders);
+		return sourceFileFolders;
+	}
 
-    /**
-     * 
-     * 
-     * @see : 断这个文件是不是源码文件夹
-     * @param :
-     * @return : boolean
-     * @param fileFolder
-     * @return
-     */
-    private static boolean isThisFolderSourceFileFolder(File fileFolder) {
-        if (!fileFolder.exists()) {
-            return false;
-        }
+	/**
+	 * 判断当前文件夹是否有祖先被加入，如果被加入，就不在继续判断
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : void
+	 * @param sourceFileFolders
+	 * @param thisFolder
+	 */
+	private static boolean isAnyAncestorsEverJoinedSourceFolder(
+	        List<File> sourceFileFolders, File thisFolder) {
+		String thisFolderString = thisFolder.getAbsolutePath();
+		for (File file : sourceFileFolders) {
+			if (thisFolderString.startsWith(file.getAbsolutePath())) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-        // 如果是文件夹
-        if (fileFolder.isDirectory()) {
-            String name = fileFolder.getName();
-            if (CommonDefine.COMPANY_MARK_LIST.contains(name)) {
-                logger.debug("名称为:{},的目录{}是源码目录", name,
-                        fileFolder.getAbsolutePath());
-                return true;
-            }
-        }
-        logger.debug("名称为:{},的目录{}不是源码目录", fileFolder.getName(),
-                fileFolder.getAbsolutePath());
-        return false;
-    }
+	/**
+	 * 
+	 * 
+	 * @see : 断这个文件是不是源码文件夹
+	 * @param :
+	 * @return : boolean
+	 * @param fileFolder
+	 * @return
+	 */
+	private static boolean isThisFolderSourceFileFolder(File fileFolder) {
+		if (!fileFolder.exists()) {
+			return false;
+		}
 
-    /**
-     * @see :
-     * @param :
-     * @return : ExecFileLoader
-     * @param codeCoverageFilesAndFoldersDTO
-     * @return
-     */
-    public static ExecFileLoader getExecFileLoader(
-            CodeCoverageFilesAndFoldersDTO codeCoverageFilesAndFoldersDTO) {
-        ExecFileLoader execFileLoaderTemp = new ExecFileLoader();
-        try {
-            execFileLoaderTemp.load(
-                    codeCoverageFilesAndFoldersDTO.getExecutionDataFile());
-            return execFileLoaderTemp;
-        } catch (IOException e) {
-            logger.error("IO异常,{}", e.getMessage());
-            return null;
-        }
-    }
+		// 如果是文件夹
+		if (fileFolder.isDirectory()) {
+			String name = fileFolder.getName();
+			if (CommonDefine.COMPANY_MARK_LIST.contains(name)) {
+				logger.debug("名称为:{},的目录{}是源码目录", name,
+				        fileFolder.getAbsolutePath());
+				return true;
+			}
+		}
+		logger.debug("名称为:{},的目录{}不是源码目录", fileFolder.getName(),
+		        fileFolder.getAbsolutePath());
+		return false;
+	}
 
-    /**
-     * 无参解析，前提是要先初始化CoverageBuilder中的methods，不然可能出不来数据
-     * 
-     * @see :
-     * @param :
-     * @return : IBundleCoverage
-     * @param methodInfos
-     * @param codeCoverageFilesAndFoldersDTO
-     * @return
-     * @throws IOException
-     */
-    private static IBundleCoverage analyzeStructureWithOutChangeMethods(
-            CodeCoverageFilesAndFoldersDTO codeCoverageFilesAndFoldersDTO)
-            throws IOException {
-        final CoverageBuilder coverageBuilder = new CoverageBuilder();
-        ExecFileLoader execFileLoaderTemp = getExecFileLoader(
-                codeCoverageFilesAndFoldersDTO);
-        if (null == execFileLoaderTemp) {
-            return coverageBuilder.getBundle(
-                    codeCoverageFilesAndFoldersDTO.getProjectDir().getName());
-        }
-        final Analyzer analyzer = new Analyzer(
-                execFileLoaderTemp.getExecutionDataStore(), coverageBuilder);
-        analyzer.analyzeAll(
-                codeCoverageFilesAndFoldersDTO.getClassesDirectory());
-        return coverageBuilder.getBundle(
-                codeCoverageFilesAndFoldersDTO.getProjectDir().getName());
-    }
+	/**
+	 * @see :
+	 * @param :
+	 * @return : ExecFileLoader
+	 * @param codeCoverageFilesAndFoldersDTO
+	 * @return
+	 */
+	public static ExecFileLoader getExecFileLoader(
+	        CodeCoverageFilesAndFoldersDTO codeCoverageFilesAndFoldersDTO) {
+		ExecFileLoader execFileLoaderTemp = new ExecFileLoader();
+		try {
+			execFileLoaderTemp.load(
+			        codeCoverageFilesAndFoldersDTO.getExecutionDataFile());
+			return execFileLoaderTemp;
+		} catch (IOException e) {
+			logger.error("IO异常,{}", e.getMessage());
+			e.printStackTrace();
 
-    private static void initCoverageBuilderMethodsInfo(
-            List<MethodInfo> methodInfos) {
-        CoverageBuilder.methodInfos = null;
-        List<MethodInfo> currentMethodsInfo = new ArrayList<>();
-        currentMethodsInfo.addAll(methodInfos);
-        CoverageBuilder.methodInfos = currentMethodsInfo;
-    }
+			if (StringUtil.isStringAvaliable(e.getMessage())
+			        && e.getMessage().contains(JACOCO_VERSION_NOT_MATCH)) {
+				throw new BusinessValidationException(
+				        "覆盖率的Jacoco版本不匹配:" + e.getMessage());
+			}
 
-    /**
-     * 根据CodeCoverage生成全量报告
-     * 
-     * @see :
-     * @param :
-     * @return : void
-     * @param codeCoverage
-     */
-    public static void createWholeCodeCoverageDataWithMulti(
-            CodeCoverage codeCoverage) {
-        logger.debug("生成全量覆盖率报告开始");
-        File newerFolder = VcsCommonUtil
-                .parseNewProjectFolderFromCodeCoverage(codeCoverage);
+			throw new BusinessValidationException(
+			        "加载覆盖率数据文件失败，查看是否jacoco版本不匹配");
+		}
+	}
 
-        List<MethodInfo> changeMethods = null;
-        if (codeCoverage.getJdkVersion().equals(JacocoDefine.JDK_VERSION_SIX)) {
-            changeMethods = DiffAST.diffFilesWithTwoLocalDirsWithJdkSix(
-                    newerFolder.getAbsolutePath(), null);
-        } else {
-            changeMethods = DiffAST.diffFilesWithTwoLocalDirs(
-                    newerFolder.getAbsolutePath(), null);
-        }
+	/**
+	 * 无参解析，前提是要先初始化CoverageBuilder中的methods，不然可能出不来数据
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : IBundleCoverage
+	 * @param methodInfos
+	 * @param codeCoverageFilesAndFoldersDTO
+	 * @return
+	 * @throws IOException
+	 */
+	private static IBundleCoverage analyzeStructureWithOutChangeMethods(
+	        CodeCoverageFilesAndFoldersDTO codeCoverageFilesAndFoldersDTO)
+	        throws IOException {
+		final CoverageBuilder coverageBuilder = new CoverageBuilder();
+		ExecFileLoader execFileLoaderTemp = getExecFileLoader(
+		        codeCoverageFilesAndFoldersDTO);
+		if (null == execFileLoaderTemp) {
+			return coverageBuilder.getBundle(
+			        codeCoverageFilesAndFoldersDTO.getProjectDir().getName());
+		}
+		final Analyzer analyzer = new Analyzer(
+		        execFileLoaderTemp.getExecutionDataStore(), coverageBuilder);
+		analyzer.analyzeAll(
+		        codeCoverageFilesAndFoldersDTO.getClassesDirectory());
+		return coverageBuilder.getBundle(
+		        codeCoverageFilesAndFoldersDTO.getProjectDir().getName());
+	}
 
-        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = null;
+	private static void initCoverageBuilderMethodsInfo(
+	        List<MethodInfo> methodInfos) {
+		CoverageBuilder.methodInfos = null;
+		List<MethodInfo> currentMethodsInfo = new ArrayList<>();
+		currentMethodsInfo.addAll(methodInfos);
+		CoverageBuilder.methodInfos = currentMethodsInfo;
+	}
 
-        if (isGradle(codeCoverage)) {
-            logger.debug("是gradle项目");
-            CodeBuildGradleAndroid codeBuildGradleAndroid = new CodeBuildGradleAndroid();
+	/**
+	 * 根据CodeCoverage生成全量报告
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : void
+	 * @param codeCoverage
+	 */
+	public static void createWholeCodeCoverageDataWithMulti(
+	        CodeCoverage codeCoverage) {
+		logger.debug("生成全量覆盖率报告开始");
+		File newerFolder = VcsCommonUtil
+		        .parseNewProjectFolderFromCodeCoverage(codeCoverage);
 
-            logger.debug("123：{}", codeBuildGradleAndroid);
-            codeBuildGradleAndroid
-                    .setChannelName(codeCoverage.getChannelName());
-            codeCoverageFilesAndFoldersDTOs = codeBuildGradleAndroid
-                    .getCodeCoverageFilesAndFoldersDTOs(
-                            newerFolder.getAbsolutePath());
-        } else {
-            CodeBuildIntf codeBuildIntf = codeCoverage
-                    .parseCodeBuildFromThisObject();
+		List<MethodInfo> changeMethods = null;
+		if (codeCoverage.getJdkVersion().equals(JacocoDefine.JDK_VERSION_SIX)) {
+			changeMethods = DiffAST.diffFilesWithTwoLocalDirsWithJdkSix(
+			        newerFolder.getAbsolutePath(), null);
+		} else {
+			changeMethods = DiffAST.diffFilesWithTwoLocalDirs(
+			        newerFolder.getAbsolutePath(), null);
+		}
 
-            codeCoverageFilesAndFoldersDTOs = codeBuildIntf
-                    .getCodeCoverageFilesAndFoldersDTOs(
-                            newerFolder.getAbsolutePath());
-        }
+		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = null;
 
-        // CodeBuildIntf codeBuildIntf = codeCoverage
-        // .parseCodeBuildFromThisObject();
-        //
-        // List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs
-        // = codeBuildIntf
-        // .getCodeCoverageFilesAndFoldersDTOs(newerFileFolder);
+		if (isGradle(codeCoverage)) {
+			logger.debug("是gradle项目");
+			CodeBuildGradleAndroid codeBuildGradleAndroid = new CodeBuildGradleAndroid();
 
-        initCoverageBuilderMethodsInfo(changeMethods);
+			logger.debug("123：{}", codeBuildGradleAndroid);
+			codeBuildGradleAndroid
+			        .setChannelName(codeCoverage.getChannelName());
+			codeCoverageFilesAndFoldersDTOs = codeBuildGradleAndroid
+			        .getCodeCoverageFilesAndFolders(
+			                newerFolder.getAbsolutePath());
+		} else {
+			CodeBuildIntf codeBuildIntf = codeCoverage
+			        .parseCodeBuildFromThisObject();
 
-        createWholeCodeCoverageDataWithMulti(newerFolder,
-                codeCoverageFilesAndFoldersDTOs);
+			codeCoverageFilesAndFoldersDTOs = codeBuildIntf
+			        .getCodeCoverageFilesAndFolders(
+			                newerFolder.getAbsolutePath());
+		}
 
-        logger.debug("生成全量覆盖率报告完成");
-    }
+		// CodeBuildIntf codeBuildIntf = codeCoverage
+		// .parseCodeBuildFromThisObject();
+		//
+		// List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs
+		// = codeBuildIntf
+		// .getCodeCoverageFilesAndFoldersDTOs(newerFileFolder);
 
-    /**
-     * 生成增量覆盖率报告
-     * 
-     * @see :
-     * @param :
-     * @return : void
-     * @param fileFolder
-     * @param codeCoverageFilesAndFoldersDTOs
-     */
-    public static void createIncrementCodeCoverageReportWithChangeMethodsWithMulti(
-            File fileFolder,
-            List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs) {
-        try {
+		initCoverageBuilderMethodsInfo(changeMethods);
 
-            File incrementCodeCoverageDataFolder = new File(
-                    fileFolder.getAbsolutePath(),
-                    JacocoDefine.INCREMENT_CODE_COVERAGE_DATA_FOLDER);
-            createReportWithMultiProjects(incrementCodeCoverageDataFolder,
-                    codeCoverageFilesAndFoldersDTOs);
+		createWholeCodeCoverageDataWithMulti(newerFolder,
+		        codeCoverageFilesAndFoldersDTOs);
 
-            File incrementCodeCoverageDataZip = new File(
-                    fileFolder.getAbsolutePath(),
-                    JacocoDefine.INCREMENT_CODE_COVERAGE_DATA_FOLDER + ".zip");
+		logger.debug("生成全量覆盖率报告完成");
+	}
 
-            ZipCompress.zip(incrementCodeCoverageDataFolder.getAbsolutePath(),
-                    incrementCodeCoverageDataZip.getAbsolutePath());
-        } catch (IOException e) {
-            logger.error("io异常:{}", e.getMessage());
-        }
-    }
+	/**
+	 * 生成增量覆盖率报告
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : void
+	 * @param fileFolder
+	 * @param codeCoverageFilesAndFoldersDTOs
+	 */
+	public static void createIncrementCodeCoverageReportWithChangeMethodsWithMulti(
+	        File fileFolder,
+	        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs) {
+		try {
 
-    /**
-     * 生成全量覆盖率报告
-     * 
-     * @see :
-     * @param :
-     * @return : void
-     * @param fileFolder
-     * @param codeCoverageFilesAndFoldersDTOs
-     */
-    public static void createWholeCodeCoverageDataWithMulti(File fileFolder,
-            List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs) {
-        try {
+			File incrementCodeCoverageDataFolder = new File(
+			        fileFolder.getAbsolutePath(),
+			        JacocoDefine.INCREMENT_CODE_COVERAGE_DATA_FOLDER);
+			createReportWithMultiProjects(incrementCodeCoverageDataFolder,
+			        codeCoverageFilesAndFoldersDTOs);
 
-            File wholeCodeCoverageDataFolder = new File(
-                    fileFolder.getAbsolutePath(),
-                    JacocoDefine.CODE_COVERAGE_DATA_FOLDER);
-            createReportWithMultiProjects(wholeCodeCoverageDataFolder,
-                    codeCoverageFilesAndFoldersDTOs);
+			File incrementCodeCoverageDataZip = new File(
+			        fileFolder.getAbsolutePath(),
+			        JacocoDefine.INCREMENT_CODE_COVERAGE_DATA_FOLDER + ".zip");
 
-            File wholeZipFile = new File(fileFolder.getAbsolutePath(),
-                    JacocoDefine.CODE_COVERAGE_DATA_FOLDER + ".zip");
+			ZipCompress.zip(incrementCodeCoverageDataFolder.getAbsolutePath(),
+			        incrementCodeCoverageDataZip.getAbsolutePath());
+		} catch (IOException e) {
+			logger.error("io异常:{}", e.getMessage());
+			throw new BusinessValidationException("生成增量覆盖率报告失败！请联系管理员查看原因");
+		}
+	}
 
-            ZipCompress.zip(wholeCodeCoverageDataFolder.getAbsolutePath(),
-                    wholeZipFile.getAbsolutePath());
-        } catch (IOException e) {
-            logger.error("IO操作异常:{}", e.getMessage());
-        }
+	/**
+	 * 生成全量覆盖率报告
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : void
+	 * @param fileFolder
+	 * @param codeCoverageFilesAndFoldersDTOs
+	 */
+	public static void createWholeCodeCoverageDataWithMulti(File fileFolder,
+	        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs) {
+		try {
 
-    }
+			File wholeCodeCoverageDataFolder = new File(
+			        fileFolder.getAbsolutePath(),
+			        JacocoDefine.CODE_COVERAGE_DATA_FOLDER);
+			createReportWithMultiProjects(wholeCodeCoverageDataFolder,
+			        codeCoverageFilesAndFoldersDTOs);
 
-    private static boolean isGradle(CodeCoverage codeCoverage) {
-        return BuildType.GRADLE == codeCoverage.getBuildType();
-    }
+			File wholeZipFile = new File(fileFolder.getAbsolutePath(),
+			        JacocoDefine.CODE_COVERAGE_DATA_FOLDER + ".zip");
 
-    public static void main(String[] args) {
-        // CodeCoverage codeCoverage = new CodeCoverage();
-        // codeCoverage.setProjectName("AI机器人");
-        // codeCoverage.setBuildType(BuildType.MAVEN);
-        //
-        // codeCoverage.setNewerRemoteUrl(
-        // "http://redmine.hztianque.com:9080/repos/TQProduct/tq-robot/branches/tq-robot-1.0.0");
-        // codeCoverage.setNewerVersion("609899");
-        // codeCoverage.setTcpServerIp("192.168.110.36");
-        // codeCoverage.setTcpServerPort(2018);
-        // codeCoverage.setUsername("sunliuping");
-        // codeCoverage.setPassword("Admin@1234");
-        // createWholeCodeCoverageDataWithMulti(codeCoverage);
-        File topLevelSourceFileFolder = new File(
-                "D:\\manager_platform\\jacoco_coverage\\newshengPingTai__dataAnalysis\\src");
-        ReportGenerator.getSourceFileFoldersUnderThis(topLevelSourceFileFolder);
-    }
+			ZipCompress.zip(wholeCodeCoverageDataFolder.getAbsolutePath(),
+			        wholeZipFile.getAbsolutePath());
+		} catch (IOException e) {
+			logger.error("IO操作异常:{}", e.getMessage());
+			throw new BusinessValidationException("生成全量覆盖率数据异常！");
+		}
+
+	}
+
+	private static boolean isGradle(CodeCoverage codeCoverage) {
+		return BuildType.GRADLE == codeCoverage.getBuildType();
+	}
+
+	public static void main(String[] args) {
+		// CodeCoverage codeCoverage = new CodeCoverage();
+		// codeCoverage.setProjectName("AI机器人");
+		// codeCoverage.setBuildType(BuildType.MAVEN);
+		//
+		// codeCoverage.setNewerRemoteUrl(
+		// "http://redmine.hztianque.com:9080/repos/TQProduct/tq-robot/branches/tq-robot-1.0.0");
+		// codeCoverage.setNewerVersion("609899");
+		// codeCoverage.setTcpServerIp("192.168.110.36");
+		// codeCoverage.setTcpServerPort(2018);
+		// codeCoverage.setUsername("sunliuping");
+		// codeCoverage.setPassword("Admin@1234");
+		// createWholeCodeCoverageDataWithMulti(codeCoverage);
+		File topLevelSourceFileFolder = new File(
+		        "D:\\manager_platform\\jacoco_coverage\\newshengPingTai__dataAnalysis\\src");
+		ReportGenerator.getSourceFileFoldersUnderThis(topLevelSourceFileFolder);
+	}
 
 }

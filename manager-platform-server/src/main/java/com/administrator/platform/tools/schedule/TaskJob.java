@@ -16,7 +16,9 @@ import com.administrator.platform.core.base.util.StringUtil;
 import com.administrator.platform.exception.base.BusinessValidationException;
 import com.administrator.platform.model.CodeCoverage;
 import com.administrator.platform.model.TimerTaskPolicy;
+import com.administrator.platform.model.yunxiao.PipeLine;
 import com.administrator.platform.service.CodeCoverageService;
+import com.administrator.platform.service.PipeLineService;
 import com.administrator.platform.util.SpringBeanUtil;
 
 /**
@@ -33,6 +35,10 @@ public class TaskJob implements Job {
 	@Autowired
 	@Order(3)
 	private CodeCoverageService codeCoverageService;
+
+	@Autowired
+	@Order(3)
+	private PipeLineService pipeLineService;
 	private static final char SEP = '.';
 	private static Logger logger = LoggerFactory.getLogger(TaskJob.class);
 
@@ -95,12 +101,13 @@ public class TaskJob implements Job {
 			String domain = code.substring(0, code.lastIndexOf(SEP));
 			String method = code.substring(code.lastIndexOf(SEP) + 1);
 			Object clazz = SpringBeanUtil.getBeanFromSpringByBeanName(domain);
-			Method m = clazz.getClass().getMethod(method, CodeCoverage.class);
 
 			/**
 			 * 判断是不是覆盖率信息来的数据
 			 */
 			if (otherParams.containsKey(TaskDefine.CODE_COVERAGER_ID_KEY)) {
+				Method m = clazz.getClass().getMethod(method,
+				        CodeCoverage.class);
 				String objectValue = (String) otherParams
 				        .getOrDefault(TaskDefine.CODE_COVERAGER_ID_KEY, null);
 
@@ -127,7 +134,35 @@ public class TaskJob implements Job {
 					return;
 				}
 				m.invoke(clazz, codeCoverage);
+			} else if (otherParams.containsKey(TaskDefine.PIPELINE_ID_KEY)) {
+				Method m = clazz.getClass().getMethod(method, PipeLine.class);
+				String objectValue = (String) otherParams
+				        .getOrDefault(TaskDefine.PIPELINE_ID_KEY, null);
+
+				logger.debug("当前的参数列表:{}", otherParams);
+				logger.debug("参数中有没有pipeLineId:{}",
+				        otherParams.containsKey(TaskDefine.PIPELINE_ID_KEY));
+				logger.debug("获取到的pipeLineId为:{}", objectValue);
+
+				if (StringUtil.isEmpty(objectValue)) {
+					logger.debug("没有找到codeCoverageId,不执行任务");
+					return;
+				}
+
+				pipeLineService = (PipeLineService) SpringBeanUtil
+				        .getBeanFromSpringByBeanName("pipeLineService");
+
+				Long pipeLineId = Long.parseLong(objectValue);
+				PipeLine pipeLine = pipeLineService.getPipeLineById(pipeLineId);
+
+				if (StringUtil.isEmpty(objectValue)) {
+					logger.debug("没有找到pipeLineId为:{}的流水线信息，不执行任务", pipeLineId);
+					return;
+				}
+				m.invoke(clazz, pipeLine);
 			} else {
+				Method m = clazz.getClass().getMethod(method,
+				        CodeCoverage.class);
 				m.invoke(clazz);
 			}
 

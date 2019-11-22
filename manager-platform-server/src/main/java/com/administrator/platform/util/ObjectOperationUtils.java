@@ -10,6 +10,8 @@
 package com.administrator.platform.util;
 
 import java.lang.reflect.Field;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -49,4 +51,21 @@ public class ObjectOperationUtils {
 		return multiValueMap;
 	}
 
+	public static MultiValueMap<String, Object> changeFromMap(
+	        Map<String, Object> params) {
+
+		MultiValueMap<String, Object> toReturnParams = new LinkedMultiValueMap();
+
+		Iterator<Map.Entry<String, Object>> iterator = params.entrySet()
+		        .iterator();
+
+		while (iterator.hasNext()) {
+			Map.Entry<String, Object> entry = iterator.next();
+
+			toReturnParams.add(entry.getKey(), entry.getValue());
+		}
+
+		return toReturnParams;
+
+	}
 }

@@ -4,314 +4,320 @@
 layui.config({// version : '1535898708509' // 为了更新 js 缓存，可忽略
 });
 
-layui.use(['laypage', 'layer', 'table', 'element', 'form'], function() {
-    var form = layui.form
-      , layer = parent.layer === undefined ? layui.layer : top.layer
-      , $ = layui.jquery
-      , laydate = layui.laydate
-      , laytpl = layui.laytpl
-      , table = layui.table
-      , laypage = layui.laypage
-      , element = layui.element;
-    // 元素操作
+layui.use([ 'laypage', 'layer', 'table', 'element', 'form' ], function() {
+	var form = layui.form;
+	var layer = (parent.layer === undefined ? layui.layer : top.layer);
+	var $ = layui.jquery;
+	var laydate = layui.laydate;
+	var laytpl = layui.laytpl;
+	var table = layui.table;
+	var laypage = layui.laypage;
+	var element = layui.element;
+	// 元素操作
 
-    var widthPercent = "70%"
-      , heightPercent = "90%";
-    
-    /**
-     * 获取所有数据
-     */
-    function getSysRoleList(){
-    	var getSysRoleListUrl = '/sys/sysRole/getList';
-    	var resultData = "";
-        $.ajax({
-        	url:getSysRoleListUrl,
-        	async:false,
-        	method:"get",
-        	dataType:"json",
-        	success:function(result){
-        		resultData = result;
-        }});
-        return resultData;
-    }
-    
-    /**
-     * 条件搜索
-     */
-    function getSysRoleListWithCondition(searchContent){
-    	if(searchContent == "undefined" || searchContent == ""){
-    		return getSysRoleList();
-    	}else{
-    		var resultData = "",
-    		postData = {};
-    		$.ajax({
-    			url: "/sys/sysRole/searchList?searchContent=" + searchContent,
-                method: "get",
-        		data : postData ,
-        		async : false ,
-        		dataType : "json",
-        		success:function(result){
-        			resultData = result;
-        		}
-        	});
-    		return resultData;
-    	}
-    }
-    
-    /**
-     * 刷新表格
-     */
-    function renderSysRoleTableDefault(){
-    	var searchContent = "";
-    	var sysRoleListData = getSysRoleListWithCondition(searchContent);
-        table.reload("sysRoleListTable", {
-        	page : {curr : 1},
-        	data : sysRoleListData.data
-        })
-    }
-    
-    // 执行一个 table 实例
-    var sysRoleTable = table.render({
-        elem: '#sysRoleListTable',
-        height: 400,
-        // 数据接口
-//        url : "/sys/sysRole/getList/",
-//        method:"get",
-        // 表头
-        title: '系统角色',
-        // 开启工具栏，此处显示默认图标，可以自定义模板，详见文档
-        toolbar: toolbar,
-        defaultToolbar: ["filter"],
-        //是否显示加载条
-        loading: true,
-        //默认排序
-        initSort: "projectName",
-        even: true,
-        // 最窄宽度
-        cellMinWidth: 60,
-        size:"lg",
-        page:{
-        	layout: ['prev', 'page', 'next', 'limit', 'count', 'skip'],
-	        prev: "上一页" ,
-	        next: "下一页" ,
-	        first: "首页",
-	        last: "尾页",
-	        //每页条数的选择项
-	        limits: [5, 10, 20, 30, 40, 50, 100],
-	        limit : 5,
-	        groups: 3,
-	        skin: '#1E9FFF',
-	        // 自定义选中色值
-	        skip: true,
-        },
-        text: {
-            none: '暂无相关数据'// 默认：无数据。
-        },
-        // 表头
-        cols: [[
-        	{
-	            type: 'checkbox',
-	            fixed: 'left',
-	            unresize :true
-	        },{
-            	type:'numbers',
-            	title:"序号",
-            	fixed:"left",
-            	unresize :true
-            }
-	        ,{
-	            field: 'roleName',
-	            title: '角色',
-	            sort: true,
-//	            width: 150
-	        }, {
-	            field: 'comments',
-	            title: '备注',
-	            sort: true,
-//	            width: 220
-	        }, 
-//	        {
-//	            field: 'createDate',
-//	            title: '创建日期',
-//	            sort: true,
-//	        }, {
-//	            field: 'updateDate',
-//	            title: '修改日期',
-//	            sort: true,
-//	        },
-	        {
-	            fixed: 'right',
-	            align: 'center',
-	            title: '操作',
-	            toolbar: '#operationBar',
-//	            width: 300
-	        }]],
-        data : getSysRoleList().data
-    });
+	var widthPercent = "70%", heightPercent = "90%";
 
-    // 监听头工具栏事件,批量删除操作
-    $('#deleteInBatch').click(function() {
-        var checkStatus = table.checkStatus('sysRoleListTable');
-        var data = checkStatus.data;
-        console.log(data);
-        var sysRoleId = [];
-        if (data.length > 0) {
-            for (var eachDataIndex in data) {
-                sysRoleId.push(data[eachDataIndex].id);
-            }
+	/**
+	 * 获取所有数据
+	 */
+	function getSysRoleList() {
+		var getSysRoleListUrl = '/sys/sysRole/getList';
+		var resultData = "";
+		$.ajax({
+			url : getSysRoleListUrl,
+			async : false,
+			method : "get",
+			dataType : "json",
+			success : function(result) {
+				resultData = result;
+			}
+		});
+		return resultData;
+	}
 
-            layer.confirm('确定删除选中的数据吗？', {
-                icon: 3,
-                title: '提示信息'
-            }, function(index) {
-                var url = "/sys/sysRole/deleteSysRoleInBatch";
+	/**
+	 * 条件搜索
+	 */
+	function getSysRoleListWithCondition(searchContent) {
+		if (searchContent == "undefined" || searchContent == "") {
+			return getSysRoleList();
+		} else {
+			var resultData = "", postData = {};
+			$.ajax({
+				url : "/sys/sysRole/searchList?searchContent=" + searchContent,
+				method : "get",
+				data : postData,
+				async : false,
+				dataType : "json",
+				success : function(result) {
+					resultData = result;
+				}
+			});
+			return resultData;
+		}
+	}
 
-                var postData = {
-                    "ids": sysRoleId
-                };
+	/**
+	 * 刷新表格
+	 */
+	function renderSysRoleTableDefault() {
+		var searchContent = "";
+		var sysRoleListData = getSysRoleListWithCondition(searchContent);
+		table.reload("sysRoleListTable", {
+			page : {
+				curr : 1
+			},
+			data : sysRoleListData.data
+		})
+	}
 
-                $.post(url, postData, function(responseData) {
-                    if (responseData.success == "true" || responseData.success) {
-                        setTimeout(function() {
-                            top.layer.msg("批量删除成功！");
-//                            sysRoleTable.reload();
-                            renderSysRoleTableDefault()
-                            layer.close(index);
-                        }, 500);
-                    } else {
-                        layer.msg('批量删除失败：' + responseData.msg);
-                    }
-                });
+	// 执行一个 table 实例
+	var sysRoleTable = table.render({
+		elem : '#sysRoleListTable',
+		height : 400,
+		// 数据接口
+		// url : "/sys/sysRole/getList/",
+		// method:"get",
+		// 表头
+		title : '系统角色',
+		// 开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+		toolbar : toolbar,
+		defaultToolbar : [ "filter" ],
+		// 是否显示加载条
+		loading : true,
+		// 默认排序
+		initSort : "projectName",
+		even : true,
+		// 最窄宽度
+		cellMinWidth : 60,
+		page : {
+			layout : [ 'prev', 'page', 'next', 'limit', 'count', 'skip' ],
+			prev : "上一页",
+			next : "下一页",
+			first : "首页",
+			last : "尾页",
+			// 每页条数的选择项
+			limits : [ 5, 10, 20, 30, 40, 50, 100 ],
+			limit : 5,
+			groups : 3,
+			skin : '#1E9FFF',
+			// 自定义选中色值
+			skip : true,
+		},
+		text : {
+			none : '暂无相关数据'// 默认：无数据。
+		},
+		// 表头
+		cols : [ [ {
+			type : 'checkbox',
+			fixed : 'left',
+			unresize : true
+		}, {
+			type : 'numbers',
+			title : "序号",
+			fixed : "left",
+			unresize : true
+		}, {
+			field : 'roleName',
+			title : '角色',
+			sort : true,
+		// width: 150
+		}, {
+			field : 'comments',
+			title : '备注',
+			sort : true,
+		// width: 220
+		},
+		// {
+		// field: 'createDate',
+		// title: '创建日期',
+		// sort: true,
+		// }, {
+		// field: 'updateDate',
+		// title: '修改日期',
+		// sort: true,
+		// },
+		{
+			fixed : 'right',
+			align : 'center',
+			title : '操作',
+			toolbar : '#operationBar',
+		// width: 300
+		} ] ],
+		data : getSysRoleList().data
+	});
 
-            })
-        } else {
-            layer.msg("请选择需要删除的数据");
-        }
-    });
+	// 监听头工具栏事件,批量删除操作
+	$('#deleteInBatch').click(
+			function() {
+				var checkStatus = table.checkStatus('sysRoleListTable');
+				var data = checkStatus.data;
+				console.log(data);
+				var sysRoleId = [];
+				if (data.length > 0) {
+					for ( var eachDataIndex in data) {
+						sysRoleId.push(data[eachDataIndex].id);
+					}
 
-    // 添加系统角色
-    function addSysRole() {
-        layui.layer.open({
-            title: "添加系统角色",
-            type: 2,
-            area: [widthPercent, heightPercent],
-            content: "addSysRole.html",
-            success: function(layero, index) {
-                setTimeout(function() {
-                    layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
-                        tips: 3
-                    });
-                }, 500)
-            }
-        });
-    }
+					layer.confirm('确定删除选中的数据吗？', {
+						icon : 3,
+						title : '提示信息'
+					}, function(index) {
+						var url = "/sys/sysRole/deleteSysRoleInBatch";
 
-    // 编辑系统角色
-    function editSysRole(edit) {
-        layui.layer.open({
-            title: "修改系统角色",
-            type: 2,
-            area: [widthPercent, heightPercent],
-            content: "editSysRole.html",
-            success: function(layero, index) {
-                var body = layui.layer.getChildFrame('body', index);
-                body.find("#id").val(edit.id);
-                body.find("#roleName").val(edit.roleName);
-                body.find("#comments").val(edit.comments);
-                body.find("#createDate").val(edit.createDate);
-                body.find("#updateDate").val(edit.updateDate);
-                form.render();
-                setTimeout(function() {
-                    layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
-                        tips: 3
-                    });
-                }, 500)
-            }
-        });
-    }
+						var postData = {
+							"ids" : sysRoleId
+						};
 
-    // 查看系统角色
-    function viewSysRole(edit) {
-        layui.layer.open({
-            title: "查看系统角色",
-            type: 2,
-            area: [widthPercent, heightPercent],
-            content: "viewSysRole.html",
-            success: function(layero, index) {
-                var body = layui.layer.getChildFrame('body', index);
-                body.find("#id").val(edit.id);
-                body.find("#roleName").val(edit.roleName);
-                body.find("#comments").val(edit.comments);
-                body.find("#createDate").val(edit.createDate);
-                body.find("#updateDate").val(edit.updateDate);
-                form.render();
-                setTimeout(function() {
-                    layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
-                        tips: 3
-                    });
-                }, 500)
-            }
-        });
-    }
-    $("#addSysRole_btn").click(function() {
-        addSysRole();
-    });
+						$.post(url, postData, function(responseData) {
+							if (responseData.success == "true"
+									|| responseData.success) {
+								setTimeout(function() {
+									top.layer.msg("批量删除成功！");
+									// sysRoleTable.reload();
+									renderSysRoleTableDefault()
+									layer.close(index);
+								}, 500);
+							} else {
+								layer.msg('批量删除失败：' + responseData.msg);
+							}
+						});
 
-    // 搜索系统角色
-    // 搜索【此功能需要后台配合，所以暂时没有动态效果演示】
-    $("#searchSysRole").on("click", function() {
-        var searchContent = $("#serachSysRoleContent").val();
-        var sysRoleListData = getSysRoleListWithCondition(searchContent);
-        //搜索完之后清空搜索数据
-        $("#serachSysRoleContent").val("")
-        //表格重载
-        table.reload("sysRoleListTable",{data : sysRoleListData.data});
-    });
+					})
+				} else {
+					layer.msg("请选择需要删除的数据");
+				}
+			});
 
-    //刷新功能
-    $("#refreshSysRoleList").on("click", function() {
-    	$("#serachSysRoleContent").val("");
-    	renderSysRoleTableDefault();
-    });
-    
-    
-    // 监听行工具事件
-    table.on('tool(sysRoleListTable)', function(obj) {
-        // 注：tool
-        // 是工具条事件名，test 是
-        // table 原始容器的属性
-        // lay-filter="对应的值"
-        var data = obj.data;
-        // 获得当前行数据
-        var layEvent = obj.event;
-        // 获得 lay-event 对应的值
-        if (layEvent === 'detail') {
-            viewSysRole(data);
-        } else if (layEvent === 'del') {
-            layer.confirm('真的删除行么', function(index) {
-                var url = "/sys/sysRole/deleteSysRole";
-                var postData = {
-                    "id": data.id
-                };
-                $.post(url, postData, function(responseData) {
-                    if (responseData.success == "true" || responseData.success) {
-                        layer.msg('删除成功！');
-                        obj.del();
-                        renderSysRoleTableDefault();
-                        // 删除对应行（tr）的DOM结构
-                    } else {
-                        layer.msg('删除失败：' + responseData.msg);
-                    }
-                });
-                layer.close(index);
-                // 向服务端发送删除指令
-            });
-        } else if (layEvent === 'edit') {
-            editSysRole(data);
-        }
-    });
-    
-    table.on('rowDouble(sysRoleListTable)', function(obj){
-    	layer.msg("你想干啥！别瞎点好不好",{time: 300});
-    	});
+	// 添加系统角色
+	function addSysRole() {
+		layui.layer.open({
+			title : "添加系统角色",
+			type : 2,
+			area : [ widthPercent, heightPercent ],
+			content : "addSysRole.html",
+			success : function(layero, index) {
+				setTimeout(function() {
+					layui.layer.tips('点击此处返回列表',
+							'.layui-layer-setwin .layui-layer-close', {
+								tips : 3
+							});
+				}, 500)
+			}
+		});
+	}
+
+	// 编辑系统角色
+	function editSysRole(edit) {
+		layui.layer.open({
+			title : "修改系统角色",
+			type : 2,
+			area : [ widthPercent, heightPercent ],
+			content : "editSysRole.html",
+			success : function(layero, index) {
+				var body = layui.layer.getChildFrame('body', index);
+				body.find("#id").val(edit.id);
+				body.find("#roleName").val(edit.roleName);
+				body.find("#comments").val(edit.comments);
+				body.find("#createDate").val(edit.createDate);
+				body.find("#updateDate").val(edit.updateDate);
+				form.render();
+				setTimeout(function() {
+					layui.layer.tips('点击此处返回列表',
+							'.layui-layer-setwin .layui-layer-close', {
+								tips : 3
+							});
+				}, 500)
+			}
+		});
+	}
+
+	// 查看系统角色
+	function viewSysRole(edit) {
+		layui.layer.open({
+			title : "查看系统角色",
+			type : 2,
+			area : [ widthPercent, heightPercent ],
+			content : "viewSysRole.html",
+			success : function(layero, index) {
+				var body = layui.layer.getChildFrame('body', index);
+				body.find("#id").val(edit.id);
+				body.find("#roleName").val(edit.roleName);
+				body.find("#comments").val(edit.comments);
+				body.find("#createDate").val(edit.createDate);
+				body.find("#updateDate").val(edit.updateDate);
+				form.render();
+				setTimeout(function() {
+					layui.layer.tips('点击此处返回列表',
+							'.layui-layer-setwin .layui-layer-close', {
+								tips : 3
+							});
+				}, 500)
+			}
+		});
+	}
+	$("#addSysRole_btn").click(function() {
+		addSysRole();
+	});
+
+	// 搜索系统角色
+	// 搜索【此功能需要后台配合，所以暂时没有动态效果演示】
+	$("#searchSysRole").on("click", function() {
+		var searchContent = $("#serachSysRoleContent").val();
+		var sysRoleListData = getSysRoleListWithCondition(searchContent);
+		// 搜索完之后清空搜索数据
+		$("#serachSysRoleContent").val("")
+		// 表格重载
+		table.reload("sysRoleListTable", {
+			data : sysRoleListData.data
+		});
+	});
+
+	// 刷新功能
+	$("#refreshSysRoleList").on("click", function() {
+		$("#serachSysRoleContent").val("");
+		renderSysRoleTableDefault();
+	});
+
+	// 监听行工具事件
+	table.on('tool(sysRoleListTable)', function(obj) {
+		// 注：tool
+		// 是工具条事件名，test 是
+		// table 原始容器的属性
+		// lay-filter="对应的值"
+		var data = obj.data;
+		// 获得当前行数据
+		var layEvent = obj.event;
+		// 获得 lay-event 对应的值
+		if (layEvent === 'detail') {
+			viewSysRole(data);
+		} else if (layEvent === 'del') {
+			layer.confirm('真的删除行么', function(index) {
+				var url = "/sys/sysRole/deleteSysRole";
+				var postData = {
+					"id" : data.id
+				};
+				$.post(url, postData,
+						function(responseData) {
+							if (responseData.success == "true"
+									|| responseData.success) {
+								layer.msg('删除成功！');
+								obj.del();
+								renderSysRoleTableDefault();
+								// 删除对应行（tr）的DOM结构
+							} else {
+								layer.msg('删除失败：' + responseData.msg);
+							}
+						});
+				layer.close(index);
+				// 向服务端发送删除指令
+			});
+		} else if (layEvent === 'edit') {
+			editSysRole(data);
+		}
+	});
+
+	table.on('rowDouble(sysRoleListTable)', function(obj) {
+		viewSysRole(obj.data);
+	});
 });

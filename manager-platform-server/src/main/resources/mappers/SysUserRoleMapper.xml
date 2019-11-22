@@ -4,14 +4,16 @@
 	namespace="com.administrator.platform.mapper.SysUserRoleMapper">
 	<resultMap id="BaseResultMap"
 		type="com.administrator.platform.model.SysUserRole">
-		<result column="user_id" jdbcType="VARCHAR" property="userId" />
-		<result column="role_id" jdbcType="VARCHAR" property="roleId" />
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="role_id" jdbcType="BIGINT" property="roleId" />
 	</resultMap>
-	<insert id="insert"
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
 		parameterType="com.administrator.platform.model.SysUserRole">
-		insert into sys_user_role (user_id, role_id)
+		insert
+		into sys_user_role (user_id, role_id)
 		values
-		(#{userId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR})
+		(#{userId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT})
 	</insert>
 	<insert id="insertSelective"
 		parameterType="com.administrator.platform.model.SysUserRole">
@@ -36,4 +38,17 @@
 	<sql id="Base_Column_List">
 		user_id, role_id
 	</sql>
+
+	<delete id="deleteSysUserRoleBySysUserId"
+		parameterType="java.lang.Long">
+		delete from sys_user_role where user_id=#{sysUserId};
+	</delete>
+
+	<select id="getSysUserRoleByUserIdAndRoleId"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+
+		from sys_user_role where user_id=#{userId} and role_id=#{roleId};
+	</select>
 </mapper>

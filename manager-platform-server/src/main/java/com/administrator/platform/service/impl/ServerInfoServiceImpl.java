@@ -325,8 +325,8 @@ public class ServerInfoServiceImpl implements ServerInfoService {
 	@Override
 	public ShellExecuteResultDTO[] executeShellInBatchWithResponse(Long[] ids,
 	        String executeShell) {
-		ShellExecuteResultDTO[] shellExecuteResultDTOs = new ShellExecuteResultDTO[ids.length];
-		for (int i = 0; i < shellExecuteResultDTOs.length; i++) {
+		ShellExecuteResultDTO[] shellExecuteResults = new ShellExecuteResultDTO[ids.length];
+		for (int i = 0; i < shellExecuteResults.length; i++) {
 			ServerInfo serverInfo = getServerInfoById(ids[i]);
 			ShellExecuteResultDTO shellExecuteResultDTO = new ShellExecuteResultDTO();
 			shellExecuteResultDTO.setServerIp(serverInfo.getServerIp());
@@ -335,10 +335,10 @@ public class ServerInfoServiceImpl implements ServerInfoService {
 			                serverInfo.getUsername(), serverInfo.getPassword())
 			                        .executeShell(executeShell));
 
-			shellExecuteResultDTOs[i] = shellExecuteResultDTO;
+			shellExecuteResults[i] = shellExecuteResultDTO;
 		}
 
-		return shellExecuteResultDTOs;
+		return shellExecuteResults;
 	}
 
 	/**
@@ -373,7 +373,7 @@ public class ServerInfoServiceImpl implements ServerInfoService {
 
 	@Override
 	public ShellExecuteResultDTO[] checkServerCanBeConnected(Long[] ids) {
-		ShellExecuteResultDTO[] shellExecuteResultDTOs = new ShellExecuteResultDTO[ids.length];
+		ShellExecuteResultDTO[] shellExecuteResults = new ShellExecuteResultDTO[ids.length];
 		ServerInfo[] serverInfos = getServerInfosByIds(ids);
 
 		ShellExecuteResultDTO shellExecuteResultDTO = null;
@@ -391,9 +391,9 @@ public class ServerInfoServiceImpl implements ServerInfoService {
 
 			shellExecuteResultDTO.setServerIp(serverInfos[i].getServerIp());
 			shellExecuteResultDTO.setResult(result);
-			shellExecuteResultDTOs[i] = shellExecuteResultDTO;
+			shellExecuteResults[i] = shellExecuteResultDTO;
 		}
-		return shellExecuteResultDTOs;
+		return shellExecuteResults;
 	}
 
 	/**

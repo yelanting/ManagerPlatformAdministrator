@@ -2,6 +2,8 @@ package com.administrator.platform.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.administrator.platform.model.SysUserRole;
 
 /**
@@ -10,56 +12,69 @@ import com.administrator.platform.model.SysUserRole;
  * @see :
  */
 public interface SysUserRoleMapper {
-    int insert(SysUserRole record);
+	int insert(SysUserRole record);
 
-    int insertSelective(SysUserRole record);
+	int insertSelective(SysUserRole record);
 
-    /**
-     * 根据主键删除
-     * 
-     * @see :
-     * @param :
-     * @return : int
-     * @param id
-     * @return
-     */
-    int deleteByPrimaryKey(Long id);
+	/**
+	 * 根据主键删除
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : int
+	 * @param id
+	 * @return
+	 */
+	int deleteByPrimaryKey(Long id);
 
-    SysUserRole selectByPrimaryKey(Long id);
+	SysUserRole selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(SysUserRole record);
+	int updateByPrimaryKeySelective(SysUserRole record);
 
-    int updateByPrimaryKey(SysUserRole record);
+	int updateByPrimaryKey(SysUserRole record);
 
-    /**
-     * 根据ID批量删除
-     * 
-     * @see :
-     * @param :
-     * @return : void
-     * @param ids
-     */
-    void deleteByIds(Long[] ids);
+	/**
+	 * 根据ID批量删除
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : void
+	 * @param ids
+	 */
+	void deleteByIds(Long[] ids);
 
-    /**
-     * 根据ID查询
-     * 
-     * @see :
-     * @param :
-     * @return : SysUser
-     * @param id
-     * @return
-     */
+	/**
+	 * 根据ID查询
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : SysUser
+	 * @param id
+	 * @return
+	 */
 
-    SysUserRole getById(Long id);
+	SysUserRole getById(Long id);
 
-    /**
-     * 
-     * @see :
-     * @param id
-     *            :系统用户id
-     * @return : void
-     */
-    List<SysUserRole> findAll();
+	/**
+	 * 
+	 * @see :
+	 * @param id
+	 *            :系统用户id
+	 * @return : void
+	 */
+	List<SysUserRole> findAll();
+
+	/**
+	 * 删除用户对应的角色关系
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : void
+	 * @param sysUserId
+	 */
+	void deleteSysUserRoleBySysUserId(Long sysUserId);
+
+	SysUserRole getSysUserRoleByUserIdAndRoleId(@Param("userId") Long userId,
+	        @Param("roleId") Long roleId);
 
 }

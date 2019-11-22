@@ -71,11 +71,14 @@ import com.administrator.platform.exception.base.BusinessValidationException;
  */
 public class JgitClient {
 	private UsernamePasswordCredentialsProvider usernamePasswordCredentialsProvider;
-	private final static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 	        .getLogger(JgitClient.class);
 	private static final String COMMON_ERROR_NOTICE = "Clone error";
 
 	private static final String GIT_SUFFIX = "/.git";
+
+	private static final String DEFAULT_GIT_OPERATION_EEROR = "Git操作异常，请联系管理员";
+	private static final String DEFAULT_GIT_AUTH_EEROR = "Git操作异常，请联系管理员";
 
 	private JgitClient(String username, String password) {
 		this.usernamePasswordCredentialsProvider = new UsernamePasswordCredentialsProvider(
@@ -138,15 +141,14 @@ public class JgitClient {
 
 			logger.info("Cloning from:{} to {} 完成", remoteUrl, repoDir);
 		} catch (InvalidRemoteException e) {
-			e.printStackTrace();
 			logger.error("{}:{}", COMMON_ERROR_NOTICE, e.getMessage());
+			throw new BusinessValidationException(DEFAULT_GIT_OPERATION_EEROR);
 		} catch (TransportException e) {
-			e.printStackTrace();
 			logger.error("{}:{}", COMMON_ERROR_NOTICE, e.getMessage());
-			throw new BusinessValidationException("授权异常，查看使用的帐户名密码是否有仓库权限");
+			throw new BusinessValidationException(DEFAULT_GIT_AUTH_EEROR);
 		} catch (GitAPIException e) {
-			e.printStackTrace();
 			logger.error("{}:{}", COMMON_ERROR_NOTICE, e.getMessage());
+			throw new BusinessValidationException(DEFAULT_GIT_OPERATION_EEROR);
 		}
 	}
 
@@ -281,26 +283,22 @@ public class JgitClient {
 			logger.info("Pulled from remote repository to local repository at "
 			        + repo.getDirectory());
 		} catch (WrongRepositoryStateException e) {
-			e.printStackTrace();
-		} catch (InvalidConfigurationException e) {
-			e.printStackTrace();
+			logger.error("WrongRepositoryStateException不存在.错误信息:{}",
+			        e.getMessage());
+			throw new BusinessValidationException("GIT操作异常");
+		} catch (InvalidConfigurationException | RefNotAdvertisedException
+		        | NoHeadException | CanceledException | TransportException e) {
+			logger.error("操作异常:{}", e.getMessage());
+			throw new BusinessValidationException(DEFAULT_GIT_OPERATION_EEROR);
 		} catch (InvalidRemoteException e) {
-			e.printStackTrace();
-		} catch (CanceledException e) {
-			e.printStackTrace();
+			throw new BusinessValidationException(DEFAULT_GIT_OPERATION_EEROR);
 		} catch (RefNotFoundException e) {
-			e.printStackTrace();
-		} catch (RefNotAdvertisedException e) {
-			e.printStackTrace();
-		} catch (NoHeadException e) {
-			e.printStackTrace();
-		} catch (TransportException e) {
-			e.printStackTrace();
-			throw new BusinessValidationException("授权异常，查看使用的帐户名密码是否有仓库权限");
-		} catch (GitAPIException e) {
-			e.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+			logger.error("RefNotFoundException不存在.错误信息:{}", e.getMessage());
+			throw new BusinessValidationException(
+			        "分支名称" + remoteBranchName + "不存在！");
+		} catch (GitAPIException | IOException e) {
+			logger.error("GIT 或者IO 异常:{}", e.getMessage());
+			throw new BusinessValidationException(DEFAULT_GIT_OPERATION_EEROR);
 		}
 	}
 
@@ -366,8 +364,10 @@ public class JgitClient {
 			        "Pulled from remote repository to local repository at :{}, pull result is :{} ",
 			        repoDir.getAbsolutePath(), pullResult.isSuccessful());
 		} catch (Exception e) {
-			logger.info("gitPull:{}->{}", repoDir.getAbsolutePath(),
+			logger.error("gitPull:{}->{}", repoDir.getAbsolutePath(),
 			        e.getMessage());
+
+			throw new BusinessValidationException("Git pull操作异常！");
 		}
 	}
 
@@ -433,12 +433,12 @@ public class JgitClient {
 				PersonIdent authoIdent = commit.getAuthorIdent();
 				logger.debug("提交人：  " + authoIdent.getName() + "     <"
 				        + authoIdent.getEmailAddress() + ">");
-				logger.debug("提交SHA1：  " + commit.getId().name());
-				logger.debug("提交信息：  " + commit.getShortMessage());
-				logger.debug("提交时间：  " + format.format(authoIdent.getWhen()));
+				logger.debug("提交SHA1：{}  ", commit.getId().name());
+				logger.debug("提交信息：  {}", commit.getShortMessage());
+				logger.debug("提交时间：  {}", format.format(authoIdent.getWhen()));
 			});
 		} catch (IOException | GitAPIException e) {
-			e.printStackTrace();
+			throw new BusinessValidationException(DEFAULT_GIT_OPERATION_EEROR);
 		}
 	}
 
@@ -456,8 +456,8 @@ public class JgitClient {
 			Git.init().setGitDir(dirName).setDirectory(dirName.getParentFile())
 			        .call();
 		} catch (IllegalStateException | GitAPIException e) {
-			e.printStackTrace();
 			logger.error("在:{}下初始化git失败", dirName.getAbsolutePath());
+			throw new BusinessValidationException(DEFAULT_GIT_OPERATION_EEROR);
 		}
 	}
 
@@ -482,11 +482,9 @@ public class JgitClient {
 			logger.debug("get branch name :{}", existingRepo.getBranch());
 			return existingRepo.getBranch();
 		} catch (IOException e) {
-			e.printStackTrace();
 			logger.error("获取分支信息失败:{}->error:{}", gitPath, e.getMessage());
+			throw new BusinessValidationException(DEFAULT_GIT_OPERATION_EEROR);
 		}
-
-		return null;
 	}
 
 	/**
@@ -515,11 +513,9 @@ public class JgitClient {
 		try (Git git = Git.open(localDir)) {
 			return true;
 		} catch (RepositoryNotFoundException rnf) {
-			rnf.printStackTrace();
 			logger.error("检查本地目录是否git目录失败:{}", rnf.getMessage());
 			return false;
 		} catch (IOException e) {
-			e.printStackTrace();
 			logger.error("检查本地目录是否git目录失败:{}", e.getMessage());
 			return false;
 		}
@@ -602,7 +598,8 @@ public class JgitClient {
 			try {
 				FileUtils.deleteDirectory(destDir);
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error("io异常:{}", e.getMessage());
+				throw new BusinessValidationException("io操作异常");
 			}
 		}
 
@@ -614,27 +611,23 @@ public class JgitClient {
 			        usernamePasswordCredentialsProvider);
 		}
 
-		try {
+		try (Git gitClient = Git.open(destDir);) {
 			cloneCommand.call();
-			try (Git gitClient = Git.open(destDir);) {
-
-				logger.debug("clone到:{}", destDir.getAbsolutePath());
-				refs = gitClient.branchList().setListMode(ListMode.ALL).call();
-				logger.debug("该仓库当前的分支版本为如下：");
-				// Util.displayListInfo(refs);
-				return refs;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			logger.debug("clone到:{}", destDir.getAbsolutePath());
+			refs = gitClient.branchList().setListMode(ListMode.ALL).call();
+			logger.debug("该仓库当前的分支版本为如下：");
+			// Util.displayListInfo(refs);
+			return refs;
 		} catch (InvalidRemoteException e) {
-			e.printStackTrace();
+			logger.error("操作异常:{}", e.getMessage());
+			throw new BusinessValidationException(DEFAULT_GIT_OPERATION_EEROR);
 		} catch (TransportException e) {
-			e.printStackTrace();
-			throw new BusinessValidationException("授权异常，查看使用的帐户名密码是否有仓库权限");
-		} catch (GitAPIException e) {
-			e.printStackTrace();
+			logger.error("操作异常:{}", e.getMessage());
+			throw new BusinessValidationException(DEFAULT_GIT_AUTH_EEROR);
+		} catch (GitAPIException | IOException e) {
+			logger.error("操作异常:{}", e.getMessage());
+			throw new BusinessValidationException(DEFAULT_GIT_OPERATION_EEROR);
 		}
-		return refs;
 	}
 	// public List<AnalyzeRequest> findDiffClasses(IcovRequest request)
 	// throws GitAPIException, IOException {
@@ -717,13 +710,14 @@ public class JgitClient {
 					logger.debug(diffText);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error("操作异常:{}", e.getMessage());
+				throw new BusinessValidationException(
+				        DEFAULT_GIT_OPERATION_EEROR);
 			}
 		}
 	}
 
 	public void compareTwoVersionsOfTheSameUrl(String remoteUrl) {
-
 	}
 
 	/**
@@ -795,8 +789,8 @@ public class JgitClient {
 			logger.error("目录:{},不是一个git仓库", localFileDir);
 			return null;
 		} catch (IOException e) {
-			e.printStackTrace();
 			logger.error("io操作异常,{}", e.getMessage());
+			throw new BusinessValidationException("IO异常");
 		} catch (GitAPIException e) {
 			e.printStackTrace();
 			logger.error("git操作异常:{}", e.getMessage());
@@ -909,7 +903,7 @@ public class JgitClient {
 			// Util.displayListInfo(tagsAndBranchList);
 			return tagsAndBranchList;
 		} catch (IOException | GitAPIException e) {
-			e.printStackTrace();
+			logger.error("io或者git操作异常:{}", e.getMessage());
 			return new ArrayList<>();
 		}
 	}

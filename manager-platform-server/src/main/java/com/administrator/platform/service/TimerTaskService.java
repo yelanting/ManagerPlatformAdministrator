@@ -94,6 +94,50 @@ public interface TimerTaskService {
 	int deleteTimerTask(Long[] ids);
 
 	/**
+	 * 根据ids批量开启
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : List<TimerTask>
+	 * @param ids
+	 * @return
+	 */
+	List<TimerTask> openTimerTaskInBatch(Long[] ids);
+
+	/**
+	 * 批量开启所有
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : List<TimerTask>
+	 * @param ids
+	 * @return
+	 */
+	List<TimerTask> openAllTimerTaskInBatch();
+
+	/**
+	 * 根据ids批量关闭
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : List<TimerTask>
+	 * @param ids
+	 * @return
+	 */
+	List<TimerTask> closeTimerTaskInBatch(Long[] ids);
+
+	/**
+	 * 根据id批量删除
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : int
+	 * @param ids
+	 * @return
+	 */
+	List<TimerTask> closeAllTimerTaskInBatch();
+
+	/**
 	 * 根据名称查询
 	 * 
 	 * @see :

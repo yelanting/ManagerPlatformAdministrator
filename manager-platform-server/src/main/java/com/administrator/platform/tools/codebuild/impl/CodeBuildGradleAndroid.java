@@ -130,33 +130,33 @@ public class CodeBuildGradleAndroid extends BaseCodeBuildGradle {
 	 */
 	@Override
 	public List<String> getSubModules(String projectPath) {
+		ProjectConnection projectConnection = null;
+		// try {
+		projectConnection = getGradleConnector(projectPath).connect();
+		GradleProject rootGradleProject = projectConnection
+		        .getModel(GradleProject.class);
 
-		ProjectConnection projectConnection = getGradleConnector(projectPath)
-		        .connect();
+		DomainObjectSet<? extends GradleProject> childrenDomainObjectSet = rootGradleProject
+		        .getChildren();
 
-		try {
-			GradleProject rootGradleProject = projectConnection
-			        .getModel(GradleProject.class);
+		List<String> subModulePathes = new ArrayList<>();
 
-			DomainObjectSet<? extends GradleProject> childrenDomainObjectSet = rootGradleProject
-			        .getChildren();
-
-			List<String> subModulePathes = new ArrayList<String>();
-
-			for (int i = 0; i < childrenDomainObjectSet.size(); i++) {
-				GradleProject eachSubGradleProject = childrenDomainObjectSet
-				        .getAt(i);
-				subModulePathes.add(eachSubGradleProject.getName());
-			}
-
-			Util.displayListInfo(subModulePathes);
-			return subModulePathes;
-		} catch (Exception e) {
-			logger.error("获取gradle工程的子模块失败,错误信息:{}", e.getMessage());
-			throw new BusinessValidationException("获取安卓工程子模块信息失败");
-		} finally {
-			projectConnection.close();
+		for (int i = 0; i < childrenDomainObjectSet.size(); i++) {
+			GradleProject eachSubGradleProject = childrenDomainObjectSet
+			        .getAt(i);
+			subModulePathes.add(eachSubGradleProject.getName());
 		}
+
+		Util.displayListInfo(subModulePathes);
+		return subModulePathes;
+		// } catch (Exception e) {
+		// logger.error("获取gradle工程的子模块失败,错误信息:{}", e.getMessage());
+		// throw new BusinessValidationException("获取安卓工程子模块信息失败");
+		// } finally {
+		// if (null != projectConnection) {
+		// projectConnection.close();
+		// }
+		// }
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class CodeBuildGradleAndroid extends BaseCodeBuildGradle {
 	 */
 	@Override
 	public List<String> getSubSourceFileFolders(String projectPath) {
-		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFoldersDTOs(
+		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFolders(
 		        projectPath);
 		List<String> subSourceFileFolders = new ArrayList<>();
 		for (CodeCoverageFilesAndFoldersDTO codeCoverageFilesAndFoldersDTO : codeCoverageFilesAndFoldersDTOs) {
@@ -186,7 +186,7 @@ public class CodeBuildGradleAndroid extends BaseCodeBuildGradle {
 	@Override
 	public List<String> getSubClassesFileFolders(String projectPath) {
 
-		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFoldersDTOs(
+		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFolders(
 		        projectPath);
 
 		List<String> subClassesFileFolders = new ArrayList<>();
@@ -202,10 +202,10 @@ public class CodeBuildGradleAndroid extends BaseCodeBuildGradle {
 	 * 获取某个文件夹下的所有GRADLE工程
 	 * 
 	 * @see com.administrator.platform.tools.codebuild.CodeBuild#
-	 *      getCodeCoverageFilesAndFoldersDTOs(java.lang.String)
+	 *      getCodeCoverageFilesAndFolders(java.lang.String)
 	 */
 	@Override
-	public List<CodeCoverageFilesAndFoldersDTO> getCodeCoverageFilesAndFoldersDTOs(
+	public List<CodeCoverageFilesAndFoldersDTO> getCodeCoverageFilesAndFolders(
 	        String projectPath) {
 
 		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = new ArrayList<>();
@@ -285,13 +285,12 @@ public class CodeBuildGradleAndroid extends BaseCodeBuildGradle {
 
 	/**
 	 * @see com.administrator.platform.tools.codebuild.intf.CodeBuildIntf#
-	 *      getCodeCoverageFilesAndFoldersDTOs(java.io.File)
+	 *      getCodeCoverageFilesAndFolders(java.io.File)
 	 */
 	@Override
-	public List<CodeCoverageFilesAndFoldersDTO> getCodeCoverageFilesAndFoldersDTOs(
+	public List<CodeCoverageFilesAndFoldersDTO> getCodeCoverageFilesAndFolders(
 	        File projectPath) {
-		return getCodeCoverageFilesAndFoldersDTOs(
-		        projectPath.getAbsolutePath());
+		return getCodeCoverageFilesAndFolders(projectPath.getAbsolutePath());
 	}
 
 	/**
@@ -300,7 +299,7 @@ public class CodeBuildGradleAndroid extends BaseCodeBuildGradle {
 	 */
 	@Override
 	public List<String> getExecutionDataFiles(String projectPath) {
-		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFoldersDTOs(
+		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFolders(
 		        projectPath);
 
 		List<String> executionDataFiles = new ArrayList<>();
@@ -340,7 +339,7 @@ public class CodeBuildGradleAndroid extends BaseCodeBuildGradle {
 	public void dumpExecDataFromUploadFile(CodeCoverage codeCoverage,
 	        String projectDir, File execFile) {
 
-		List<CodeCoverageFilesAndFoldersDTO> currentProjectChildren = getCodeCoverageFilesAndFoldersDTOs(
+		List<CodeCoverageFilesAndFoldersDTO> currentProjectChildren = getCodeCoverageFilesAndFolders(
 		        projectDir);
 		CodeCoverageFilesAndFoldersDTO codeCoverageFilesAndFoldersDTO = null;
 		for (int i = 0; i < currentProjectChildren.size(); i++) {
@@ -365,7 +364,7 @@ public class CodeBuildGradleAndroid extends BaseCodeBuildGradle {
 	@Override
 	public void cleanProject(String projectFolder) {
 		logger.debug("开始清理工程");
-		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFoldersDTOs(
+		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFolders(
 		        projectFolder);
 
 		for (int i = 0; i < codeCoverageFilesAndFoldersDTOs.size(); i++) {
@@ -383,7 +382,7 @@ public class CodeBuildGradleAndroid extends BaseCodeBuildGradle {
 
 	@Override
 	public void copyClasses(String fromClassFolder, String projectFolder) {
-		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFoldersDTOs(
+		List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFolders(
 		        projectFolder);
 		logger.debug("开始copy classes文件");
 		try {
@@ -431,6 +430,11 @@ public class CodeBuildGradleAndroid extends BaseCodeBuildGradle {
 			logger.error("复制class出现异常:{}", e.getMessage());
 			throw new BusinessValidationException("class文件复制过程中出现异常");
 		}
+	}
+
+	public static void main(String[] args) {
+		new CodeBuildGradleAndroid()
+		        .getSubModules("D:\\TianQue\\linkage_android_newer");
 	}
 
 }

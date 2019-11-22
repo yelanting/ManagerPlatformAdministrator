@@ -49,7 +49,7 @@
 				{
 					"title": "Java源代码解析",
 					"icon": "&#xe630;",
-					"href": "userDefined/fileParser/listFileParser.html",
+					"href": "userDefined/javaParserRecord/listJavaParserRecord.html",
 					"spread": false
 				},
 				{
@@ -107,26 +107,6 @@
 			]
 		},
 		{
-			"title": "云效接入",
-			"icon": "&#xe630;",
-			"href": "",
-			"spread": false,
-			"children": [
-				{
-					"title": "任务调度",
-					"icon": "&#xe61c;",
-					"href": "/userDefined/taskScheduler/listTask.html",
-					"spread": false
-				},
-				{
-					"title": "执行机信息",
-					"icon": "&#xe609;",
-					"href": "/userDefined/agentRegister/listExecutorAgent.html",
-					"spread": false
-				}
-			]
-		},
-		{
 			"title": "接口测试",
 			"icon": "&#xe630;",
 			"href": "",
@@ -158,6 +138,48 @@
 					"href": "page/login/login.html",
 					"spread": false,
 					"target": "_blank"
+				}
+			]
+		}
+	],
+	"yunXiaoManagement": [
+		{
+			"title": "云效接入",
+			"icon": "&#xe630;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "任务调度",
+					"icon": "&#xe61c;",
+					"href": "/userDefined/taskScheduler/listTask.html",
+					"spread": false
+				},
+				{
+					"title": "执行机信息",
+					"icon": "&#xe609;",
+					"href": "/userDefined/agentRegister/listExecutorAgent.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "流水线管理",
+			"icon": "&#xe630;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "流水线操作",
+					"icon": "&#xe61c;",
+					"href": "/userDefined/pipeLineScheduler/listPipeLine.html",
+					"spread": false
+				},
+				{
+					"title": "配管操作",
+					"icon": "&#xe61c;",
+					"href": "/userDefined/configManageScheduler/listConfigManage.html",
+					"spread": false
 				}
 			]
 		}
@@ -205,6 +227,12 @@
 					"title": "druid监控",
 					"icon": "&#xe630;",
 					"href": "/druid",
+					"spread": false
+				},
+				{
+					"title": "登录日志",
+					"icon": "&#xe630;",
+					"href": "/system/loginLog/listLoginLog.html",
 					"spread": false
 				}
 			]

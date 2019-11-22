@@ -70,7 +70,7 @@ public interface CodeBuildIntf {
      * @param projectPath
      * @return
      */
-    List<CodeCoverageFilesAndFoldersDTO> getCodeCoverageFilesAndFoldersDTOs(
+    List<CodeCoverageFilesAndFoldersDTO> getCodeCoverageFilesAndFolders(
             String projectPath);
 
     /**
@@ -82,7 +82,7 @@ public interface CodeBuildIntf {
      * @param projectPath
      * @return
      */
-    List<CodeCoverageFilesAndFoldersDTO> getCodeCoverageFilesAndFoldersDTOs(
+    List<CodeCoverageFilesAndFoldersDTO> getCodeCoverageFilesAndFolders(
             File projectPath);
 
     /**

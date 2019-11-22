@@ -9,4 +9,25 @@ import com.administrator.platform.model.GoodOperationRecord;
 
 public class GoodOperationRecordDTO extends GoodOperationRecord {
 
+	@Override
+	public String toString() {
+		return "GoodOperationRecordDTO [getGoodId()=" + getGoodId()
+		        + ", getBorrowDate()=" + getBorrowDate()
+		        + ", getExpectedGiveBackDate()=" + getExpectedGiveBackDate()
+		        + ", getBorrowUser()=" + getBorrowUser()
+		        + ", getGiveBackUser()=" + getGiveBackUser()
+		        + ", getRealisticGiveBackDate()=" + getRealisticGiveBackDate()
+		        + ", getOperationType()=" + getOperationType()
+		        + ", getDealPerson()=" + getDealPerson() + ", getKeepPeriod()="
+		        + getKeepPeriod() + ", isKeepOvertime()=" + isKeepOvertime()
+		        + ", toString()=" + super.toString() + ", getId()=" + getId()
+		        + ", getCreateUser()=" + getCreateUser() + ", getUpdateUser()="
+		        + getUpdateUser() + ", getSortField()=" + getSortField()
+		        + ", getOrder()=" + getOrder() + ", getCreateDate()="
+		        + getCreateDate() + ", getUpdateDate()=" + getUpdateDate()
+		        + ", getMobile()=" + getMobile() + ", getDescription()="
+		        + getDescription() + ", getClass()=" + getClass()
+		        + ", hashCode()=" + hashCode() + "]";
+	}
+
 }

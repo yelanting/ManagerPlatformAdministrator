@@ -57,10 +57,9 @@ public interface GoodOperationRecordMapper {
 	/**
 	 * 根据物品种类ID删除其种类下的所有物品
 	 * 
-	 * @see :
-	 * @param :
-	 * @return : void
-	 * @param id
+	 * @see :根据物品种类ID删除其种类下的所有物品
+	 * @param goodId:物品id
+	 * @return : List<GoodOperationRecord>
 	 */
 	List<GoodOperationRecord> findGoodOperationRecordsByGoodId(Long goodId);
 

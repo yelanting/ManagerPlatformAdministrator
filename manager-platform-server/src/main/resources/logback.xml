@@ -2,7 +2,7 @@
 
 <configuration>
 	<substitutionProperty name="log.base"
-		value="../logs/springbootlog" />
+		value="logs/springbootlog" />
 
 	<jmxConfigurator />
 
@@ -22,9 +22,10 @@
 			<FileNamePattern>${log.base}.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
 		</rollingPolicy>
 		<layout class="ch.qos.logback.classic.PatternLayout">
-<!-- 			<pattern>%date [%thread] -->
-<!-- 				%-5level %logger{80} - %msg%n</pattern> -->
-			<pattern>[%date{yyyy.MM.dd HH:mm:ss}][%-5level] %logger{10} - %msg%n</pattern>
+			<!-- <pattern>%date [%thread] -->
+			<!-- %-5level %logger{80} - %msg%n</pattern> -->
+			<pattern>[%date{yyyy.MM.dd HH:mm:ss}][%-5level] %logger{10} - %msg%n
+			</pattern>
 		</layout>
 	</appender>
 

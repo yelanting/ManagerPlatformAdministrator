@@ -59,6 +59,9 @@ public class TimerTaskDataInit {
 	@PostConstruct
 	public void initBasicTimerTaskPolicy() {
 		initTimerTaskPolicyOfCollectingCodeCoverageData();
+		initTimerTaskPolicyOfBuildingPipeLine();
+		initTimerTaskPolicyOfBuildingConfigManage();
+
 	}
 
 	/**
@@ -82,6 +85,84 @@ public class TimerTaskDataInit {
 		List<TimerTaskPolicy> currentTimerTaskPoliciesWithThisName = timerTaskPolicyService
 		        .findTimerTaskPoliciesByCname(
 		                TimerTaskAndRelations.COLLECTIONG_EXEC_DATA_AND_BACK_UP_POLICY_CNAME);
+		boolean notExists = currentTimerTaskPoliciesWithThisName.isEmpty();
+		// 如果不存在，则创建
+		if (notExists) {
+			timerTaskPolicyService.addTimerTaskPolicy(timerTaskPolicy);
+			return;
+		}
+
+		// 如果有且一样，则啥都不干
+		if (timerTaskPolicy
+		        .equals(currentTimerTaskPoliciesWithThisName.get(0))) {
+			return;
+		}
+		// 如果有但是不一样，则更新
+		timerTaskPolicy
+		        .setId(currentTimerTaskPoliciesWithThisName.get(0).getId());
+		timerTaskPolicyService.updateTimerTaskPolicy(timerTaskPolicy);
+	}
+
+	/**
+	 * 初始化 一个定时采集覆盖率数据的策略
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : void
+	 */
+	private void initTimerTaskPolicyOfBuildingPipeLine() {
+		TimerTaskPolicy timerTaskPolicy = new TimerTaskPolicy();
+		timerTaskPolicy
+		        .setCname(TimerTaskAndRelations.PIPELINE_CONFIG_POLICY_CNAME);
+		timerTaskPolicy
+		        .setEname(TimerTaskAndRelations.PIPELINE_CONFIG_POLICY_ENAME);
+		timerTaskPolicy.setDescription(
+		        TimerTaskAndRelations.PIPELINE_CONFIG_POLICY_DESC);
+		timerTaskPolicy
+		        .setCode(TimerTaskAndRelations.PIPELINE_CONFIG_POLICY_CODE);
+
+		List<TimerTaskPolicy> currentTimerTaskPoliciesWithThisName = timerTaskPolicyService
+		        .findTimerTaskPoliciesByCname(
+		                TimerTaskAndRelations.PIPELINE_CONFIG_POLICY_CNAME);
+		boolean notExists = currentTimerTaskPoliciesWithThisName.isEmpty();
+		// 如果不存在，则创建
+		if (notExists) {
+			timerTaskPolicyService.addTimerTaskPolicy(timerTaskPolicy);
+			return;
+		}
+
+		// 如果有且一样，则啥都不干
+		if (timerTaskPolicy
+		        .equals(currentTimerTaskPoliciesWithThisName.get(0))) {
+			return;
+		}
+		// 如果有但是不一样，则更新
+		timerTaskPolicy
+		        .setId(currentTimerTaskPoliciesWithThisName.get(0).getId());
+		timerTaskPolicyService.updateTimerTaskPolicy(timerTaskPolicy);
+	}
+
+	/**
+	 * 初始化 一个定时采集覆盖率数据的策略
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : void
+	 */
+	private void initTimerTaskPolicyOfBuildingConfigManage() {
+		TimerTaskPolicy timerTaskPolicy = new TimerTaskPolicy();
+		timerTaskPolicy
+		        .setCname(TimerTaskAndRelations.CONFIG_MANAGE_POLICY_CNAME);
+		timerTaskPolicy
+		        .setEname(TimerTaskAndRelations.CONFIG_MANAGE_POLICY_ENAME);
+		timerTaskPolicy.setDescription(
+		        TimerTaskAndRelations.CONFIG_MANAGE_POLICY_DESC);
+		timerTaskPolicy
+		        .setCode(TimerTaskAndRelations.CONFIG_MANAGE_POLICY_CODE);
+
+		List<TimerTaskPolicy> currentTimerTaskPoliciesWithThisName = timerTaskPolicyService
+		        .findTimerTaskPoliciesByCname(
+		                TimerTaskAndRelations.CONFIG_MANAGE_POLICY_CNAME);
 		boolean notExists = currentTimerTaskPoliciesWithThisName.isEmpty();
 		// 如果不存在，则创建
 		if (notExists) {

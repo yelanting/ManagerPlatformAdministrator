@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>修改任务</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/css/public.css" media="all" />
+</head>
+<body>
+	<form id="editTaskForm" class="layui-form layui-form-pane"
+		method="post" lay-filter="editTaskForm">
+		<div class="layui-form-item" style="display: none">
+			<label class="layui-form-label">ID</label>
+			<div class="layui-input-block">
+				<input type="text" id="id" name="id" class="layui-input id"
+					lay-verify="id" maxLength=50 readonly="readonly">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">任务名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="taskName" name="taskName"
+					class="layui-input taskName" lay-verify="taskName"
+					placeholder="请输入任务名称" maxLength=50>
+			</div>
+		</div>
+
+		<!-- 		<div class="layui-form-item"> -->
+		<!-- 			<label class="layui-form-label">执行机IP</label> -->
+		<!-- 			<div class="layui-input-block"> -->
+		<!-- 				<input type="text" id="executorIp" name="executorIp" -->
+		<!-- 					class="layui-input executorIp" placeholder="请输入执行机IP" -->
+		<!-- 					lay-verify="executorIp" maxLength=500 /> -->
+		<!-- 			</div> -->
+		<!-- 		</div> -->
+		<!-- 		<div class="layui-form-item"> -->
+		<!-- 			<label class="layui-form-label">连接端口</label> -->
+		<!-- 			<div class="layui-input-block"> -->
+		<!-- 				<input type="text" id="serverPort" name="serverPort" -->
+		<!-- 					class="layui-input serverPort" placeholder="请输入连接端口(默认21)" -->
+		<!-- 					lay-verify="serverPort" maxLength=50 /> -->
+		<!-- 			</div> -->
+		<!-- 		</div> -->
+
+		<!-- 		<div class="layui-form-item"> -->
+		<!-- 			<label class="layui-form-label">登录用户名</label> -->
+		<!-- 			<div class="layui-input-block"> -->
+		<!-- 				<input type="text" id="loginUserName" name="loginUserName" -->
+		<!-- 					class="layui-input loginUserName" -->
+		<!-- 					placeholder="请输入登录用户名(默认administrator)" lay-verify="loginUserName" -->
+		<!-- 					maxLength=500 /> -->
+		<!-- 			</div> -->
+		<!-- 		</div> -->
+		<!-- 		<div class="layui-form-item"> -->
+		<!-- 			<label class="layui-form-label">登录密码</label> -->
+		<!-- 			<div class="layui-input-block"> -->
+		<!-- 				<input type="loginPassword" id="loginPassword" name="loginPassword" -->
+		<!-- 					class="layui-input loginPassword" placeholder="请输入密码" -->
+		<!-- 					lay-verify="loginPassword" maxLength=50 /> -->
+		<!-- 			</div> -->
+		<!-- 		</div> -->
+
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">执行脚本</label>
+			<div class="layui-input-block">
+				<input type="text" id="toExecuteScriptName"
+					name="toExecuteScriptName" class="layui-input toExecuteScriptName"
+					placeholder="请输入执行的脚本名称" lay-verify="toExecuteScriptName"
+					maxLength=50 />
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<textarea id="description" name="description"
+					class="layui-textarea description" placeholder="请输入备注"
+					lay-verify="description" maxLength=100></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button id="editTaskSubmit" class="layui-btn" lay-submit=""
+					lay-filter="editTaskSubmit">立即提交</button>
+				<button id="editReset" type="reset" style="display: none"
+					class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript" src="/layui/layui.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../commonCheck.js"></script>
+	<script type="text/javascript" src="editTask.js"></script>
+</body>
+</html>

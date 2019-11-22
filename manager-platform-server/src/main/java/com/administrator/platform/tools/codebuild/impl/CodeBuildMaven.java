@@ -305,7 +305,7 @@ public class CodeBuildMaven implements CodeBuildIntf {
      */
     @Override
     public List<String> getSubSourceFileFolders(String projectPath) {
-        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFoldersDTOs(
+        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFolders(
                 projectPath);
         List<String> subSourceFileFolders = new ArrayList<>();
         for (CodeCoverageFilesAndFoldersDTO codeCoverageFilesAndFoldersDTO : codeCoverageFilesAndFoldersDTOs) {
@@ -324,7 +324,7 @@ public class CodeBuildMaven implements CodeBuildIntf {
     @Override
     public List<String> getSubClassesFileFolders(String projectPath) {
 
-        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFoldersDTOs(
+        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFolders(
                 projectPath);
 
         List<String> subClassesFileFolders = new ArrayList<>();
@@ -340,10 +340,10 @@ public class CodeBuildMaven implements CodeBuildIntf {
      * 获取某个文件夹下的所有MAVEN工程
      * 
      * @see com.administrator.platform.tools.codebuild.CodeBuild#
-     *      getCodeCoverageFilesAndFoldersDTOs(java.lang.String)
+     *      getCodeCoverageFilesAndFolders(java.lang.String)
      */
     @Override
-    public List<CodeCoverageFilesAndFoldersDTO> getCodeCoverageFilesAndFoldersDTOs(
+    public List<CodeCoverageFilesAndFoldersDTO> getCodeCoverageFilesAndFolders(
             String projectPath) {
 
         List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = new ArrayList<>();
@@ -395,12 +395,12 @@ public class CodeBuildMaven implements CodeBuildIntf {
 
     /**
      * @see com.administrator.platform.tools.codebuild.intf.CodeBuildIntf#
-     *      getCodeCoverageFilesAndFoldersDTOs(java.io.File)
+     *      getCodeCoverageFilesAndFolders(java.io.File)
      */
     @Override
-    public List<CodeCoverageFilesAndFoldersDTO> getCodeCoverageFilesAndFoldersDTOs(
+    public List<CodeCoverageFilesAndFoldersDTO> getCodeCoverageFilesAndFolders(
             File projectPath) {
-        return getCodeCoverageFilesAndFoldersDTOs(
+        return getCodeCoverageFilesAndFolders(
                 projectPath.getAbsolutePath());
     }
 
@@ -460,7 +460,7 @@ public class CodeBuildMaven implements CodeBuildIntf {
      */
     @Override
     public List<String> getExecutionDataFiles(String projectPath) {
-        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFoldersDTOs(
+        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFolders(
                 projectPath);
 
         List<String> executionDataFiles = new ArrayList<>();
@@ -475,7 +475,7 @@ public class CodeBuildMaven implements CodeBuildIntf {
     @Override
     public void cleanProject(String projectFolder) {
         logger.debug("开始清理工程");
-        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFoldersDTOs(
+        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFolders(
                 projectFolder);
 
         for (int i = 0; i < codeCoverageFilesAndFoldersDTOs.size(); i++) {
@@ -493,7 +493,7 @@ public class CodeBuildMaven implements CodeBuildIntf {
 
     @Override
     public void copyClasses(String fromClassFolder, String projectFolder) {
-        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFoldersDTOs(
+        List<CodeCoverageFilesAndFoldersDTO> codeCoverageFilesAndFoldersDTOs = getCodeCoverageFilesAndFolders(
                 projectFolder);
         logger.debug("开始copy classes文件");
         try {

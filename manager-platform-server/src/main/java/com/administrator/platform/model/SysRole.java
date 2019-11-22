@@ -27,10 +27,12 @@ public class SysRole extends BaseDomain {
 
 	private RoleType roleType;
 
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -51,18 +53,22 @@ public class SysRole extends BaseDomain {
 		this.comments = comments == null ? null : comments.trim();
 	}
 
+	@Override
 	public Date getCreateDate() {
 		return createDate;
 	}
 
+	@Override
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 
+	@Override
 	public Date getUpdateDate() {
 		return updateDate;
 	}
 
+	@Override
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
@@ -89,5 +95,13 @@ public class SysRole extends BaseDomain {
 
 	public void setRoleType(RoleType roleType) {
 		this.roleType = roleType;
+	}
+
+	@Override
+	public String toString() {
+		return "SysRole [id=" + id + ", roleName=" + roleName + ", comments="
+		        + comments + ", createDate=" + createDate + ", updateDate="
+		        + updateDate + ", deleted=" + deleted + ", roleCnName="
+		        + roleCnName + ", roleType=" + roleType + "]";
 	}
 }

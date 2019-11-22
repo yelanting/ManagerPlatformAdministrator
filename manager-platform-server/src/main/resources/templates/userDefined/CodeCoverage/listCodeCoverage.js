@@ -128,7 +128,7 @@ function() {
             field: 'projectName',
             title: '项目名称',
             sort: true,
-            width: "15%"
+            width: "10%"
         },
         // {
         // field: 'newerRemoteUrl',
@@ -140,7 +140,7 @@ function() {
             field: 'tcpServerIp',
             title: 'tcp服务IP',
             sort: true,
-            width: "15%"
+            width: "10%"
         },
         {
             field: 'tcpServerPort',
@@ -367,6 +367,29 @@ function() {
             layer.close(index);
         });
     }
+    /**
+     * 生成全量覆盖率信息
+     */
+    function fastCreateAllCodeCoverageData(data) {
+        layer.confirm('确定要快速生成全量报告吗？会删除旧报告且可能耗时很久，且你要确认所有数据已经准备好',
+        function(index) {
+            var url = "/codeCoverage/fastCreateAllCodeCoverageData";
+            $.post(url, data,
+            function(responseData) {
+                if (responseData.success == "true" || responseData.success) {
+                    setTimeout(function() {
+                        top.layer.msg("操作成功！");
+                        renderCodeCoverageTableDefault();
+                    },
+                    500);
+                } else {
+                    layer.msg('操作失败：' + responseData.msg);
+                }
+            });
+            layer.close(index);
+        });
+    }
+    
 
     /**
      * 生成增量覆盖率信息
@@ -391,12 +414,57 @@ function() {
         });
     }
     /**
+     * 快速生成增量覆盖率信息
+     */
+    function fastCreateIncrementCodeCoverageData(data) {
+        layer.confirm('确定要快速生成增量报告吗？会删除旧报告且可能耗时很久，且你要确认所有数据已经准备好',
+        function(index) {
+            var url = "/codeCoverage/fastCreateIncrementCodeCoverageData";
+            $.post(url, data,
+            function(responseData) {
+                if (responseData.success == "true" || responseData.success) {
+                    setTimeout(function() {
+                        top.layer.msg("操作成功！");
+                        renderCodeCoverageTableDefault()
+                    },
+                    500);
+                } else {
+                    layer.msg('操作失败：' + responseData.msg);
+                }
+            });
+            layer.close(index);
+        });
+    }
+    
+    /**
      * 重置覆盖率数据
      */
     function resetCodeCoverageData(data) {
         layer.confirm('确定要重置覆盖率报告吗？会删除增量和全量数据哦',
         function(index) {
             var url = "/codeCoverage/resetCodeCoverageData";
+            $.post(url, data,
+            function(responseData) {
+                if (responseData.success == "true" || responseData.success) {
+                    setTimeout(function() {
+                        top.layer.msg("操作成功！");
+                        renderCodeCoverageTableDefault()
+                    },
+                    500);
+                } else {
+                    layer.msg('操作失败：' + responseData.msg);
+                }
+            });
+            layer.close(index);
+        });
+    }
+    /**
+     * 删除备份的覆盖率数据
+     */
+    function clearBackUpExecData(data) {
+        layer.confirm('确定要删除备份数据吗？以前的数据将不再保留，建议迭代结束后，不在需要全量覆盖率时使用',
+        function(index) {
+            var url = "/codeCoverage/clearBackUpExecData";
             $.post(url, data,
             function(responseData) {
                 if (responseData.success == "true" || responseData.success) {
@@ -572,8 +640,14 @@ function() {
             createAllCodeCoverageData(data);
         } else if (layEvent === 'createIncrementData') {
             createIncrementCodeCoverageData(data);
-        } else if (layEvent === 'resetCodeCoverageData') {
+        } else if (layEvent === 'fastCreateAllData') {
+            fastCreateAllCodeCoverageData(data);
+        } else if (layEvent === 'fastCreateIncrementData') {
+            fastCreateIncrementCodeCoverageData(data);
+        }else if (layEvent === 'resetCodeCoverageData') {
             resetCodeCoverageData(data);
+        }else if (layEvent === 'clearBackUpExecData') {
+        	clearBackUpExecData(data);
         } else if (layEvent === 'uploadExecFile') {
             uploadExecFile(data);
         } else if (layEvent === 'uploadClasses') {

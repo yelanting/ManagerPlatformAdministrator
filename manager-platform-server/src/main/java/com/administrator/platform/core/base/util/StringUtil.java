@@ -205,7 +205,7 @@ public class StringUtil {
 
 		String[] paramsAfterSplit = params.split("&");
 
-		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		Map<String, Object> paramsMap = new HashMap<>(16);
 		/**
 		 * 
 		 */
@@ -229,4 +229,25 @@ public class StringUtil {
 		return paramsMap;
 	}
 
+	/**
+	 * 把字符串数组 转换成字符串，,连接
+	 * 
+	 * @see :
+	 * @param :
+	 * @return : String
+	 * @param stringArray
+	 * @return
+	 */
+	public static String changeStringArrayToString(String[] stringArray) {
+		if (null == stringArray || stringArray.length == 0) {
+			return "";
+		}
+
+		StringBuilder stringBuilder = new StringBuilder();
+		for (String string : stringArray) {
+			stringBuilder.append(string).append(",");
+		}
+
+		return stringBuilder.substring(0, stringBuilder.length() - 1);
+	}
 }
