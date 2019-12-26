@@ -10,7 +10,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +31,7 @@ import io.swagger.annotations.ApiResponses;
  * @since : 2018年9月3日 下午8:16:05
  * @see :
  */
-@Controller
+// @Controller
 @RequestMapping("/pipeLine")
 @Api("pipeLine流水线相关API")
 public class PipeLineController {

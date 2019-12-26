@@ -17,7 +17,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -41,7 +40,7 @@ import net.sf.json.JSONObject;
  * @since : 2019年10月8日 下午2:14:19
  * @see : 云效http请求操作
  */
-@Service("yunXiaoHttpOpeation")
+// @Service("yunXiaoHttpOpeation")
 public class YunXiaoHttpOpeation {
 	private static final Logger LOGGER = LoggerFactory
 	        .getLogger(YunXiaoHttpOpeation.class);

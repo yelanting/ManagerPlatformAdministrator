@@ -142,6 +142,48 @@
 			]
 		}
 	],
+	"yunXiaoManagement": [
+		{
+			"title": "云效接入",
+			"icon": "&#xe630;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "任务调度",
+					"icon": "&#xe61c;",
+					"href": "/userDefined/taskScheduler/listTask.html",
+					"spread": false
+				},
+				{
+					"title": "执行机信息",
+					"icon": "&#xe609;",
+					"href": "/userDefined/agentRegister/listExecutorAgent.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "流水线管理",
+			"icon": "&#xe630;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "流水线操作",
+					"icon": "&#xe61c;",
+					"href": "/userDefined/pipeLineScheduler/listPipeLine.html",
+					"spread": false
+				},
+				{
+					"title": "配管操作",
+					"icon": "&#xe61c;",
+					"href": "/userDefined/configManageScheduler/listConfigManage.html",
+					"spread": false
+				}
+			]
+		}
+	],
 	"memberCenter": [
 		{
 			"title": "用户中心",

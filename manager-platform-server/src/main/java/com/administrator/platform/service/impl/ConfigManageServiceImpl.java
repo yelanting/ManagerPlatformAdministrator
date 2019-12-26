@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Service;
 
 import com.administrator.platform.constdefine.TimerTaskAndRelations;
 import com.administrator.platform.core.base.util.ValidationUtil;
@@ -30,7 +29,7 @@ import com.administrator.platform.tools.schedule.TaskDefine;
  * @since : 2018年9月3日 下午8:17:27
  * @see :
  */
-@Service(value = "configManageService")
+// @Service(value = "configManageService")
 @Order(3)
 public class ConfigManageServiceImpl implements ConfigManageService {
 	private static final String PIPELINE_TIMERTASK_PREFIX = "cmTaskWithId";
