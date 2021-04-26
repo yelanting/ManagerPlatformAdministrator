@@ -44,7 +44,7 @@
 		<swagger.starter.version>1.8.0.RELEASE</swagger.starter.version>
 		<testng.version>6.14.3</testng.version>
 		<jackson.databind.version>2.10.0.pr3</jackson.databind.version>
-		<commons-io.version>2.6</commons-io.version>
+		<commons-io.version>2.7</commons-io.version>
 		<jersey-client.version>1.19.4</jersey-client.version>
 		<jenkins.rest.version>0.0.13</jenkins.rest.version>
 		<httpclient.version>4.5.8</httpclient.version>
@@ -110,7 +110,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.6</version>
+			<version>2.7</version>
 		</dependency>
 
 		<dependency>
