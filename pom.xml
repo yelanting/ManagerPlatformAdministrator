@@ -29,7 +29,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>11</java.version>
-		<poi.version>3.17</poi.version>
+		<poi.version>4.1.1</poi.version>
 		<selenium.version>3.141.59</selenium.version>
 		<jacoco.version>0.8.3</jacoco.version>
 		<jacoco.local.version>0.8.1-SNAPSHOT</jacoco.local.version>
